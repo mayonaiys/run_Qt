@@ -10,13 +10,13 @@
 class MovingObstacle : public Obstacle {
 
 private:
-    int initialY;
-    int velocity;
-    int endY;
+    int firstExtremity; //Position minimale à atteindre sur Y
+    int secondExtremity; //Position maximale à atteindre sur Y
+    int velocity; //Rapidité de mouvement de l'obstacle
 
 public:
-    MovingObstacle(QString, int, int, int);
-    void moveObstacle();
+    MovingObstacle(QString, int, int, int); //Constructeur
+    void moveObstacle(); //Fonction de déplacement de l'obstacle
 
 };
 

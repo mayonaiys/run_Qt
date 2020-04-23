@@ -205,7 +205,6 @@ void SettingsScene::keyPressEvent(QKeyEvent *event) {
     }
     if(event->key()==Qt::Key_Escape){
         if(isConfigComplete()){
-            std::cout << "COMPLETE" << std::endl;
             remove("../config/config.txt");
             ofstream file("../config/config.txt");
             for(int i = 0; i < 6; i++){
@@ -292,7 +291,6 @@ void SettingsScene::setStatus(std::string status) {
 
 void SettingsScene::setReturn() {
     if(isConfigComplete()){
-        std::cout << "COMPLETE" << std::endl;
         remove("../config/config.txt");
         ofstream file("../config/config.txt");
         for(int i = 0; i < 6; i++){

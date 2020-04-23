@@ -10,13 +10,13 @@
 class MovingFloor : public Floor {
 
 private:
-    int initialX;
-    int velocity;
-    int endX;
+    int firstExtremity; //Position minimale à atteindre sur X
+    int secondExtremity; //Position maximale à atteindre sur X
+    int velocity; //Rapidité de déplacement du sol
 
 public:
-    MovingFloor(QString, int, int, int);
-    void moveFloor();
+    MovingFloor(const QString&, int, int, int); //Constructeur
+    void moveFloor(); //Mouvement du sole
 };
 
 

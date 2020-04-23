@@ -4,6 +4,6 @@
 
 #include "Floor.h"
 
-Floor::Floor(QString imgFileName) {
-    this->setPixmap(QPixmap(imgFileName)); //Skin du sol
+Floor::Floor(const QString& imgFileName) {
+    this->setPixmap(QPixmap(imgFileName)); //Ajout de l'apparence du sol
 }

@@ -7,8 +7,6 @@
 
 
 #include <QtWidgets/QGraphicsPixmapItem>
-#include <QtWidgets/QGraphicsView>
-#include <iostream>
 
 class Obstacle : public QGraphicsPixmapItem {
 

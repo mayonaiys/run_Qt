@@ -66,7 +66,6 @@ void StartScene::setMulti() {
 }
 
 void StartScene::setSettings() {
-    std::cout << "Setting StartScene class" << std::endl;
     this->request = "Settings";
 }
 

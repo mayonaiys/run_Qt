@@ -6,13 +6,12 @@
 #define JEU_FLOOR_H
 
 #include <QtWidgets/QGraphicsPixmapItem>
-#include <QGraphicsView>
-#include <iostream>
 
 class Floor : public QGraphicsPixmapItem {
+
 public:
     //Constructeur
-    Floor(QString);
+    Floor(const QString&);
 
 };
 
