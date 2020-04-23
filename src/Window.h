@@ -36,7 +36,6 @@ private:
 
     //Views
     QGraphicsView* mainView;
-
     //
     std::string status;
 
