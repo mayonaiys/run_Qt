@@ -12,7 +12,7 @@ void FirstLevel::addObstacles() {
     obstacles.push_back(obstacle);
     this->addItem(obstacle);
     obstacle->setPos(1600,630);
-
+    
     Obstacle* obstacle2 = new Obstacle("../img/obstacle1.png");
     obstacles.push_back(obstacle2);
     this->addItem(obstacle2);

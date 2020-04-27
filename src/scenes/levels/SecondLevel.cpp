@@ -42,10 +42,26 @@ SecondLevel::SecondLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePla
 }
 
 void SecondLevel::addObstacles() {
+    Obstacle* obstacle = new Obstacle("../img/obstacle2.png");
+    obstacles.push_back(obstacle);
+    this->addItem(obstacle);
+    obstacle->setPos(300,590);
 
 }
 
 void SecondLevel::addFloor() {
+    Floor* trou1 = new Floor("../img/Floor2_PNG.png");
+    floors.push_back(trou1);
+    this->addItem(trou1);
+    trou1->setPos(0,750);
 
+    Floor* trou2 = new Floor("../img/TROU12_PNG.png");
+    floors.push_back(trou2);
+    this->addItem(trou2);
+    trou2->setPos(1500,750);
 
+    Floor* p1 = new Floor("../img/plateforme2.png");
+    floors.push_back(p1);
+    this->addItem(p1);
+    p1->setPos(600,350);
 }
