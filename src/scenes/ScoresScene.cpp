@@ -4,6 +4,7 @@
 
 #include "ScoresScene.h"
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -143,7 +144,8 @@ void ScoresScene::sort(std::vector<std::vector<std::string> > & temp){
     vector<string> t;
     for(int i = 0; i < temp.size(); i++){
         for(int u = 0; u < temp.size(); u++){
-            if(std::stoi(temp[i][1]) < std::stoi(temp[u][1]) && i != u){
+            std::cout << stringToNumber(temp[i][1]) << std::endl;
+            if(stringToNumber(temp[i][1]) < stringToNumber(temp[u][1]) && i != u){
                 t = temp[i] ;
                 temp[i] = temp[u];
                 temp[u] = t;
@@ -272,4 +274,12 @@ std::vector<std::vector<std::string> > ScoresScene::createTemp(std::string score
         ofstream file(scoreFile);
     }
     return temp;
+}
+
+double charToDouble(char c){
+    return (double)c-48;
+}
+
+double ScoresScene::stringToNumber(std::string str) {
+    return charToDouble(str[0])*600 + charToDouble(str[1])*60 + charToDouble(str[3])*10 + charToDouble(str[4]) + charToDouble(str[6])/10 + charToDouble(str[7])/100;
 }

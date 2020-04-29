@@ -49,6 +49,8 @@ public:
 
     std::vector<std::vector<std::string> > createTemp(std::string);
 
+    double stringToNumber(std::string);
+
 public slots:
     void setReturn();
     void right();
