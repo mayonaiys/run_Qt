@@ -21,7 +21,6 @@ GameScene::GameScene(std::vector<Qt::Key> keys,int nbPlayers,QString imgFileName
     this->isTimerLaunched = false;
 
     //Début de calcul du temps mit
-    dureePause=0.0;
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     this->status = "InGame";
 
@@ -35,6 +34,7 @@ GameScene::GameScene(std::vector<Qt::Key> keys,int nbPlayers,QString imgFileName
     }
 
     this->isWidgetLoaded = false;
+    this->gameTimer = QTime(0,0,0);
 }
 
 //Actions clavier :
@@ -42,7 +42,6 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 
     if(!isTimerLaunched){
         isTimerLaunched = true;
-        debutJeu = time(nullptr);
     }
 
     //1ER JOUEUR
@@ -85,7 +84,6 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Escape && this->status != "EndScene") {
         if (this->status == "InGame") {
             this->status = "Paused";
-            debutPause = time(nullptr);
         } else {
             this->request = "Resume";
         }
@@ -118,13 +116,8 @@ void GameScene::update() {
         if(this->request=="Resume"){
             this->status = "InGame";
             this->request = "";
-            finPause = time(nullptr);
-            dureePause = dureePause + difftime(finPause,debutPause);
         }
     } else { //Si le jeu est en cours
-
-        //std::cout << player->getStatus() << std::endl;
-
         for(auto & movingFloor : this->movingFloors){
             movingFloor->moveFloor();
         }
@@ -150,6 +143,7 @@ void GameScene::update() {
             QGraphicsView *view = this->views().at(0);
             view->centerOn(player);
             if (player->getStatus() == "Dead" || player->getStatus() == "Winner") { //Si le joueur est mort ou qu'il a gagné
+                this->durationP1 = this->gameTimer;
                 this->timer->stop();
                 this->status = "EndScene";
                 this->result(); //On appelle la fin du jeu
@@ -180,20 +174,24 @@ void GameScene::update() {
 
             if(player->getStatus() == "Winner" && !isTime1Set){
                 isTime1Set = true;
-                finJeu = time(nullptr);
-                durationP1 = difftime(finJeu,debutJeu) - dureePause;
+                this->durationP1 = this->gameTimer;
             }
             if(player2->getStatus() == "Winner" && !isTime2Set){
                 isTime2Set = true;
-                finJeu = time(nullptr);
-                durationP2 = difftime(finJeu, debutJeu) - dureePause;
+                this->durationP2 = this->gameTimer;
             }
+
             if ((player2->getStatus() == "Dead" || player2->getStatus() == "Winner") && (player->getStatus() == "Dead" || player->getStatus() == "Winner")) { //Si le joueur est mort ou qu'il a gagné
                 this->status = "EndScene";
                 this->timer->stop();
                 this->result(); //On appelle la fin du jeu
             }
         }
+
+        if(this->isTimerLaunched){
+            this->gameTimer = this->gameTimer.addMSecs(30);
+        }
+
     }
 }
 
@@ -205,18 +203,16 @@ void GameScene::result() { //Fin du jeu
     std::ofstream scoresFile(this->scoreFile, std::ios::app);
     if(nbPlayers==2){
         if(player->getStatus() == "Winner" && player2->getStatus() == "Winner"){
-            scoresFile << player->getName().toStdString() + "," + std::to_string(this->durationP1) << std::endl;
-            scoresFile << player2->getName().toStdString() + "," + std::to_string(this->durationP2) << std::endl;
+            scoresFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
+            scoresFile << player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl;
         } else if(player->getStatus() == "Winner" && player2->getStatus() == "Dead"){
-            scoresFile << player->getName().toStdString() + "," + std::to_string(this->durationP1) << std::endl;
+            scoresFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
         } else if(player->getStatus() == "Dead" && player2->getStatus() == "Winner"){
-            scoresFile << player2->getName().toStdString() + "," + std::to_string(this->durationP2) << std::endl;
+            scoresFile << player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl;
         }
     } else {
         if (player->getStatus() == "Winner") {
-            finJeu = time(nullptr);
-            durationP1 = difftime(finJeu, debutJeu) - dureePause;
-            scoresFile << player->getName().toStdString() + "," + std::to_string(this->durationP1) << std::endl;
+            scoresFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
 
             std::ifstream scoresFile("../config/levels.txt");
             if(scoresFile){
@@ -256,12 +252,10 @@ std::string GameScene::getRequest(){
     return this->request;
 }
 
-double GameScene::getTime() {
-    time_t actualTime = time(nullptr);
-    double diff = difftime(actualTime,debutJeu) - dureePause;
-    return diff;
-}
-
 bool GameScene::getIsTimerLaunched() {
     return this->isTimerLaunched;
+}
+
+QString GameScene::getTime() {
+    return this->gameTimer.toString("mm:ss:z");
 }

@@ -25,9 +25,9 @@ ScoresScene::ScoresScene(){
     this->returnButton->move(10,10);
     this->addWidget(returnButton);
 
-    this->rightButton = new QPushButton("Right");
+    this->rightButton = new QPushButton("Next");
     this->rightButton->setStyleSheet(style);
-    this->leftButton = new QPushButton("Left");
+    this->leftButton = new QPushButton("Previous");
     this->leftButton->setStyleSheet(style);
 
     QHBoxLayout* hButtonsBox = new QHBoxLayout();
@@ -49,7 +49,7 @@ ScoresScene::ScoresScene(){
     connect(leftButton,SIGNAL(clicked()),this,SLOT(left()));
     connect(timer,SIGNAL(timeout()),this,SLOT(update()));
 
-    this->currentScoreList = 1;
+    this->currentScoreList = 1; //Liste actuelle
     this->isListLoaded = false;
 
 }
@@ -177,26 +177,27 @@ QHBoxLayout* ScoresScene::createList(std::string scoreFile) {
     std::vector<std::vector<std::string> > temp = createTemp(scoreFile);
 
     //Affichage
-    QVBoxLayout* vBox1 = new QVBoxLayout();
-    QVBoxLayout* vBox2 = new QVBoxLayout();
-    QVBoxLayout* vBox3 = new QVBoxLayout();
+    QVBoxLayout* vBoxRanking = new QVBoxLayout();
+    QVBoxLayout* vBoxName = new QVBoxLayout();
+    QVBoxLayout* vBoxTime = new QVBoxLayout();
 
     QLabel* ranking = createLabel("Ranking");
     ranking->setStyleSheet("color:#CECECE;");
     QLabel* name = createLabel("Name");
     name->setStyleSheet("color:#CECECE;");
-    QLabel* time = createLabel("Time");
+    QLabel* time = createLabel("Time (mm:ss:ms)");
     time->setStyleSheet("color:#CECECE;");
 
-    vBox1->addWidget(ranking);
-    vBox2->addWidget(name);
-    vBox3->addWidget(time);
+    vBoxRanking->addWidget(ranking);
+    vBoxName->addWidget(name);
+    vBoxTime->addWidget(time);
 
     std::string color;
 
     if(temp.size()==0){
-        QLabel* label = new QLabel("Rien a afficher");
-        this->addWidget(label);
+        vBoxRanking->addWidget(createLabel("Nothing"));
+        vBoxName->addWidget(createLabel("to"));
+        vBoxTime->addWidget(createLabel("show"));
     } else {
         this->sort(temp);
         this->reWrite(scoreFile.c_str(),temp);
@@ -209,10 +210,10 @@ QHBoxLayout* ScoresScene::createList(std::string scoreFile) {
         for(int i = 0; i < end; i++){
             QLabel* part1 = createLabel((to_string(i+1) + "-").c_str());
             QLabel* part2 = createLabel((temp[i][0]).c_str());
-            QLabel* part3 = createLabel((temp[i][1] + "s").c_str());
-            vBox1->addWidget(part1);
-            vBox2->addWidget(part2);
-            vBox3->addWidget(part3);
+            QLabel* part3 = createLabel((temp[i][1]).c_str());
+            vBoxRanking->addWidget(part1);
+            vBoxName->addWidget(part2);
+            vBoxTime->addWidget(part3);
             if(i==0){
                 color = "#46EA00";
             } else if(i==1){
@@ -228,20 +229,20 @@ QHBoxLayout* ScoresScene::createList(std::string scoreFile) {
             part3->setStyleSheet(labelStyle);
         }
     }
-    QWidget* parent1 = new QWidget();
-    parent1->setLayout(vBox1);
-    parent1->setAttribute(Qt::WA_NoSystemBackground);
-    QWidget* parent2 = new QWidget();
-    parent2->setLayout(vBox2);
-    parent2->setAttribute(Qt::WA_NoSystemBackground);
-    QWidget* parent3 = new QWidget();
-    parent3->setLayout(vBox3);
-    parent3->setAttribute(Qt::WA_NoSystemBackground);
+    QWidget* parentRanking = new QWidget();
+    parentRanking->setLayout(vBoxRanking);
+    parentRanking->setAttribute(Qt::WA_NoSystemBackground);
+    QWidget* parentName = new QWidget();
+    parentName->setLayout(vBoxName);
+    parentName->setAttribute(Qt::WA_NoSystemBackground);
+    QWidget* parentTime = new QWidget();
+    parentTime->setLayout(vBoxTime);
+    parentTime->setAttribute(Qt::WA_NoSystemBackground);
 
     QHBoxLayout* hBox = new QHBoxLayout();
-    hBox->addWidget(parent1);
-    hBox->addWidget(parent2);
-    hBox->addWidget(parent3);
+    hBox->addWidget(parentRanking);
+    hBox->addWidget(parentName);
+    hBox->addWidget(parentTime);
 
     return hBox;
 }

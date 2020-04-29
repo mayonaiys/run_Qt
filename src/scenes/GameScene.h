@@ -20,14 +20,10 @@ class GameScene : public Scene{
 private:
     QTimer* timer;
     std::string request; //End,Resume,Restart
-    time_t debutJeu;
-    time_t finJeu;
-    time_t debutPause;
-    time_t finPause;
-    double dureePause;
+    QTime gameTimer;
     std::vector<Qt::Key> keys;
-    double durationP1;
-    double durationP2;
+    QTime durationP1;
+    QTime durationP2;
     bool isWidgetLoaded;
     bool isTimerLaunched;
 
@@ -70,7 +66,7 @@ public:
 
     std::string getRequest();
 
-    double getTime();
+    QString getTime();
 
     bool getIsTimerLaunched();
 

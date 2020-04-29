@@ -80,10 +80,10 @@ void Window::update() {
         } else if(isSceneLoaded) {
             if(gameScene->getStatus() == "InGame"){
                 if(!gameScene->getIsTimerLaunched()){
-                    QString str = "0s";
+                    QString str = "0:00:000";
                     timeLabel->setText(str);
                 } else {
-                    QString str = (std::to_string(gameScene->getTime()) + "s").c_str();
+                    QString str = gameScene->getTime();
                     timeLabel->setText(str);
                 }
             }else if(gameScene->getStatus() == "Paused"){
