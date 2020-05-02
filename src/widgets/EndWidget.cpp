@@ -5,7 +5,10 @@
 #include <QtWidgets/QPushButton>
 #include <QtCore/QtCore>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QLabel>
+#include <iostream>
 #include "EndWidget.h"
+#include "../utils.h"
 
 EndWidget::EndWidget() {
 
@@ -30,10 +33,23 @@ EndWidget::EndWidget() {
     connect(menuButton,SIGNAL(clicked()),this,SLOT(setEnd()));
     connect(restartButton,SIGNAL(clicked()),this,SLOT(setRestart()));
 
+    //Gestion scores
+    std::vector<std::vector<std::string> > temp = createTemp("../config/temp.txt");
+    sort(temp);
+    QWidget* scoreWidget = new QWidget();
+    QVBoxLayout* vScoreBox = new QVBoxLayout();
+    for(int i = 0; i < temp.size(); i++){
+        QLabel* label = new QLabel((std::to_string(i+1) + "." + temp[i][0] + " - " + temp[i][1]).c_str());
+        vScoreBox->addWidget(label);
+    }
+    scoreWidget->setLayout(vScoreBox);
+
+
     //Ajout
     QVBoxLayout* vBox = new QVBoxLayout();
     QHBoxLayout* hBox = new QHBoxLayout();
     QWidget* hWidget = new QWidget();
+    vBox->addWidget(scoreWidget);
     vBox->addWidget(restartButton);
     hBox->addWidget(menuButton);
     hBox->addWidget(quitButton);
@@ -41,6 +57,8 @@ EndWidget::EndWidget() {
     vBox->addWidget(hWidget);
     this->setLayout(vBox);
     this->setAttribute(Qt::WA_NoSystemBackground);
+
+    remove("../config/temp.txt");
 }
 
 void EndWidget::setRestart(){

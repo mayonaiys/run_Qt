@@ -39,17 +39,10 @@ public:
 
     void keyPressEvent(QKeyEvent*);
 
-    std::vector<std::string> cutString(std::string);
-
-    void sort(std::vector<std::vector<std::string> > & );
     void reWrite(const char *, std::vector<std::vector<std::string> >);
 
     QLabel* createLabel(QString);
     QHBoxLayout* createList(std::string);
-
-    std::vector<std::vector<std::string> > createTemp(std::string);
-
-    double stringToNumber(std::string);
 
 public slots:
     void setReturn();

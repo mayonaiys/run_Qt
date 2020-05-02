@@ -5,7 +5,6 @@
 #include "GameScene.h"
 #include <iostream>
 #include <QTimer>
-#include <ctime>
 #include <fstream>
 
 
@@ -201,18 +200,24 @@ void GameScene::addFloor() {}
 
 void GameScene::result() { //Fin du jeu
     std::ofstream scoresFile(this->scoreFile, std::ios::app);
+    std::ofstream tempFile("../config/temp.txt");
     if(nbPlayers==2){
-        if(player->getStatus() == "Winner" && player2->getStatus() == "Winner"){
+        if(player->getStatus()=="Winner"){
             scoresFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
+            tempFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
+        } else {
+            tempFile << player->getName().toStdString() + ",Dead" << std::endl;
+        }
+        if(player2->getStatus()=="Winner"){
             scoresFile << player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl;
-        } else if(player->getStatus() == "Winner" && player2->getStatus() == "Dead"){
-            scoresFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
-        } else if(player->getStatus() == "Dead" && player2->getStatus() == "Winner"){
-            scoresFile << player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl;
+            tempFile << player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl;
+        } else {
+            tempFile << player2->getName().toStdString() + ",Dead" << std::endl;
         }
     } else {
         if (player->getStatus() == "Winner") {
             scoresFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
+            tempFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
 
             std::ifstream scoresFile("../config/levels.txt");
             if(scoresFile){
@@ -227,6 +232,8 @@ void GameScene::result() { //Fin du jeu
                     }
                 }
             }
+        } else {
+            tempFile << player->getName().toStdString() + ",Dead" << std::endl;
         }
     }
 }
@@ -258,4 +265,16 @@ bool GameScene::getIsTimerLaunched() {
 
 QString GameScene::getTime() {
     return this->gameTimer.toString("mm:ss:z");
+}
+
+QTime GameScene::getDurationP1() {
+    return this->durationP1;
+}
+
+QTime GameScene::getDurationP2() {
+    return this->durationP2;
+}
+
+int GameScene::getNbPlayer() {
+    return this->nbPlayers;
 }

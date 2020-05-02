@@ -26,7 +26,6 @@ private:
     QTime durationP2;
     bool isWidgetLoaded;
     bool isTimerLaunched;
-
 protected:
     Player* player;
     Player* player2;
@@ -57,6 +56,10 @@ public:
     //Getters&Setters
     std::string getStatus();
     void setRequest(std::string request);
+    QTime getDurationP1();
+    QTime getDurationP2();
+    int getNbPlayer();
+
 
     //
     void result();
@@ -69,6 +72,9 @@ public:
     QString getTime();
 
     bool getIsTimerLaunched();
+
+    std::string getWinner();
+    std::string getLooser();
 
 public slots:
     void update();

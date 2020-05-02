@@ -3,6 +3,7 @@
 //
 
 #include "ScoresScene.h"
+#include "../utils.h"
 #include <fstream>
 #include <iostream>
 
@@ -130,30 +131,6 @@ void ScoresScene::keyPressEvent(QKeyEvent* event) {
     }
 }
 
-vector<string> ScoresScene::cutString(string str){
-    vector<string> tempVect;
-    int index = str.find(',');
-    string strTemp1 = str.substr(0,index);
-    string strTemp2 = str.substr(index+1,str.size());
-    tempVect.push_back(strTemp1);
-    tempVect.push_back(strTemp2);
-    return tempVect;
-}
-
-void ScoresScene::sort(std::vector<std::vector<std::string> > & temp){
-    vector<string> t;
-    for(int i = 0; i < temp.size(); i++){
-        for(int u = 0; u < temp.size(); u++){
-            std::cout << stringToNumber(temp[i][1]) << std::endl;
-            if(stringToNumber(temp[i][1]) < stringToNumber(temp[u][1]) && i != u){
-                t = temp[i] ;
-                temp[i] = temp[u];
-                temp[u] = t;
-            }
-        }
-    }
-}
-
 void ScoresScene::reWrite(const char *scoreFile, std::vector<std::vector<std::string> > temp) {
     remove(scoreFile);
     ofstream file(scoreFile);
@@ -201,7 +178,7 @@ QHBoxLayout* ScoresScene::createList(std::string scoreFile) {
         vBoxName->addWidget(createLabel("to"));
         vBoxTime->addWidget(createLabel("show"));
     } else {
-        this->sort(temp);
+        sort(temp);
         this->reWrite(scoreFile.c_str(),temp);
         int end;
         if(temp.size() < 10){
@@ -259,27 +236,4 @@ void ScoresScene::left() {
     delete this->currentList;
     this->currentScoreList--;
     this->isListLoaded = false;
-}
-
-std::vector<std::vector<std::string> > ScoresScene::createTemp(std::string scoreFile) {
-    //Lecture du fichier
-    std::vector<std::vector<std::string> > temp;
-    ifstream scoresFile(scoreFile);
-    if(scoresFile){
-        string line;
-        while(getline(scoresFile,line)){
-            temp.push_back(cutString(line));
-        }
-    } else {
-        ofstream file(scoreFile);
-    }
-    return temp;
-}
-
-double charToDouble(char c){
-    return (double)c-48;
-}
-
-double ScoresScene::stringToNumber(std::string str) {
-    return charToDouble(str[0])*600 + charToDouble(str[1])*60 + charToDouble(str[3])*10 + charToDouble(str[4]) + charToDouble(str[6])/10 + charToDouble(str[7])/100;
 }
