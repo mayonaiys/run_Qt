@@ -70,7 +70,7 @@ void ScoresScene::update() {
             this->currentList = new QWidget();
             this->list1 = createList("../config/scores1.txt");
             this->currentList->setLayout(this->list1);
-            this->currentList->move((this->width())/2 - (this->currentList->width())/2,200);
+            this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
             this->addWidget(currentList);
             this->buttonPanel->setFixedWidth(this->currentList->width());
             this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
@@ -90,7 +90,7 @@ void ScoresScene::update() {
             this->currentList = new QWidget();
             this->list2 = createList("../config/scores2.txt");
             this->currentList->setLayout(this->list2);
-            this->currentList->move((this->width())/2 - (this->currentList->width())/2,200);
+            this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
             this->addWidget(currentList);
             this->buttonPanel->setFixedWidth(this->currentList->width());
             this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
@@ -108,7 +108,7 @@ void ScoresScene::update() {
             this->currentList = new QWidget();
             this->list3 = createList("../config/scores3.txt");
             this->currentList->setLayout(this->list3);
-            this->currentList->move((this->width())/2 - (this->currentList->width())/2,200);
+            this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
             this->addWidget(currentList);
             this->buttonPanel->setFixedWidth(this->currentList->width());
             this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
@@ -151,7 +151,7 @@ QLabel* ScoresScene::createLabel(QString str) {
     return newLabel;
 }
 
-QHBoxLayout* ScoresScene::createList(std::string scoreFile) {
+QVBoxLayout* ScoresScene::createList(std::string scoreFile) {
     //Tableau temp
     std::vector<std::vector<std::string> > temp = createTemp(scoreFile);
 
@@ -218,12 +218,20 @@ QHBoxLayout* ScoresScene::createList(std::string scoreFile) {
     parentTime->setLayout(vBoxTime);
     parentTime->setAttribute(Qt::WA_NoSystemBackground);
 
+    QLabel* level = createLabel(("Level " + to_string(this->currentScoreList)).c_str());
+    level->setStyleSheet("color:#CECECE;");
+
+    QVBoxLayout* globalVBox = new QVBoxLayout();
+
     QHBoxLayout* hBox = new QHBoxLayout();
     hBox->addWidget(parentRanking);
     hBox->addWidget(parentName);
     hBox->addWidget(parentTime);
 
-    return hBox;
+    globalVBox->addWidget(level);
+    globalVBox->addLayout(hBox);
+
+    return globalVBox;
 }
 
 void ScoresScene::right() {

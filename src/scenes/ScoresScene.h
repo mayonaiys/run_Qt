@@ -17,9 +17,9 @@ private:
     std::vector<std::vector<std::string> > temp2;
     std::vector<std::vector<std::string> > temp3;
 
-    QHBoxLayout* list1;
-    QHBoxLayout* list2;
-    QHBoxLayout* list3;
+    QVBoxLayout* list1;
+    QVBoxLayout* list2;
+    QVBoxLayout* list3;
 
     QPushButton* returnButton;
 
@@ -42,7 +42,7 @@ public:
     void reWrite(const char *, std::vector<std::vector<std::string> >);
 
     QLabel* createLabel(QString);
-    QHBoxLayout* createList(std::string);
+    QVBoxLayout* createList(std::string);
 
 public slots:
     void setReturn();
