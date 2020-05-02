@@ -10,18 +10,10 @@ using namespace std;
 
 void Scene::drawBackground(QPainter *painter, const QRectF &rect) {
     Q_UNUSED(rect);
-    painter->drawPixmap(QRectF(0,0,background.width(), background.height()), background, sceneRect());
+    painter->drawPixmap(QRectF(0,0,this->w, this->h), background.scaled(this->w,this->h), sceneRect());
 }
 
 void Scene::setBackground(QString bc) {
     background.load(bc);
-    this->setSceneRect(0,0,background.width(),background.height());
-}
-
-bool Scene::getIsLoaded() {
-    return this->isLoaded;
-}
-
-void Scene::setIsLoaded(bool loaded) {
-    this->isLoaded = loaded;
+    this->setSceneRect(0, 0, this->w, this->h);
 }

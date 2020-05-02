@@ -48,6 +48,8 @@ private:
     bool isWidgetLoaded;
     bool isChoiceDo;
 
+    QWidget* parent;
+
 public:
     Window();
 

@@ -2,6 +2,7 @@
 // Created by Remi on 09/04/2020.
 //
 
+#include <iostream>
 #include "Window.h"
 #include "scenes/levels/SecondLevel.h"
 
@@ -22,16 +23,19 @@ Window::Window(){
     //Vues
     this->mainView = new QGraphicsView();
     this->setCentralWidget(mainView); //La vue devient le widget central de la fenête
-    this->resize(1610,910);
+    this->setMinimumSize(1280,720);
+    this->resize(1280,720);
 
 }
 
 void Window::update() {
+    //std::cout << this->width() << " " << this->height() << std::endl;
     if(this->status =="inStart") {
         if(!isSceneLoaded){
             this->loadStart();
             this->isSceneLoaded = true;
         } else {
+            this->startScene->adjustSize(this->width(),this->height());
             if (startScene->getRequest() == "Settings") {
                 this->status = "inSettings";
                 this->isSceneLoaded = false;
@@ -44,7 +48,6 @@ void Window::update() {
             }
         }
     } else if(this->status == "inGame"){
-
         if(!isSceneLoaded){
             if(!this->isChoiceDo) {
                 if (!this->isWidgetLoaded) {
@@ -55,9 +58,11 @@ void Window::update() {
                         this->choiceWidget = new ChoiceWidget(2);
                     }
                     this->startScene->addWidget(this->choiceWidget);
-                    this->choiceWidget->move((this->width()/2)-(this->choiceWidget->width())/2,200);
+                    this->choiceWidget->move((this->width()/2)-(this->choiceWidget->width())/2,(this->height())/2-(this->choiceWidget->height())/2);
                     this->isWidgetLoaded = true;
                 } else {
+                    this->startScene->adjustSize(this->width(),this->height());
+                    this->choiceWidget->move((this->width()/2)-(this->choiceWidget->width())/2,(this->height())/2-(this->choiceWidget->height())/2);
                     if (this->choiceWidget->getIsPlayersValid() && this->choiceWidget->getIsLevelSet()) {
                         this->isChoiceDo = true;
                         this->isWidgetLoaded = false;
@@ -72,12 +77,15 @@ void Window::update() {
                     this->loadMulti();
                 }
                 timeLabel = new QLabel();
-                timeLabel->move(1370, 10);
                 timeLabel->setAttribute(Qt::WA_NoSystemBackground);
                 timeLabel->setFixedSize(200, 40);
+                timeLabel->move(this->width()-230, 10);
                 globalScene->addWidget(timeLabel);
             }
         } else if(isSceneLoaded) {
+            timeLabel->move(this->width()-230, 10);
+           //view->resize(this->width(),this->height());
+            parent->resize(this->width(),this->height());
             if(gameScene->getStatus() == "InGame"){
                 if(!gameScene->getIsTimerLaunched()){
                     QString str = "0:00:000";
@@ -90,8 +98,8 @@ void Window::update() {
                 if(!gameScene->getIsWidgetLoaded()) {
                     this->pauseWidget = new PauseWidget();
                     this->globalScene ->addWidget(pauseWidget);
-                    this->pauseWidget->move((this->width())/2 - (pauseWidget->width())/2,300);
                     this->gameScene->setIsWidgetLoaded(true);
+                    this->pauseWidget->move((this->width())/2 - (pauseWidget->width())/2,(this->height())/2 - (pauseWidget->height())/2);
                 } else {
                     if(gameScene->getRequest() == "Resume"){
                         delete pauseWidget;
@@ -112,7 +120,7 @@ void Window::update() {
                 if(!gameScene->getIsWidgetLoaded()){
                     this->endWidget = new EndWidget();
                     this->globalScene ->addWidget(endWidget);
-                    this->endWidget->move(800 - endWidget->width()/2,300);
+                    this->endWidget->move((this->width())/2 - (endWidget->width())/2,(this->height())/2 - (endWidget->height())/2);
                     this->gameScene->setIsWidgetLoaded(true);
                 } else {
                     if(endWidget->getRequest()=="End"){
@@ -132,19 +140,25 @@ void Window::update() {
         if(!isSceneLoaded){
             this->loadSettings();
             this->isSceneLoaded = true;
-        } else if(settingsScene->getStatus()=="Ended"){
-            this->status = "inStart";
-            this->settingsScene->setStatus("doNothing");
-            this->isSceneLoaded = false;
+        } else if(this->isSceneLoaded){
+            this->settingsScene->adjustSize(this->width(),this->height());
+            if(settingsScene->getStatus()=="Ended") {
+                this->status = "inStart";
+                this->settingsScene->setStatus("doNothing");
+                this->isSceneLoaded = false;
+            }
         }
     } else if(this->status == "inScores"){
         if(!isSceneLoaded){
             this->loadScores();
             this->isSceneLoaded = true;
-        } else if(scoresScene->getStatus()=="Ended"){
-            this->status = "inStart";
-            this->scoresScene->setStatus("doNothing");
-            this->isSceneLoaded = false;
+        } else if(this->isSceneLoaded){
+            this->scoresScene->adjustSize(this->width(),this->height());
+            if(scoresScene->getStatus()=="Ended") {
+                this->status = "inStart";
+                this->scoresScene->setStatus("doNothing");
+                this->isSceneLoaded = false;
+            }
         }
     }
 }
@@ -167,8 +181,11 @@ void Window::loadSolo() {
     globalScene = new Scene();
     QGraphicsView* view = new QGraphicsView();
     view->setScene(gameScene);
-    view->resize(1600,900);
-    globalScene->addWidget(view);
+    QHBoxLayout* hBox = new QHBoxLayout();
+    hBox->addWidget(view);
+    parent = new QWidget();
+    parent->setLayout(hBox);
+    globalScene->addWidget(parent);
     mainView->setScene(globalScene); //Attribution de la vue à la scène
 }
 
@@ -188,9 +205,8 @@ void Window::loadMulti() {
     QHBoxLayout* hBox = new QHBoxLayout();
     hBox->addWidget(view1);
     hBox->addWidget(view2);
-    QWidget* parent = new QWidget();
+    parent = new QWidget();
     parent->setLayout(hBox);
-    parent->resize(1600,900);
     globalScene ->addWidget(parent);
     mainView->setScene(globalScene);
 }

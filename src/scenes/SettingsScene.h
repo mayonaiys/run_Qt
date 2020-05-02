@@ -28,6 +28,8 @@ private:
 
     QPushButton* returnButton;
 
+    QWidget* settingsWidget;
+
 public:
     SettingsScene();
     void keyPressEvent(QKeyEvent* event);
@@ -36,6 +38,7 @@ public:
     void setStatus(std::string);
     void verification(std::string);
     bool isConfigComplete();
+    void adjustSize(int,int);
 
 public slots:
     void setRight();

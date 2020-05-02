@@ -2,12 +2,10 @@
 // Created by Remi on 19/04/2020.
 //
 
+#include <iostream>
 #include "StartScene.h"
 
 StartScene::StartScene() {
-    //Start scène
-    this->setBackground("../img/startBackground.png");
-
     //StyleSheet
     QString style = "QPushButton { border-image:url(../img/button.png); color : #442A12; }"
                     "QPushButton:hover { border-image:url(../img/buttonHover.png); color : #543D2B }"
@@ -41,8 +39,8 @@ StartScene::StartScene() {
 
     QVBoxLayout* vBox = new QVBoxLayout();
     QHBoxLayout* hBox = new QHBoxLayout();
-    QWidget* parent = new QWidget();
-    parent->setAttribute(Qt::WA_NoSystemBackground);
+    panel = new QWidget();
+    panel->setAttribute(Qt::WA_NoSystemBackground);
     QWidget* hWidget = new QWidget();
     vBox->addWidget(soloButton);
     vBox->addWidget(multiButton);
@@ -50,11 +48,9 @@ StartScene::StartScene() {
     hBox->addWidget(scoresButton);
     hWidget->setLayout(hBox);
     vBox->addWidget(hWidget);
-    //vBox->addWidget(credit);
-    parent->setLayout(vBox);
-    this->addWidget(parent);
-    parent->move(this->width()/2 - parent->width()/2,this->height()/2 - parent->height()/2);
-
+    vBox->addWidget(credit);
+    panel->setLayout(vBox);
+    this->addWidget(panel);
 }
 
 void StartScene::setSolo() {
@@ -82,4 +78,11 @@ void StartScene::disableButtons() {
     this->multiButton->setEnabled(false);
     this->settingsButton->setEnabled(false);
     this->scoresButton->setEnabled(false);
+}
+
+void StartScene::adjustSize(int width, int height) {
+    this->w = width-5;
+    this->h = height-5;
+    this->setBackground("../img/startBackground.png");
+    this->panel->move(width/2 - panel->width()/2,height/2 - panel->height()/2);
 }

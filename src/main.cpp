@@ -22,8 +22,8 @@ int main(int argc, char **argv) {
     //Création fenêtre principale
     Window window;
 
-    QTimer::singleShot(3000,splash,SLOT(close()));
-    QTimer::singleShot(3000,&window,SLOT(show()));
+    QTimer::singleShot(10,splash,SLOT(close()));
+    QTimer::singleShot(10,&window,SLOT(show()));
 
     return game.exec();
 }

@@ -5,12 +5,11 @@
 #include "SettingsScene.h"
 #include <fstream>
 #include <QKeyEvent>
+#include <iostream>
 
 using namespace std;
 
 SettingsScene::SettingsScene() {
-    //Ajout fond
-    this->setBackground("../img/settingsBackground.png");
 
     //StyleSheet
     QString style = "QPushButton { border-image:url(../img/button.png); color : #442A12; }"
@@ -106,15 +105,15 @@ SettingsScene::SettingsScene() {
     parentIndications->setLayout(vBoxIndications);
 
     QHBoxLayout* hBox = new QHBoxLayout();
-    QWidget* globalWidget = new QWidget();
+    settingsWidget = new QWidget();
     hBox->addWidget(parentIndications);
     hBox->addWidget(parentPlayer1);
     hBox->addWidget(parentPlayer2);
-    globalWidget->setLayout(hBox);
-    globalWidget->move(250,200);
-    globalWidget->setStyleSheet("background-color:rgba(0, 0, 0, 50);");
+    settingsWidget->setLayout(hBox);
+    settingsWidget->move(250,200);
+    settingsWidget->setStyleSheet("background-color:rgba(0, 0, 0, 50);");
 
-    this->addWidget(globalWidget);
+    this->addWidget(settingsWidget);
     this->addWidget(returnButton);
 
     ifstream configFile("../config/config.txt");
@@ -290,6 +289,7 @@ void SettingsScene::setStatus(std::string status) {
 }
 
 void SettingsScene::setReturn() {
+    std::cout << "return" << std::endl;
     if(isConfigComplete()){
         remove("../config/config.txt");
         ofstream file("../config/config.txt");
@@ -298,4 +298,11 @@ void SettingsScene::setReturn() {
         }
         this->status="Ended";
     }
+}
+
+void SettingsScene::adjustSize(int width, int height) {
+    this->w = width-5;
+    this->h = height-5;
+    this->setBackground("../img/settingsBackground.png");
+    this->settingsWidget->move(width/2 - settingsWidget->width()/2,height/2 - settingsWidget->height()/2);
 }

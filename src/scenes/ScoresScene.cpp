@@ -10,10 +10,6 @@
 using namespace std;
 
 ScoresScene::ScoresScene(){
-
-    //Ajout fond
-    this->setBackground("../img/settingsBackground.png");
-
     //StyleSheet
     this->style = "QPushButton { border-image:url(../img/button.png); color : #442A12; }"
                     "QPushButton:hover { border-image:url(../img/buttonHover.png); color : #543D2B }"
@@ -244,4 +240,11 @@ void ScoresScene::left() {
     delete this->currentList;
     this->currentScoreList--;
     this->isListLoaded = false;
+}
+
+void ScoresScene::adjustSize(int width, int height) {
+    std::cout << "Start" << std::endl;
+    this->w = width-5;
+    this->h = height-5;
+    this->setBackground("../img/settingsBackground.png");
 }

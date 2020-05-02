@@ -44,6 +44,8 @@ public:
     QLabel* createLabel(QString);
     QVBoxLayout* createList(std::string);
 
+    void adjustSize(int,int);
+
 public slots:
     void setReturn();
     void right();

@@ -73,12 +73,8 @@ public:
 
     bool getIsTimerLaunched();
 
-    std::string getWinner();
-    std::string getLooser();
-
 public slots:
     void update();
-
 };
 
 

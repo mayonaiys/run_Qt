@@ -22,10 +22,13 @@ private:
     //
     std::string request;
 
+    QWidget* panel;
+
 public:
     StartScene();
     std::string getRequest();
     void disableButtons();
+    void adjustSize(int,int);
 
 public slots:
     void setSolo();

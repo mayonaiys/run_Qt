@@ -17,13 +17,12 @@ protected: //Attributs privés
     //Image de fond du jeu
     QPixmap background;
     std::string status;
-    bool isLoaded;
+    int h;
+    int w;
 
 public: //Méthodes publiques
     void drawBackground(QPainter* painter, const QRectF& rect);
     void setBackground(QString);
-    bool getIsLoaded();
-    void setIsLoaded(bool);
 };
 
 
