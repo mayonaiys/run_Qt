@@ -10,9 +10,8 @@
 
 GameScene::GameScene(std::vector<Qt::Key> keys,int nbPlayers,QString imgFileName){
     this->nbPlayers=nbPlayers;
-    QPixmap p(imgFileName);
-    this->w=p.width();
-    this->h=p.height();
+    this->w=QPixmap(imgFileName).width();
+    this->h=QPixmap(imgFileName).height();
     this->setBackground(imgFileName);
 
     //GameLoop
