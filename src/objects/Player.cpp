@@ -24,7 +24,7 @@ void Player::setSkin() { //Modifie l'apparence du joueur
     if(this->skinStatus==4 || this->status=="Standing" || this->status=="Jumping" || this->status=="Falling"){
         this->skinStatus=1; //On revient au status de départ
     }
-    std::string str = "../img/skin" + std::to_string(this->skinStatus) + this->direction + ".png"; //On prend le chemin du skin correspondant au status actuel
+    std::string str = "../img/player/skin" + std::to_string(this->skinStatus) + this->direction + ".png"; //On prend le chemin du skin correspondant au status actuel
     QString qStr = QString::fromStdString(str);
     this->setPixmap(QPixmap(qStr)); //On applique le skin au joueur
     this->skinStatus++;

@@ -72,7 +72,7 @@ ChoiceWidget::ChoiceWidget(int nbPlayers){
     }
 
     //Lecture du fichier
-    ifstream scoresFile("../config/levels.txt");
+    ifstream scoresFile("../src/scenes/levels/levels.txt");
     if(scoresFile){
         string line;
         while(getline(scoresFile,line)){
@@ -93,7 +93,7 @@ ChoiceWidget::ChoiceWidget(int nbPlayers){
             }
         }
     } else {
-        ofstream file("../config/levels.txt");
+        ofstream file("../src/scenes/levels/levels.txt");
         file << "zK7k9_vYmN";
     }
 

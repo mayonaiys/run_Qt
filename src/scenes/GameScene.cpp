@@ -117,7 +117,6 @@ void GameScene::update() {
             this->request = "";
         }
     } else { //Si le jeu est en cours
-        std::cout << this->player->pos().x() << std::endl;
         for(auto & movingFloor : this->movingFloors){
             movingFloor->moveFloor();
         }
@@ -155,8 +154,6 @@ void GameScene::update() {
             if (player2->getStatus() != "Jumping") {
                 player2->setPreviousStatus(player2->getStatus());
             }
-
-            std::cout << this->player->getStatus() << std::endl;
 
             player2->move();
             player2->setSkin();
