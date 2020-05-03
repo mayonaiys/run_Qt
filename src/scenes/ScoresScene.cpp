@@ -11,9 +11,9 @@ using namespace std;
 
 ScoresScene::ScoresScene(){
     //StyleSheet
-    this->style = "QPushButton { border-image:url(../img/button.png); color : #442A12; }"
-                    "QPushButton:hover { border-image:url(../img/buttonHover.png); color : #543D2B }"
-                    "QPushButton:pressed { border-image:url(../img/buttonOnClick.png); color : #2D2117}";
+    this->style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
+                    "QPushButton:hover { border-image:url(../img/buttons/buttonHover.png); color : #543D2B }"
+                    "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";
 
     //Ajout bouton
     this->returnButton = new QPushButton("←");
@@ -58,7 +58,7 @@ void ScoresScene::update() {
         if(!this->isListLoaded){
             //Gestion boutons
             this->leftButton->setEnabled(false);
-            this->leftButton->setStyleSheet("border-image:url(../img/buttonHover.png);");
+            this->leftButton->setStyleSheet("border-image:url(../img/buttons/buttonHover.png);");
 
             //Liste chargée
             this->isListLoaded = true;
@@ -103,13 +103,13 @@ void ScoresScene::update() {
         if(!this->isListLoaded){
             //Gestion boutons
             this->rightButton->setEnabled(false);
-            this->rightButton->setStyleSheet("../src/scenes/levels/thirdLevel/scores.txt");
+            this->rightButton->setStyleSheet("border-image:url(../img/buttons/buttonHover.png);");
 
             //Liste chargée
             this->isListLoaded = true;
 
             this->currentList = new QWidget();
-            this->list3 = createList("../config/scores3.txt");
+            this->list3 = createList("../src/scenes/levels/thirdLevel/scores.txt");
             this->currentList->setLayout(this->list3);
             this->addWidget(currentList);
             this->buttonPanel->setFixedWidth(this->currentList->width());
@@ -252,11 +252,10 @@ void ScoresScene::left() {
 void ScoresScene::adjustSize(int width, int height) {
     this->w = width-5;
     this->h = height-5;
-    this->setBackground("../img/settingsBackground.png");
+    this->setBackground("../img/backgrounds/settingsBackground.png");
     if(this->isListLoaded){
         this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
         this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
-        //std::cout << (this->currentList->height() + this->buttonPanel->height() + 10) << " et " << this->height() << std::endl;
         if(this->currentList->height() + this->buttonPanel->height() +20 > this->height()){
             this->currentList->setFixedHeight(this->height()-120);
         } else if(this->currentList->height()<650){

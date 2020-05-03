@@ -217,15 +217,15 @@ void GameScene::result() { //Fin du jeu
             scoresFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
             tempFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
 
-            std::ifstream scoresFile("../config/levels.txt");
+            std::ifstream scoresFile("../src/scenes/levels/levels.txt");
             if(scoresFile){
                 std::string line;
                 while(getline(scoresFile,line)){
                     if(line=="zK7k9_vYmN" && this->id=="zK7k9_vYmN"){
-                        std::ofstream file("../config/levels.txt");
+                        std::ofstream file("../src/scenes/levels/levels.txt");
                         file << "kj3c7_DahY";
                     } else if(line == "kj3c7_DahY" && this->id=="kj3c7_DahY"){
-                        std::ofstream file("../config/levels.txt");
+                        std::ofstream file("../src/scenes/levels/levels.txt");
                         file << "b74r8_aLAnZ";
                     }
                 }

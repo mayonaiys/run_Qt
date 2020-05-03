@@ -11,9 +11,9 @@ using namespace std;
 
 ChoiceWidget::ChoiceWidget(int nbPlayers){
     //StyleSheet
-    QString style = "QPushButton { border-image:url(../img/button.png); color : #442A12; }"
-                    "QPushButton:hover { border-image:url(../img/buttonHover.png); color : #543D2B }"
-                    "QPushButton:pressed { border-image:url(../img/buttonOnClick.png); color : #2D2117}";
+    QString style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
+                    "QPushButton:hover { border-image:url(../img/buttons/buttonHover.png); color : #543D2B }"
+                    "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";
 
     this->nbPlayers = nbPlayers;
 
@@ -35,17 +35,17 @@ ChoiceWidget::ChoiceWidget(int nbPlayers){
     parentHBox->setAttribute(Qt::WA_NoSystemBackground);
 
     this->firstLevel = new QPushButton();
-    this->firstLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel1.png); }"
-                                    "QPushButton:hover { border-image:url(../img/iconLevel1Hover.png); }"
-                                    "QPushButton:pressed { border-image:url(../img/iconLevel1Pressed.png); }");
+    this->firstLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel1.png); }"
+                                    "QPushButton:hover { border-image:url(../img/buttons/iconLevel1Hover.png); }"
+                                    "QPushButton:pressed { border-image:url(../img/buttons/iconLevel1Pressed.png); }");
 
     this->secondLevel = new QPushButton();
     this->secondLevel->setEnabled(false);
-    this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevelBlocked.png); }");
+    this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevelBlocked.png); }");
 
     this->thirdLevel = new QPushButton();
     this->thirdLevel->setEnabled(false);
-    this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevelBlocked.png); }");
+    this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevelBlocked.png); }");
 
     connect(firstLevel,SIGNAL(clicked()),this,SLOT(setFirstLevel()));
     connect(secondLevel,SIGNAL(clicked()),this,SLOT(setSecondLevel()));
@@ -78,18 +78,18 @@ ChoiceWidget::ChoiceWidget(int nbPlayers){
         while(getline(scoresFile,line)){
             if(line=="kj3c7_DahY"){
                 this->secondLevel->setEnabled(true);
-                this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel2.png); }"
-                                                 "QPushButton:hover { border-image:url(../img/iconLevel2Hover.png); }"
-                                                 "QPushButton:pressed { border-image:url(../img/iconLevel2Pressed.png); }");
+                this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel2.png); }"
+                                                 "QPushButton:hover { border-image:url(../img/buttons/iconLevel2Hover.png); }"
+                                                 "QPushButton:pressed { border-image:url(../img/buttons/iconLevel2Pressed.png); }");
             } else if(line=="b74r8_aLAnZ"){
                 this->secondLevel->setEnabled(true);
-                this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel2.png); }"
-                                                 "QPushButton:hover { border-image:url(../img/iconLevel2Hover.png); }"
-                                                 "QPushButton:pressed { border-image:url(../img/iconLevel2Pressed.png); }");
+                this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel2.png); }"
+                                                 "QPushButton:hover { border-image:url(../img/buttons/iconLevel2Hover.png); }"
+                                                 "QPushButton:pressed { border-image:url(../img/buttons/iconLevel2Pressed.png); }");
                 this->thirdLevel->setEnabled(true);
-                this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel3.png); }"
-                                                "QPushButton:hover { border-image:url(../img/iconLevel3Hover.png); }"
-                                                "QPushButton:pressed { border-image:url(../img/iconLevel3Pressed.png); }");
+                this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel3.png); }"
+                                                "QPushButton:hover { border-image:url(../img/buttons/iconLevel3Hover.png); }"
+                                                "QPushButton:pressed { border-image:url(../img/buttons/iconLevel3Pressed.png); }");
             }
         }
     } else {
@@ -147,40 +147,40 @@ std::string ChoiceWidget::getRequest() {
 
 void ChoiceWidget::setFirstLevel() {
     this->isLevelSet = true;
-    this->firstLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel1Validate.png); }");
-    this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel2.png); }"
-                                     "QPushButton:hover { border-image:url(../img/iconLevel2Hover.png); }"
-                                     "QPushButton:pressed { border-image:url(../img/iconLevel2Pressed.png); }");
+    this->firstLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel1Validate.png); }");
+    this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel2.png); }"
+                                     "QPushButton:hover { border-image:url(../img/buttons/iconLevel2Hover.png); }"
+                                     "QPushButton:pressed { border-image:url(../img/buttons/iconLevel2Pressed.png); }");
     this->thirdLevel->setEnabled(true);
-    this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel3.png); }"
-                                    "QPushButton:hover { border-image:url(../img/iconLevel3Hover.png); }"
-                                    "QPushButton:pressed { border-image:url(../img/iconLevel3Pressed.png); }");
+    this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel3.png); }"
+                                    "QPushButton:hover { border-image:url(../img/buttons/iconLevel3Hover.png); }"
+                                    "QPushButton:pressed { border-image:url(../img/buttons/iconLevel3Pressed.png); }");
     this->request = "FirstLevel";
 }
 
 void ChoiceWidget::setSecondLevel() {
     this->isLevelSet = true;
-    this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel2Validate.png); }");
-    this->firstLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel1.png); }"
-                                     "QPushButton:hover { border-image:url(../img/iconLevel1Hover.png); }"
-                                     "QPushButton:pressed { border-image:url(../img/iconLevel1Pressed.png); }");
+    this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel2Validate.png); }");
+    this->firstLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel1.png); }"
+                                     "QPushButton:hover { border-image:url(../img/buttons/iconLevel1Hover.png); }"
+                                     "QPushButton:pressed { border-image:url(../img/buttons/iconLevel1Pressed.png); }");
     this->thirdLevel->setEnabled(true);
-    this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel3.png); }"
-                                    "QPushButton:hover { border-image:url(../img/iconLevel3Hover.png); }"
-                                    "QPushButton:pressed { border-image:url(../img/iconLevel3Pressed.png); }");
+    this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel3.png); }"
+                                    "QPushButton:hover { border-image:url(../img/buttons/iconLevel3Hover.png); }"
+                                    "QPushButton:pressed { border-image:url(../img/buttons/iconLevel3Pressed.png); }");
     this->request = "SecondLevel";
 }
 
 void ChoiceWidget::setThirdLevel() {
     this->isLevelSet = true;
-    this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel3Validate.png); }");
-    this->firstLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel1.png); }"
-                                    "QPushButton:hover { border-image:url(../img/iconLevel1Hover.png); }"
-                                    "QPushButton:pressed { border-image:url(../img/iconLevel1Pressed.png); }");
+    this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel3Validate.png); }");
+    this->firstLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel1.png); }"
+                                    "QPushButton:hover { border-image:url(../img/buttons/iconLevel1Hover.png); }"
+                                    "QPushButton:pressed { border-image:url(../img/buttons/iconLevel1Pressed.png); }");
     this->thirdLevel->setEnabled(true);
-    this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel2.png); }"
-                                    "QPushButton:hover { border-image:url(../img/iconLevel2Hover.png); }"
-                                    "QPushButton:pressed { border-image:url(../img/iconLevel2Pressed.png); }");
+    this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel2.png); }"
+                                    "QPushButton:hover { border-image:url(../img/buttons/iconLevel2Hover.png); }"
+                                    "QPushButton:pressed { border-image:url(../img/buttons/iconLevel2Pressed.png); }");
     this->request = "ThirdLevel";
 }
 

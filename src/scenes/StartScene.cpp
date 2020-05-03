@@ -7,9 +7,9 @@
 
 StartScene::StartScene() {
     //StyleSheet
-    QString style = "QPushButton { border-image:url(../img/button.png); color : #442A12; }"
-                    "QPushButton:hover { border-image:url(../img/buttonHover.png); color : #543D2B }"
-                    "QPushButton:pressed { border-image:url(../img/buttonOnClick.png); color : #2D2117}";
+    QString style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
+                    "QPushButton:hover { border-image:url(../img/buttons/buttonHover.png); color : #543D2B }"
+                    "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";
 
     //Ajout des boutons
     this->soloButton = new QPushButton("Solo");
@@ -83,6 +83,6 @@ void StartScene::disableButtons() {
 void StartScene::adjustSize(int width, int height) {
     this->w = width-5;
     this->h = height-5;
-    this->setBackground("../img/startBackground.png");
+    this->setBackground("../img/backgrounds/startBackground.png");
     this->panel->move(width/2 - panel->width()/2,height/2 - panel->height()/2);
 }

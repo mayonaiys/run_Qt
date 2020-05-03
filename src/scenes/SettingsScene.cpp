@@ -12,9 +12,9 @@ using namespace std;
 SettingsScene::SettingsScene() {
 
     //StyleSheet
-    QString style = "QPushButton { border-image:url(../img/button.png); color : #442A12; }"
-                    "QPushButton:hover { border-image:url(../img/buttonHover.png); color : #543D2B }"
-                    "QPushButton:pressed { border-image:url(../img/buttonOnClick.png); color : #2D2117}";
+    QString style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
+                    "QPushButton:hover { border-image:url(../img/buttons/buttonHover.png); color : #543D2B }"
+                    "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";
 
     //Boutons
     this->upButton = new QPushButton();
@@ -303,6 +303,6 @@ void SettingsScene::setReturn() {
 void SettingsScene::adjustSize(int width, int height) {
     this->w = width-5;
     this->h = height-5;
-    this->setBackground("../img/settingsBackground.png");
+    this->setBackground("../img/backgrounds/settingsBackground.png");
     this->settingsWidget->move(width/2 - settingsWidget->width()/2,height/2 - settingsWidget->height()/2);
 }

@@ -9,9 +9,9 @@
 
 PauseWidget::PauseWidget() {
     //StyleSheet
-    QString style = "QPushButton { border-image:url(../img/button.png); color : #442A12; }"
-                    "QPushButton:hover { border-image:url(../img/buttonHover.png); color : #543D2B }"
-                    "QPushButton:pressed { border-image:url(../img/buttonOnClick.png); color : #2D2117}";
+    QString style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
+                    "QPushButton:hover { border-image:url(../img/buttons/buttonHover.png); color : #543D2B }"
+                    "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";
 
     //Boutons
     resumeButton = new QPushButton("Resume");
