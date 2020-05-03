@@ -22,7 +22,7 @@ ThirdLevel::ThirdLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePlaye
     labelNamePlayer->setFont(QFont("Joystick",16));
     labelNamePlayer->setAlignment(Qt::AlignHCenter);
     this->addWidget(labelNamePlayer);
-    player->spawn(11000,400);
+    player->spawn(0,400);
 
     if(nbPlayers==2){
         player2 = new Player(1,namePlayer2,"../img/skin1Right.png",obstacles,floors);
@@ -42,9 +42,28 @@ ThirdLevel::ThirdLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePlaye
 }
 
 void ThirdLevel::addObstacles() {
+    Obstacle* obstacle1 = new Obstacle("../img/obstacle3.png");
+    obstacles.push_back(obstacle1);
+    this->addItem(obstacle1);
+    obstacle1->setPos(1700,620);
+
 
 }
 
 void ThirdLevel::addFloor() {
+    Floor* pit2 = new Floor("../img/Floor3_PNG.png");
+    floors.push_back(pit2);
+    this->addItem(pit2);
+    pit2->setPos(0,750);
+
+    Floor* pit3 = new Floor("../img/TROU13_PNG.png");
+    floors.push_back(pit3);
+    this->addItem(pit3);
+    pit3->setPos(1500,750);
+
+    Floor* pit3d = new Floor("../img/plateforme3.png");
+    floors.push_back(pit3d);
+    this->addItem(pit3d);
+    pit3d->setPos(2000,400);
 
 }
