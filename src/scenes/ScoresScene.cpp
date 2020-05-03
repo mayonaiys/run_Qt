@@ -66,11 +66,15 @@ void ScoresScene::update() {
             this->currentList = new QWidget();
             this->list1 = createList("../config/scores1.txt");
             this->currentList->setLayout(this->list1);
-            this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
             this->addWidget(currentList);
             this->buttonPanel->setFixedWidth(this->currentList->width());
-            this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
             this->currentList->setStyleSheet("background-color:rgba(0, 0, 0, 50);");
+            this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
+            this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
+
+            if(this->currentList->height() + this->buttonPanel->height() +20 > this->height()){
+                this->currentList->setFixedHeight(this->height()-120);
+            }
         }
     } else if(this->currentScoreList==2){
         if(!this->isListLoaded){
@@ -86,11 +90,14 @@ void ScoresScene::update() {
             this->currentList = new QWidget();
             this->list2 = createList("../config/scores2.txt");
             this->currentList->setLayout(this->list2);
-            this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
             this->addWidget(currentList);
             this->buttonPanel->setFixedWidth(this->currentList->width());
-            this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
             this->currentList->setStyleSheet("background-color:rgba(0, 0, 0, 50);");
+            this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
+            this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
+            if(this->currentList->height() + this->buttonPanel->height() +20 > this->height()){
+                this->currentList->setFixedHeight(this->height()-120);
+            }
         }
     } else if(this->currentScoreList==3){
         if(!this->isListLoaded){
@@ -104,11 +111,14 @@ void ScoresScene::update() {
             this->currentList = new QWidget();
             this->list3 = createList("../config/scores3.txt");
             this->currentList->setLayout(this->list3);
-            this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
             this->addWidget(currentList);
             this->buttonPanel->setFixedWidth(this->currentList->width());
-            this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
             this->currentList->setStyleSheet("background-color:rgba(0, 0, 0, 50);");
+            this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
+            this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
+            if(this->currentList->height() + this->buttonPanel->height() +20 > this->height()){
+                this->currentList->setFixedHeight(this->height()-120);
+            }
         }
     }
 }
@@ -169,41 +179,38 @@ QVBoxLayout* ScoresScene::createList(std::string scoreFile) {
 
     std::string color;
 
-    if(temp.size()==0){
-        vBoxRanking->addWidget(createLabel("Nothing"));
-        vBoxName->addWidget(createLabel("to"));
-        vBoxTime->addWidget(createLabel("show"));
-    } else {
-        sort(temp);
-        this->reWrite(scoreFile.c_str(),temp);
-        int end;
-        if(temp.size() < 10){
-            end = temp.size();
+
+    sort(temp);
+    this->reWrite(scoreFile.c_str(),temp);
+    for(int i = 0; i < 10; i++){
+        QLabel* part1 = createLabel((to_string(i+1) + "-").c_str());
+        QLabel* part2;
+        QLabel* part3;
+        if(i < temp.size()){
+            part2 = createLabel((temp[i][0]).c_str());
+            part3 = createLabel((temp[i][1]).c_str());
         } else {
-            end = 10;
+            part2 = createLabel(QString(""));
+            part3 = createLabel(QString(""));
         }
-        for(int i = 0; i < end; i++){
-            QLabel* part1 = createLabel((to_string(i+1) + "-").c_str());
-            QLabel* part2 = createLabel((temp[i][0]).c_str());
-            QLabel* part3 = createLabel((temp[i][1]).c_str());
-            vBoxRanking->addWidget(part1);
-            vBoxName->addWidget(part2);
-            vBoxTime->addWidget(part3);
-            if(i==0){
-                color = "#46EA00";
-            } else if(i==1){
-                color = "#F2A900";
-            } else if(i==2){
-                color = "#EF0700";
-            } else {
-                color = "#AFAFAF";
-            }
-            QString labelStyle = ("color:" + color + ";").c_str();
-            part1->setStyleSheet(labelStyle);
-            part2->setStyleSheet(labelStyle);
-            part3->setStyleSheet(labelStyle);
+        vBoxRanking->addWidget(part1);
+        vBoxName->addWidget(part2);
+        vBoxTime->addWidget(part3);
+        if(i==0){
+            color = "#46EA00";
+        } else if(i==1){
+            color = "#F2A900";
+        } else if(i==2){
+            color = "#EF0700";
+        } else {
+            color = "#AFAFAF";
         }
+        QString labelStyle = ("color:" + color + ";").c_str();
+        part1->setStyleSheet(labelStyle);
+        part2->setStyleSheet(labelStyle);
+        part3->setStyleSheet(labelStyle);
     }
+
     QWidget* parentRanking = new QWidget();
     parentRanking->setLayout(vBoxRanking);
     parentRanking->setAttribute(Qt::WA_NoSystemBackground);
@@ -243,8 +250,17 @@ void ScoresScene::left() {
 }
 
 void ScoresScene::adjustSize(int width, int height) {
-    std::cout << "Start" << std::endl;
     this->w = width-5;
     this->h = height-5;
     this->setBackground("../img/settingsBackground.png");
+    if(this->isListLoaded){
+        this->currentList->move((this->width())/2 - (this->currentList->width())/2,30);
+        this->buttonPanel->move((this->width())/2 - (this->currentList->width())/2,this->currentList->pos().y()+this->currentList->height() + 10);
+        //std::cout << (this->currentList->height() + this->buttonPanel->height() + 10) << " et " << this->height() << std::endl;
+        if(this->currentList->height() + this->buttonPanel->height() +20 > this->height()){
+            this->currentList->setFixedHeight(this->height()-120);
+        } else if(this->currentList->height()<650){
+            this->currentList->setFixedHeight(this->height()-120);
+        }
+    }
 }

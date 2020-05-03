@@ -13,10 +13,6 @@ class ScoresScene : public Scene{
 private:
     QString style;
 
-    std::vector<std::vector<std::string> > temp1;
-    std::vector<std::vector<std::string> > temp2;
-    std::vector<std::vector<std::string> > temp3;
-
     QVBoxLayout* list1;
     QVBoxLayout* list2;
     QVBoxLayout* list3;
