@@ -118,6 +118,7 @@ void GameScene::update() {
             this->request = "";
         }
     } else { //Si le jeu est en cours
+        //std::cout << this->player->pos().x() << std::endl;
         for(auto & movingFloor : this->movingFloors){
             movingFloor->moveFloor();
         }

@@ -83,9 +83,9 @@ ChoiceWidget::ChoiceWidget(int nbPlayers){
                                                  "QPushButton:pressed { border-image:url(../img/iconLevel2Pressed.png); }");
             } else if(line=="b74r8_aLAnZ"){
                 this->secondLevel->setEnabled(true);
-                this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel1.png); }"
-                                                 "QPushButton:hover { border-image:url(../img/iconLevel1Hover.png); }"
-                                                 "QPushButton:pressed { border-image:url(../img/iconLevel1Pressed.png); }");
+                this->secondLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel2.png); }"
+                                                 "QPushButton:hover { border-image:url(../img/iconLevel2Hover.png); }"
+                                                 "QPushButton:pressed { border-image:url(../img/iconLevel2Pressed.png); }");
                 this->thirdLevel->setEnabled(true);
                 this->thirdLevel->setStyleSheet("QPushButton { border-image:url(../img/iconLevel1.png); }"
                                                 "QPushButton:hover { border-image:url(../img/iconLevel1Hover.png); }"

@@ -23,7 +23,7 @@ SecondLevel::SecondLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePla
     labelNamePlayer->setFont(QFont("Joystick",16));
     labelNamePlayer->setAlignment(Qt::AlignHCenter);
     this->addWidget(labelNamePlayer);
-    player->spawn(11000,400);
+    player->spawn(0,200);
 
     if(nbPlayers==2){
         player2 = new Player(1,namePlayer2,"../img/skin1Right.png",obstacles,floors);
@@ -71,6 +71,11 @@ void SecondLevel::addObstacles() {
     obstacles.push_back(obstacle6);
     this->addItem(obstacle6);
     obstacle6->setPos(11300,750);
+
+    Obstacle* obstacle7 = new Obstacle("../img/obstacle2.png");
+    obstacles.push_back(obstacle7);
+    this->addItem(obstacle7);
+    obstacle7->setPos(14200,550);
 
 }
 
@@ -180,4 +185,24 @@ void SecondLevel::addFloor() {
     floors.push_back(platform8);
     this->addItem(platform8);
     platform8->setPos(11850,750);
+
+    Floor* platform9 = new Floor("../img/plateforme2.png");
+    floors.push_back(platform9);
+    this->addItem(platform9);
+    platform9->setPos(12600,600);
+
+    Floor* pit8 = new Floor("../img/TROU22_PNG.png");
+    floors.push_back(pit8);
+    this->addItem(pit8);
+    pit8->setPos(13500,700);
+
+    Floor* pit9 = new Floor("../img/TROU22_PNG.png");
+    floors.push_back(pit9);
+    this->addItem(pit9);
+    pit9->setPos(14600,400);
+
+    Floor* floor7 = new Floor("../img/Floor2_PNG.png");
+    floors.push_back(floor7);
+    this->addItem(floor7);
+    floor7->setPos(14067,700);
 }

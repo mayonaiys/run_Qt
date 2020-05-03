@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Window.h"
 #include "scenes/levels/SecondLevel.h"
+#include "scenes/levels/ThirdLevel.h"
 
 Window::Window(){
     //Loop
@@ -176,7 +177,7 @@ void Window::loadSolo() {
     } else if(this->choiceWidget->getRequest()=="SecondLevel"){
         gameScene = new SecondLevel(this->settingsScene->getKeys(),1,this->choiceWidget->getNamePlayer1()); //Création de la scène du jeu
     } else if(this->choiceWidget->getRequest()=="ThirdLevel"){
-        gameScene = new SecondLevel(this->settingsScene->getKeys(),1,this->choiceWidget->getNamePlayer1()); //Création de la scène du jeu
+        gameScene = new ThirdLevel(this->settingsScene->getKeys(),1,this->choiceWidget->getNamePlayer1()); //Création de la scène du jeu
     }
     globalScene = new Scene();
     QGraphicsView* view = new QGraphicsView();
@@ -195,7 +196,7 @@ void Window::loadMulti() {
     } else if(this->choiceWidget->getRequest()=="SecondLevel"){
         gameScene = new SecondLevel(this->settingsScene->getKeys(),2,this->choiceWidget->getNamePlayer1(),this->choiceWidget->getNamePlayer2()); //Création de la scène du jeu
     } else if(this->choiceWidget->getRequest()=="ThirdLevel"){
-        gameScene = new SecondLevel(this->settingsScene->getKeys(),2,this->choiceWidget->getNamePlayer1(),this->choiceWidget->getNamePlayer2()); //Création de la scène du jeu
+        gameScene = new ThirdLevel(this->settingsScene->getKeys(),2,this->choiceWidget->getNamePlayer1(),this->choiceWidget->getNamePlayer2()); //Création de la scène du jeu
     }
     globalScene = new Scene();
     QGraphicsView* view1 = new QGraphicsView();
