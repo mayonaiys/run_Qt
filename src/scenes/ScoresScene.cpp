@@ -64,7 +64,7 @@ void ScoresScene::update() {
             this->isListLoaded = true;
 
             this->currentList = new QWidget();
-            this->list1 = createList("../config/scores1.txt");
+            this->list1 = createList("../src/scenes/levels/firstLevel/scores.txt");
             this->currentList->setLayout(this->list1);
             this->addWidget(currentList);
             this->buttonPanel->setFixedWidth(this->currentList->width());
@@ -88,7 +88,7 @@ void ScoresScene::update() {
             this->isListLoaded = true;
 
             this->currentList = new QWidget();
-            this->list2 = createList("../config/scores2.txt");
+            this->list2 = createList("../src/scenes/levels/secondLevel/scores.txt");
             this->currentList->setLayout(this->list2);
             this->addWidget(currentList);
             this->buttonPanel->setFixedWidth(this->currentList->width());
@@ -103,7 +103,7 @@ void ScoresScene::update() {
         if(!this->isListLoaded){
             //Gestion boutons
             this->rightButton->setEnabled(false);
-            this->rightButton->setStyleSheet("border-image:url(../img/buttonHover.png);");
+            this->rightButton->setStyleSheet("../src/scenes/levels/thirdLevel/scores.txt");
 
             //Liste chargée
             this->isListLoaded = true;
@@ -159,7 +159,7 @@ QLabel* ScoresScene::createLabel(QString str) {
 
 QVBoxLayout* ScoresScene::createList(std::string scoreFile) {
     //Tableau temp
-    std::vector<std::vector<std::string> > temp = createTemp(scoreFile);
+    std::vector<std::vector<std::string> > temp = createTemp(scoreFile,2);
 
     //Affichage
     QVBoxLayout* vBoxRanking = new QVBoxLayout();

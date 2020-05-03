@@ -14,31 +14,31 @@ class Player : public QGraphicsPixmapItem {
 
 private: //Attributs privés
     QString name; //Nom du joueur
-    int skinStatus; //Status du skin actuel
+    int skinStatus; //Status de l'apparence actuelle
     std::string status; /*Standing,Runing,Jumping,Falling,Dead,Winner*/
     std::string previousStatus; //Status précédent du joueur
     std::string direction; //Direction dans laquelle regarde le joueur
-    float velX; //Rapidité sur l'axe X
-    float velY; //Rapidité sur l'axe Y
-    float gravity; //Gravité appliquée au joueur
+    double velX; //Rapidité sur l'axe X
+    double velY; //Rapidité sur l'axe Y
+    double gravity; //Gravité appliquée au joueur
 
     //Environnement alentour
-    std::vector<Obstacle*> obstaclesAlentours; //Obstacles aux alentours du joueur
-    std::vector<Floor*> floors; //Sols aux alentours du joueur
+    std::vector<Obstacle*> obstaclesAround; //Obstacles aux alentours du joueur
+    std::vector<Floor*> floorsAround; //Sols aux alentours du joueur
 
 public: //Fonctions publiques
 
     //Constructeur :
-    Player(int,QString,const QString&,std::vector<Obstacle*>,std::vector<Floor*>);
+    Player(QString,const QString&,std::vector<Obstacle*>,std::vector<Floor*>);
 
     //Getters&Setters :
     void setSkin(); //Modification de l'apparence du joueur
     void setStatus(std::string,std::string = ""); //Changement du status du joueur
-    std::string getStatus(); //Récupération du status du joueur
     void setDirection(std::string); //Changement de la direction du joueur
     void setVelocity(); //Changement de la rapidité du joueur
     void setPreviousStatus(std::string); //Changement du status précédent du joueur
     QString getName(); //Récupération du nom du joueur
+    std::string getStatus(); //Récupération du status du joueur
 
     //Actions :
     void move();

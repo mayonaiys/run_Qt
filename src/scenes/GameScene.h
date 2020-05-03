@@ -10,6 +10,7 @@
 #include "../objects/Floor.h"
 #include "../objects/MovingFloor.h"
 #include "../objects/MovingObstacle.h"
+#include "../utils.h"
 #include <QTimer>
 
 
@@ -40,7 +41,7 @@ protected:
     QLabel* labelNamePlayer;
     QLabel* labelNamePlayer2;
     std::string scoreFile;
-
+    std::string path;
     std::string id;
 
 public:
@@ -50,8 +51,9 @@ public:
     void keyReleaseEvent(QKeyEvent* event);
 
     //Création niveau
-    virtual void addObstacles();
-    virtual void addFloor();
+    void addObstacles();
+    void addFloors();
+    void addPlayer(QString,int,int);
 
     //Getters&Setters
     std::string getStatus();

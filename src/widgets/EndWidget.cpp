@@ -34,7 +34,7 @@ EndWidget::EndWidget() {
     connect(restartButton,SIGNAL(clicked()),this,SLOT(setRestart()));
 
     //Gestion scores
-    std::vector<std::vector<std::string> > temp = createTemp("../config/temp.txt");
+    std::vector<std::vector<std::string> > temp = createTemp("../config/temp.txt",2);
     sort(temp);
     QWidget* scoreWidget = new QWidget();
     QVBoxLayout* vScoreBox = new QVBoxLayout();

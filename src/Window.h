@@ -13,7 +13,9 @@
 #include "widgets/PauseWidget.h"
 #include "widgets/EndWidget.h"
 #include "scenes/ScoresScene.h"
-#include "scenes/levels/FirstLevel.h"
+#include "scenes/levels/firstLevel/FirstLevel.h"
+#include "scenes/levels/secondLevel/SecondLevel.h"
+#include "scenes/levels/thirdLevel/ThirdLevel.h"
 #include "widgets/ChoiceWidget.h"
 
 class Window : public QMainWindow{

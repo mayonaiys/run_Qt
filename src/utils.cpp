@@ -12,14 +12,14 @@ double stringToNumber(std::string str){
     return charToDouble(str[0])*600 + charToDouble(str[1])*60 + charToDouble(str[3])*10 + charToDouble(str[4]) + charToDouble(str[6])/10 + charToDouble(str[7])/100;
 }
 
-std::vector<std::vector<std::string> > createTemp(std::string scoreFile) {
+std::vector<std::vector<std::string> > createTemp(std::string scoreFile,int end) {
     //Lecture du fichier
     std::vector<std::vector<std::string> > temp;
     std::ifstream scoresFile(scoreFile);
     if(scoresFile){
         std::string line;
         while(getline(scoresFile,line)){
-            temp.push_back(cutString(line));
+            temp.push_back(cutString(line,end));
         }
     } else {
         std::ofstream file(scoreFile);
@@ -40,12 +40,13 @@ void sort(std::vector<std::vector<std::string> > & temp){
     }
 }
 
-std::vector<std::string> cutString(std::string str){
+std::vector<std::string> cutString(std::string str,int end){
     std::vector<std::string> tempVect;
-    int index = str.find(',');
-    std::string strTemp1 = str.substr(0,index);
-    std::string strTemp2 = str.substr(index+1,str.size());
-    tempVect.push_back(strTemp1);
-    tempVect.push_back(strTemp2);
+    for(int i = 0; i < end; i++){
+        int index = str.find(',');
+        std::string strTemp = str.substr(0,index);
+        str = str.substr(index+1,str.size());
+        tempVect.push_back(strTemp);
+    }
     return tempVect;
 }

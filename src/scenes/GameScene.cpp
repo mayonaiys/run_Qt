@@ -118,7 +118,7 @@ void GameScene::update() {
             this->request = "";
         }
     } else { //Si le jeu est en cours
-        //std::cout << this->player->pos().x() << std::endl;
+        std::cout << this->player->pos().x() << std::endl;
         for(auto & movingFloor : this->movingFloors){
             movingFloor->moveFloor();
         }
@@ -196,10 +196,6 @@ void GameScene::update() {
 
     }
 }
-
-void GameScene::addObstacles() {}
-
-void GameScene::addFloor() {}
 
 void GameScene::result() { //Fin du jeu
     std::ofstream scoresFile(this->scoreFile, std::ios::app);
@@ -280,4 +276,31 @@ QTime GameScene::getDurationP2() {
 
 int GameScene::getNbPlayer() {
     return this->nbPlayers;
+}
+
+void GameScene::addPlayer(QString namePlayer, int x, int y) {
+}
+
+void GameScene::addObstacles() {
+
+    std::vector<std::vector<std::string> > temp = createTemp("../src/scenes/levels/" + this->path + "obstacles.txt",3);
+    for(auto & i : temp){
+        Obstacle* obstacle = new Obstacle(("../img/" + this->path + i[0]).c_str());
+        this->obstacles.push_back(obstacle);
+        this->addItem(obstacle);
+        obstacle->setPos(std::stoi(i[1]),std::stoi(i[2]));
+    }
+
+}
+
+void GameScene::addFloors() {
+
+    std::vector<std::vector<std::string> > temp = createTemp("../src/scenes/levels/" + this->path + "floors.txt",3);
+    for(auto & i : temp){
+        Floor* floor = new Floor(("../img/" + this->path + i[0]).c_str());
+        this->floors.push_back(floor);
+        this->addItem(floor);
+        floor->setPos(std::stoi(i[1]),std::stoi(i[2]));
+    }
+
 }

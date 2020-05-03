@@ -15,8 +15,8 @@ double stringToNumber(std::string);
 
 void sort(std::vector<std::vector<std::string> > & );
 
-std::vector<std::vector<std::string> > createTemp(std::string);
+std::vector<std::vector<std::string> > createTemp(std::string,int);
 
-std::vector<std::string> cutString(std::string);
+std::vector<std::string> cutString(std::string,int);
 
 #endif //JEU_UTILS_H

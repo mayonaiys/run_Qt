@@ -4,8 +4,6 @@
 
 #include <iostream>
 #include "Window.h"
-#include "scenes/levels/SecondLevel.h"
-#include "scenes/levels/ThirdLevel.h"
 
 Window::Window(){
     //Loop
