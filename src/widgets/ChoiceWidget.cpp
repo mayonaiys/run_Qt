@@ -129,7 +129,7 @@ bool ChoiceWidget::getIsPlayersValid() {
     if(this->nbPlayers==1){
         return this->isPlayer1Valid;
     } else if(this->nbPlayers==2){
-        return (this->isPlayer1Valid && this->isPlayer2Valid);
+        return this->isPlayer1Valid && this->isPlayer2Valid;
     }
 }
 

@@ -62,12 +62,16 @@ QString Player::getName() {
 //Actions
 void Player::move() { //Choix de l'action à effectuer en fonction du status
     if(status=="Standing"){
+        //std::cout << this->name.toStdString() <<  " 1" << std::endl;
         this->stand(); //Le joueur ne bouge pas
     }else if(status=="Running"){
+        //std::cout << this->name.toStdString() <<  " 2" << std::endl;
         this->run(); //Le joueur court
     } else if(status=="Jumping"){
+        //std::cout << this->name.toStdString() <<  " 3" << std::endl;
         this->jump(); //Le joueur saute
     } else if(status=="Falling") {
+        //std::cout << this->name.toStdString() <<  " 4" << std::endl;
         this->fall(); //Le joueur tombe
     }
 }

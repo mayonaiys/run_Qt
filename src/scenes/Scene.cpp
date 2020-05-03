@@ -10,7 +10,9 @@ using namespace std;
 
 void Scene::drawBackground(QPainter *painter, const QRectF &rect) {
     Q_UNUSED(rect);
-    painter->drawPixmap(QRectF(0,0,this->w, this->h), background.scaled(this->w,this->h), sceneRect());
+    if(!this->background.isNull()){
+        painter->drawPixmap(QRectF(0,0,this->w, this->h), background.scaled(this->w,this->h), sceneRect());
+    }
 }
 
 void Scene::setBackground(QString bc) {

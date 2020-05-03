@@ -84,8 +84,8 @@ void Window::update() {
             }
         } else if(isSceneLoaded) {
             timeLabel->move(this->width()-230, 10);
-           //view->resize(this->width(),this->height());
             parent->resize(this->width(),this->height());
+            globalScene->setSceneRect(0, 0, this->width()-5, this->height()-5);
             if(gameScene->getStatus() == "InGame"){
                 if(!gameScene->getIsTimerLaunched()){
                     QString str = "0:00:000";

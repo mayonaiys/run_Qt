@@ -26,7 +26,6 @@ GameScene::GameScene(std::vector<Qt::Key> keys,int nbPlayers,QString imgFileName
     this->status = "InGame";
 
     this->keys=keys;
-    std::cout << this->keys.size() << std::endl;
 
     isTime1Set = false;
 
@@ -93,7 +92,7 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 
 void GameScene::keyReleaseEvent(QKeyEvent *event) {
     //1 JOUEUR
-    if(player->getStatus() != "Jumping" && player->getStatus() != "Falling") {
+    if(player->getStatus() != "Jumping" && player->getStatus() != "Falling" && player->getStatus()!="Dead") {
         if (event->isAutoRepeat()) {
             return;
         }
@@ -102,7 +101,7 @@ void GameScene::keyReleaseEvent(QKeyEvent *event) {
 
     //SI 2 JOUEURS
     if(this->nbPlayers==2){
-        if(player2->getStatus() != "Jumping" && player2->getStatus() != "Falling") {
+        if(player2->getStatus() != "Jumping" && player2->getStatus() != "Falling" && player2->getStatus()!="Dead") {
             if (event->isAutoRepeat()) {
                 return;
             }
@@ -153,10 +152,11 @@ void GameScene::update() {
 
         //SI 2 JOUEURS
         if(this->nbPlayers==2){
-            std::cout << player->getStatus() << " " << player2->getStatus() << std::endl;
             if (player2->getStatus() != "Jumping") {
                 player2->setPreviousStatus(player2->getStatus());
             }
+
+            std::cout << this->player->getStatus() << std::endl;
 
             player2->move();
             player2->setSkin();
