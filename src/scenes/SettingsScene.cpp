@@ -55,34 +55,34 @@ SettingsScene::SettingsScene() {
     player2->setAttribute(Qt::WA_NoSystemBackground);
     player2->setStyleSheet("color:#0055FF;");
 
-    //Connects
-    connect(upButton,SIGNAL(clicked()),this,SLOT(setUp()));
-    connect(leftButton,SIGNAL(clicked()),this,SLOT(setLeft()));
-    connect(rightButton,SIGNAL(clicked()),this,SLOT(setRight()));
+    //Connexion des boutons à leurs slots
+    connect(this->upButton,SIGNAL(clicked()),this,SLOT(setUp()));
+    connect(this->leftButton,SIGNAL(clicked()),this,SLOT(setLeft()));
+    connect(this->rightButton,SIGNAL(clicked()),this,SLOT(setRight()));
 
-    connect(upButton2,SIGNAL(clicked()),this,SLOT(setUp2()));
-    connect(leftButton2,SIGNAL(clicked()),this,SLOT(setLeft2()));
-    connect(rightButton2,SIGNAL(clicked()),this,SLOT(setRight2()));
+    connect(this->upButton2,SIGNAL(clicked()),this,SLOT(setUp2()));
+    connect(this->leftButton2,SIGNAL(clicked()),this,SLOT(setLeft2()));
+    connect(this->rightButton2,SIGNAL(clicked()),this,SLOT(setRight2()));
 
-    connect(returnButton,SIGNAL(clicked()),this,SLOT(setReturn()));
+    connect(this->returnButton,SIGNAL(clicked()),this,SLOT(setReturn()));
 
-    //Ajout
+    //Création du widget des paramètres
     QVBoxLayout* vBoxPlayer1 = new QVBoxLayout();
     QWidget* parentPlayer1 = new QWidget();
     parentPlayer1->setAttribute(Qt::WA_NoSystemBackground);
     vBoxPlayer1->addWidget(player1);
-    vBoxPlayer1->addWidget(upButton);
-    vBoxPlayer1->addWidget(leftButton);
-    vBoxPlayer1->addWidget(rightButton);
+    vBoxPlayer1->addWidget(this->upButton);
+    vBoxPlayer1->addWidget(this->leftButton);
+    vBoxPlayer1->addWidget(this->rightButton);
     parentPlayer1->setLayout(vBoxPlayer1);
 
     QVBoxLayout* vBoxPlayer2 = new QVBoxLayout();
     QWidget* parentPlayer2 = new QWidget();
     parentPlayer2->setAttribute(Qt::WA_NoSystemBackground);
     vBoxPlayer2->addWidget(player2);
-    vBoxPlayer2->addWidget(upButton2);
-    vBoxPlayer2->addWidget(leftButton2);
-    vBoxPlayer2->addWidget(rightButton2);
+    vBoxPlayer2->addWidget(this->upButton2);
+    vBoxPlayer2->addWidget(this->leftButton2);
+    vBoxPlayer2->addWidget(this->rightButton2);
     parentPlayer2->setLayout(vBoxPlayer2);
 
     QVBoxLayout* vBoxIndications = new QVBoxLayout();
@@ -106,28 +106,21 @@ SettingsScene::SettingsScene() {
     parentIndications->setLayout(vBoxIndications);
 
     QHBoxLayout* hBox = new QHBoxLayout();
-    settingsWidget = new QWidget();
+    this->settingsWidget = new QWidget();
     hBox->addWidget(parentIndications);
     hBox->addWidget(parentPlayer1);
     hBox->addWidget(parentPlayer2);
-    settingsWidget->setLayout(hBox);
-    settingsWidget->move(250,200);
-    settingsWidget->setStyleSheet("background-color:rgba(0, 0, 0, 50);");
+    this->settingsWidget->setLayout(hBox);
+    this->settingsWidget->move(250,200);
+    this->settingsWidget->setStyleSheet("background-color:rgba(0, 0, 0, 50);");
 
-    this->addWidget(settingsWidget);
-    this->addWidget(returnButton);
+    this->addWidget(this->settingsWidget); //Ajout du widget de parametrage
+    this->addWidget(this->returnButton); //Ajout du bouton de retour
 
-    ifstream configFile("../config/config.txt");
+    ifstream configFile("../config/config.txt"); //Ouverture du fichier de configuration des touches
     int i = 0;
-    if(configFile){
-        string line;
-        while(getline(configFile,line) && i<6){
-            keys.push_back(Qt::Key(std::stoi(line)));
-            temp.push_back(line);
-            i++;
-        }
-    } else {
-        ofstream file("../config/config.txt");
+    if(!configFile){
+        ofstream file("../config/config.txt"); //On le crée et on ajoute les ids des touches par défaut
         file << "16777235" << endl;
         file << "16777234" << endl;
         file << "16777236" << endl;
@@ -135,118 +128,112 @@ SettingsScene::SettingsScene() {
         file << "81" << endl;
         file << "68" << endl;
         string line;
-        ifstream nfile("../config/config.txt");
-        while(getline(nfile,line) && i<6){
-            keys.push_back(Qt::Key(std::stoi(line)));
-            temp.push_back(line);
-            i++;
-        }
     }
-    this->upButton->setText(QKeySequence(std::stoi(temp[0])).toString());
-    this->leftButton->setText(QKeySequence(std::stoi(temp[1])).toString());
-    this->rightButton->setText(QKeySequence(std::stoi(temp[2])).toString());
+    ifstream File("../config/config.txt"); //Ouverture du fichier de configuration des touches
+    string line;
+    while(getline(File,line) && i<6){ //On le parcoure
+        this->keys.push_back(Qt::Key(std::stoi(line))); //On ajoute au tableau de touches les touches enregistrées dans le fichier
+        this->temp.push_back(line); //On ajoute au tableau temporaire les ids des touches enregistrées dans le fichier
+        i++;
+    }
 
-    this->upButton2->setText(QKeySequence(std::stoi(temp[3])).toString());
-    this->leftButton2->setText(QKeySequence(std::stoi(temp[4])).toString());
-    this->rightButton2->setText(QKeySequence(std::stoi(temp[5])).toString());
+    this->upButton->setText(QKeySequence(std::stoi(this->temp[0])).toString());
+    this->leftButton->setText(QKeySequence(std::stoi(this->temp[1])).toString());
+    this->rightButton->setText(QKeySequence(std::stoi(this->temp[2])).toString());
+
+    this->upButton2->setText(QKeySequence(std::stoi(this->temp[3])).toString());
+    this->leftButton2->setText(QKeySequence(std::stoi(this->temp[4])).toString());
+    this->rightButton2->setText(QKeySequence(std::stoi(this->temp[5])).toString());
 
 }
 
-//
-void SettingsScene::keyPressEvent(QKeyEvent *event) {
-    if(this->status=="IsSettingUp"){
-        if(event->key() != Qt::Key_Escape) {
-            verification(to_string(event->key()));
-            this->temp[0] = to_string(event->key());
-            this->upButton->setText(QKeySequence(event->key()).toString());
-            this->keys[0] = Qt::Key(event->key());
-        }
-        this->status ="doNothing";
-    } else if(this->status=="IsSettingLeft"){
-        if(event->key() != Qt::Key_Escape) {
-            verification(to_string(event->key()));
-            this->temp[1] = to_string(event->key());
-            this->leftButton->setText(QKeySequence(event->key()).toString());
-            this->keys[1] = Qt::Key(event->key());
-        }
-        this->status ="doNothing";
-    } else if(this->status=="IsSettingRight"){
-        if(event->key() != Qt::Key_Escape) {
-            verification(to_string(event->key()));
-            this->temp[2] = to_string(event->key());
-            this->rightButton->setText(QKeySequence(event->key()).toString());
-            this->keys[2] = Qt::Key(event->key());
-        }
-        this->status ="doNothing";
-    } else if(this->status=="IsSettingUp2"){
-        if(event->key() != Qt::Key_Escape) {
-            verification(to_string(event->key()));
-            this->temp[3] = to_string(event->key());
-            this->upButton2->setText(QKeySequence(event->key()).toString());
-            this->keys[3] = Qt::Key(event->key());
-        }
-        this->status ="doNothing";
-    } else if(this->status=="IsSettingLeft2"){
-        if(event->key() != Qt::Key_Escape) {
-            verification(to_string(event->key()));
-            this->temp[4] = to_string(event->key());
-            this->leftButton2->setText(QKeySequence(event->key()).toString());
-            this->keys[4] = Qt::Key(event->key());
-        }
-        this->status ="doNothing";
-    } else if(this->status=="IsSettingRight2"){
-        if(event->key() != Qt::Key_Escape){
-            verification(to_string(event->key()));
-            this->temp[5]=to_string(event->key());
-            this->rightButton2->setText(QKeySequence(event->key()).toString());
-            this->keys[5]=Qt::Key(event->key());
-        }
-        this->status ="doNothing";
-    }
-    if(event->key()==Qt::Key_Escape){
-        if(isConfigComplete()){
-            remove("../config/config.txt");
-            ofstream file("../config/config.txt");
-            for(int i = 0; i < 6; i++){
-                file << temp[i] << std::endl;
-            }
-            this->status="Ended";
-        }
-    }
-}
-
-void SettingsScene::verification(std::string key){
-    if(key == temp[0]){
-        temp[0]="";
-        upButton->setText("");
-    } else if(key == temp[1]){
-        temp[1]="";
-        leftButton->setText("");
-    } else if(key == temp[2]){
-        temp[2]="";
-        rightButton->setText("");
-    } else if(key == temp[3]){
-        temp[3]="";
-        upButton2->setText("");
+void SettingsScene::verification(std::string key){ //Vérifie si la touche est déjà enregistrée sur une autre touche, si oui, la remplace par une touche vide
+    if(key == this->temp[0]){
+        this->temp[0]="";
+        this->upButton->setText("");
+    } else if(key == this->temp[1]){
+        this->temp[1]="";
+        this->leftButton->setText("");
+    } else if(key == this->temp[2]){
+        this->temp[2]="";
+        this->rightButton->setText("");
+    } else if(key == this->temp[3]){
+        this->temp[3]="";
+        this->upButton2->setText("");
     } else if(key == temp[4]){
-        temp[4]="";
-        leftButton2->setText("");
-    } else if(key == temp[5]){
-        temp[5]="";
-        rightButton2->setText("");
+        this->temp[4]="";
+        this->leftButton2->setText("");
+    } else if(key == this->temp[5]){
+        this->temp[5]="";
+        this->rightButton2->setText("");
     }
 }
 
-bool SettingsScene::isConfigComplete() {
+bool SettingsScene::isConfigComplete() { //Vérifie si toute les touches sont bien paramétrées
     for(int i = 0; i < this->temp.size(); i++){
-        if(this->temp[i]==""){
+        if(this->temp[i]==""){ //Si une touche est vide
             return false;
         }
     }
     return true;
 }
 
-//Getters&Setters
+//Interactions
+void SettingsScene::keyPressEvent(QKeyEvent *event) {
+    if(this->status=="IsSettingUp"){ //Si on est en train de modifier la touche pour sauter
+        if(event->key() != Qt::Key_Escape) { //Si on essaie pas de quitter
+            verification(to_string(event->key())); //On vérifie que la touche entrée n'est pas déjà enregistrée pour une autre action
+            this->temp[0] = to_string(event->key()); //On ajoute l'id' de la touche au tableau temporaire
+            this->upButton->setText(QKeySequence(event->key()).toString()); //On donne le nom de la touche au bouton correspondant
+            this->keys[0] = Qt::Key(event->key()); //On ajoute la touche au tableau de touches
+        }
+        this->status ="doNothing";
+    } else if(this->status=="IsSettingLeft"){
+        if(event->key() != Qt::Key_Escape) { //Si on essaie pas de quitter
+            verification(to_string(event->key())); //On vérifie que la touche entrée n'est pas déjà enregistrée pour une autre action
+            this->temp[1] = to_string(event->key()); //On ajoute l'id' de la touche au tableau temporaire
+            this->leftButton->setText(QKeySequence(event->key()).toString()); //On donne le nom de la touche au bouton correspondant
+            this->keys[1] = Qt::Key(event->key()); //On ajoute la touche au tableau de touches
+        }
+        this->status ="doNothing";
+    } else if(this->status=="IsSettingRight"){
+        if(event->key() != Qt::Key_Escape) { //Si on essaie pas de quitter
+            verification(to_string(event->key())); //On vérifie que la touche entrée n'est pas déjà enregistrée pour une autre action
+            this->temp[2] = to_string(event->key()); //On ajoute l'id' de la touche au tableau temporaire
+            this->rightButton->setText(QKeySequence(event->key()).toString()); //On donne le nom de la touche au bouton correspondant
+            this->keys[2] = Qt::Key(event->key()); //On ajoute la touche au tableau de touches
+        }
+        this->status ="doNothing";
+    } else if(this->status=="IsSettingUp2"){
+        if(event->key() != Qt::Key_Escape) { //Si on essaie pas de quitter
+            verification(to_string(event->key())); //On vérifie que la touche entrée n'est pas déjà enregistrée pour une autre action
+            this->temp[3] = to_string(event->key()); //On ajoute l'id' de la touche au tableau temporaire
+            this->upButton2->setText(QKeySequence(event->key()).toString()); //On donne le nom de la touche au bouton correspondant
+            this->keys[3] = Qt::Key(event->key()); //On ajoute la touche au tableau de touches
+        }
+        this->status ="doNothing";
+    } else if(this->status=="IsSettingLeft2"){
+        if(event->key() != Qt::Key_Escape) { //Si on essaie pas de quitter
+            verification(to_string(event->key())); //On vérifie que la touche entrée n'est pas déjà enregistrée pour une autre action
+            this->temp[4] = to_string(event->key()); //On ajoute l'id' de la touche au tableau temporaire
+            this->leftButton2->setText(QKeySequence(event->key()).toString()); //On donne le nom de la touche au bouton correspondant
+            this->keys[4] = Qt::Key(event->key()); //On ajoute la touche au tableau de touches
+        }
+        this->status ="doNothing";
+    } else if(this->status=="IsSettingRight2"){
+        if(event->key() != Qt::Key_Escape){ //Si on essaie pas de quitter
+            verification(to_string(event->key())); //On vérifie que la touche entrée n'est pas déjà enregistrée pour une autre action
+            this->temp[5]=to_string(event->key()); //On ajoute l'id' de la touche au tableau temporaire
+            this->rightButton2->setText(QKeySequence(event->key()).toString()); //On donne le nom de la touche au bouton correspondant
+            this->keys[5]=Qt::Key(event->key()); //On ajoute la touche au tableau de touches
+        }
+        this->status ="doNothing";
+    }
+    if(event->key()==Qt::Key_Escape){ //Si on essaie de quitter
+        this->setReturn();  //On quitte la scene
+    }
+}
+
 void SettingsScene::setUp() {
     this->status = "IsSettingUp";
 }
@@ -271,35 +258,27 @@ void SettingsScene::setRight2() {
     this->status = "IsSettingRight2";
 }
 
+void SettingsScene::setReturn() {
+    if(isConfigComplete()){ //Si toute les touches ont étés bien paramétrées
+        remove("../config/config.txt"); //On supprime le fichier de configuration
+        ofstream file("../config/config.txt"); //On le recrée
+        for(int i = 0; i < 6; i++){
+            file << temp[i] << std::endl; //Ajout des ids des touches au fichier
+        }
+        this->status="Ended"; //Modification du status pour revenir au menu
+    }
+}
+
 std::vector<Qt::Key> SettingsScene::getKeys() {
     return this->keys;
-}
-
-std::string SettingsScene::getStatus() {
-    return this->status;
-}
-
-void SettingsScene::setStatus(std::string status) {
-    this->status = status;
-}
-
-void SettingsScene::setReturn() {
-    std::cout << "return" << std::endl;
-    if(isConfigComplete()){
-        remove("../config/config.txt");
-        ofstream file("../config/config.txt");
-        for(int i = 0; i < 6; i++){
-            file << temp[i] << std::endl;
-        }
-        this->status="Ended";
-    }
 }
 
 
 //Ajustement
 void SettingsScene::adjustSize(int width, int height) {
+    //Initialisation de la taille de la scène en fonction de la taille de la fenêtre
     this->w = width-5;
     this->h = height-5;
-    this->setBackground("../img/backgrounds/settingsBackground.png");
-    this->settingsWidget->move(width/2 - settingsWidget->width()/2,height/2 - settingsWidget->height()/2);
+    this->setBackground("../img/backgrounds/settingsBackground.png"); //Application du fond d'écran en fonction de la nouvelle taille de fenêtre
+    this->settingsWidget->move(width/2 - this->settingsWidget->width()/2,height/2 - this->settingsWidget->height()/2); //Modification de la position du widget des paramètres en fonction de la taille de la fenêtre
 }

@@ -2,7 +2,6 @@
 // Created by Remi on 19/04/2020.
 //
 
-#include <iostream>
 #include "StartScene.h"
 
 StartScene::StartScene() {
@@ -28,31 +27,43 @@ StartScene::StartScene() {
     this->scoresButton->setStyleSheet(style);
     this->scoresButton->setFixedSize(200,100);
 
-    //Ajout label
+    //Ajout label de crédits
     QLabel* credit = new QLabel("Rémi ADDE - 2020");
+    credit->setFont(QFont("Joystick",18));
+    credit->setAlignment(Qt::AlignCenter);
 
-    //Connects
-    connect(soloButton,SIGNAL(clicked()),this,SLOT(setSolo()));
-    connect(multiButton,SIGNAL(clicked()),this,SLOT(setMulti()));
-    connect(settingsButton,SIGNAL(clicked()),this,SLOT(setSettings()));
-    connect(scoresButton,SIGNAL(clicked()),this,SLOT(setScores()));
+    //Connexion des boutons à leurs slots
+    connect(this->soloButton,SIGNAL(clicked()),this,SLOT(setSolo()));
+    connect(this->multiButton,SIGNAL(clicked()),this,SLOT(setMulti()));
+    connect(this->settingsButton,SIGNAL(clicked()),this,SLOT(setSettings()));
+    connect(this->scoresButton,SIGNAL(clicked()),this,SLOT(setScores()));
 
-    QVBoxLayout* vBox = new QVBoxLayout();
     QHBoxLayout* hBox = new QHBoxLayout();
-    panel = new QWidget();
-    panel->setAttribute(Qt::WA_NoSystemBackground);
+    hBox->addWidget(this->settingsButton);
+    hBox->addWidget(this->scoresButton);
     QWidget* hWidget = new QWidget();
-    vBox->addWidget(soloButton);
-    vBox->addWidget(multiButton);
-    hBox->addWidget(settingsButton);
-    hBox->addWidget(scoresButton);
     hWidget->setLayout(hBox);
+    QVBoxLayout* vBox = new QVBoxLayout();
+    vBox->addWidget(this->soloButton);
+    vBox->addWidget(this->multiButton);
     vBox->addWidget(hWidget);
     vBox->addWidget(credit);
-    panel->setLayout(vBox);
-    this->addWidget(panel);
+
+    this->menu = new QWidget();
+    this->menu->setAttribute(Qt::WA_NoSystemBackground);
+    this->menu->setLayout(vBox);
+    this->addWidget(this->menu); //Ajout du pannel de boutons
 }
 
+void StartScene::disableButtons() {
+    this->soloButton->setEnabled(false); //Désactivation du bouton
+    this->multiButton->setEnabled(false); //Désactivation du bouton
+    this->settingsButton->setEnabled(false); //Désactivation du bouton
+    this->scoresButton->setEnabled(false); //Désactivation du bouton
+}
+
+
+//Interactions
 void StartScene::setSolo() {
     this->request = "Solo";
 }
@@ -73,16 +84,11 @@ std::string StartScene::getRequest() {
     return this->request;
 }
 
-void StartScene::disableButtons() {
-    this->soloButton->setEnabled(false);
-    this->multiButton->setEnabled(false);
-    this->settingsButton->setEnabled(false);
-    this->scoresButton->setEnabled(false);
-}
-
+//Ajustement
 void StartScene::adjustSize(int width, int height) {
+    //Initialisation de la taille de la scène en fonction de la taille de la fenêtre
     this->w = width-5;
     this->h = height-5;
-    this->setBackground("../img/backgrounds/startBackground.png");
-    this->panel->move(width/2 - panel->width()/2,height/2 - panel->height()/2);
+    this->setBackground("../img/backgrounds/startBackground.png"); //Application du fond d'écran en fonction de la nouvelle taille de fenêtre
+    this->menu->move(width/2 - this->menu->width()/2,height/2 - this->menu->height()/2); //Déplacement du pannel en fonction de la taille de la fenêtre
 }

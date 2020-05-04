@@ -34,7 +34,7 @@ EndWidget::EndWidget() {
     connect(restartButton,SIGNAL(clicked()),this,SLOT(setRestart()));
 
     //Gestion scores
-    std::vector<std::vector<std::string> > temp = createTemp("../src/scenes/levels/",2);
+    std::vector<std::vector<std::string> > temp = createTemp("../src/scenes/levels/temp.txt",2);
     sort(temp);
     QWidget* scoreWidget = new QWidget();
     QVBoxLayout* vScoreBox = new QVBoxLayout();
@@ -58,7 +58,7 @@ EndWidget::EndWidget() {
     this->setLayout(vBox);
     this->setAttribute(Qt::WA_NoSystemBackground);
 
-    remove("../src/scenes/levels/");
+    remove("../src/scenes/levels/temp.txt");
 }
 
 void EndWidget::setRestart(){

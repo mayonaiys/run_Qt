@@ -5,48 +5,43 @@
 #ifndef JEU_SCORESSCENE_H
 #define JEU_SCORESSCENE_H
 #include "Scene.h"
+#include "../utils.h"
 
 class ScoresScene : public Scene{
 
     Q_OBJECT
 
 private:
+    //Style
     QString style;
 
-    QVBoxLayout* list1;
-    QVBoxLayout* list2;
-    QVBoxLayout* list3;
+    //Boutons
+    QPushButton* returnButton; //Boutons de retour au menu start
+    QPushButton* nextButton; //Boutons pour passer à la liste d'après
+    QPushButton* previousButton; //Boutons pour passer à la liste d'avant
+    QWidget* buttonPanel; //Pannel de boutons
 
-    QPushButton* returnButton;
-
-    QPushButton* rightButton;
-    QPushButton* leftButton;
-
-    QWidget* currentList;
-    QWidget* buttonPanel;
-
-    int currentScoreList;
+    //Liste
+    QWidget* currentList; //Liste actuellement à l'écran
+    int currentScoreList; //Numéro de la liste actuelle
     bool isListLoaded;
 
 public:
-    ScoresScene();
-    std::string getStatus();
-    void setStatus(std::string status);
+    ScoresScene(); //Constructeur
 
-    void keyPressEvent(QKeyEvent*);
+    //Gestion Liste de score
+    QVBoxLayout* createList(const std::string&);
+    void displayScore();
 
-    void reWrite(const char *, std::vector<std::vector<std::string> >);
-
-    QLabel* createLabel(QString);
-    QVBoxLayout* createList(std::string);
-
+    //Ajustement
     void adjustSize(int,int);
 
+    //Interactions
+    void keyPressEvent(QKeyEvent*); //Detection des touches appuyées
 public slots:
     void setReturn();
     void right();
     void left();
-    void update();
 };
 
 

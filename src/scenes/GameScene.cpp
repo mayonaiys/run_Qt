@@ -163,6 +163,8 @@ void GameScene::update() {
         if(this->nbPlayers==1) {
             if (this->player->getStatus() == "Dead" || this->player->getStatus() == "Winner") { //Si le joueur est mort ou qu'il a gagné
                 this->durationP1 = this->gameTimer; //On récupère le temps qu'il a mit à finir
+                this->result(); //On appelle la fin du jeu
+                this->timer->stop(); //On arrête le timer de la boucle
                 this->status = "EndScene"; //Le jeu passe sur la scène de fin
             }
         } else if(this->nbPlayers==2){
@@ -188,6 +190,8 @@ void GameScene::update() {
             }
 
             if ((this->player2->getStatus() == "Dead" || this->player2->getStatus() == "Winner") && (this->player->getStatus() == "Dead" || this->player->getStatus() == "Winner")) { //Si la partie est  terminée pour les deux joueurs
+                this->result(); //On appelle la fin du jeu
+                this->timer->stop(); //On arrête le timer de la boucle
                 this->status = "EndScene"; //La partie est terminée
             }
         }
@@ -201,15 +205,12 @@ void GameScene::update() {
             this->status = "InGame"; //Attribution du status "en jeu"
             this->request = "Nothing"; //Le programme ne fait aucune requête
         }
-    } else if(this->status == "EndScene"){ //Si la partie est finie
-        this->timer->stop(); //On arrête le timer de la boucle
-        this->result(); //On appelle la fin du jeu
     }
 }
 
 void GameScene::result() { //Fin du jeu
     std::ofstream scoresFile("../src/scenes/levels/" + this->path + "scores.txt", std::ios::app); //Ouverture en écriture du fichier de scores de la partie
-    std::ofstream tempFile("../src/scenes/levels/"); //Ouverture en écriture d'un fichier temporaire pour l'affichage des scores dans le widget de fin
+    std::ofstream tempFile("../src/scenes/levels/temp.txt"); //Ouverture en écriture d'un fichier temporaire pour l'affichage des scores dans le widget de fin
     if(this->nbPlayers==2){ //Si deux  joueurs
         if(this->player->getStatus()=="Winner"){ //Si le joueur  1 a terminé le niveau
             scoresFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl; //On ajoute son score dans le fichier de scores
@@ -248,9 +249,7 @@ void GameScene::result() { //Fin du jeu
 }
 
 //Getters&Setters
-std::string GameScene::getStatus() {
-    return this->status;
-}
+
 
 bool GameScene::getIsWidgetLoaded() {
     return this->isWidgetLoaded;

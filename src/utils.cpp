@@ -50,3 +50,19 @@ std::vector<std::string> cutString(std::string str,int end){
     }
     return tempVect;
 }
+
+void reWrite(const char *scoreFile, std::vector<std::vector<std::string> > temp) {
+    remove(scoreFile);
+    std::ofstream file(scoreFile);
+    for(auto & i : temp){
+        std::string str = i[0] + "," + i[1];
+        file << str << std::endl;
+    }
+}
+
+QLabel* createLabel(QString str) {
+    QLabel* newLabel = new QLabel(str);
+    newLabel->setAttribute(Qt::WA_NoSystemBackground);
+    newLabel->setAlignment(Qt::AlignHCenter);
+    return newLabel;
+}

@@ -3,19 +3,25 @@
 //
 
 #include "Scene.h"
-#include <QGraphicsView>
-#include <iostream>
 
 using namespace std;
 
 void Scene::drawBackground(QPainter *painter, const QRectF &rect) {
     Q_UNUSED(rect);
-    if(!this->background.isNull()){
-        painter->drawPixmap(QRectF(0,0,this->w, this->h), background.scaled(this->w,this->h), sceneRect());
+    if(!this->background.isNull()){ //Si le fond n'est pas nul
+        painter->drawPixmap(QRectF(0,0,this->w, this->h), this->background.scaled(this->w,this->h), sceneRect()); //On le dessine à la taille de la scène
     }
 }
 
-void Scene::setBackground(QString bc) {
-    background.load(bc);
+void Scene::setBackground(QString background) {
+    this->background.load(background); //On charge l'image de fond
     this->setSceneRect(0, 0, this->w, this->h);
+}
+
+std::string Scene::getStatus() {
+    return this->status;
+}
+
+void Scene::setStatus(std::string status){
+    this->status = status;
 }

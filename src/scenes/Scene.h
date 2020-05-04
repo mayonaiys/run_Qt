@@ -7,22 +7,25 @@
 
 #include <QtWidgets>
 #include <QGraphicsScene>
-#include "../objects/Player.h"
+#include "../utils.h"
 
 class Scene : public QGraphicsScene{
 
     Q_OBJECT
 
 protected: //Attributs privés
-    //Image de fond du jeu
-    QPixmap background;
-    std::string status;
-    int h;
-    int w;
+    QPixmap background; //Image de fond du jeu
+    std::string status; //Status de la scène
+    int h; //Hauteur de la scène
+    int w; //Largeur de la scène
 
 public: //Méthodes publiques
-    void drawBackground(QPainter* painter, const QRectF& rect);
+    void drawBackground(QPainter* painter, const QRectF& rect); //Dessin de l'image de fond
+
+    //Getters & Setters
     void setBackground(QString);
+    std::string getStatus();
+    void setStatus(std::string status);
 };
 
 

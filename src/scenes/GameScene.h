@@ -10,7 +10,7 @@
 #include "../objects/Floor.h"
 #include "../objects/MovingFloor.h"
 #include "../objects/MovingObstacle.h"
-#include "../utils.h"
+#include "../objects/Player.h"
 #include <QTimer>
 
 
@@ -56,7 +56,6 @@ public:
     void addFloors();
 
     //Getters&Setters
-    std::string getStatus();
     void setRequest(std::string request);
     bool getIsWidgetLoaded();
     void setIsWidgetLoaded(bool);

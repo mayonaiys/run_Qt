@@ -14,23 +14,26 @@ class StartScene : public Scene{
 
 private:
     //Boutons
-    QPushButton* soloButton;
-    QPushButton* multiButton;
-    QPushButton* settingsButton;
-    QPushButton* scoresButton;
+    QPushButton* soloButton; //Bouton pour acceder au jeu en solo
+    QPushButton* multiButton; //Bonton pour accéder au jeu en multijoueur
+    QPushButton* settingsButton; //Bouton pour accéder aux paramètres
+    QPushButton* scoresButton; //Bouton pour accéder aux scores
 
     //
     std::string request;
 
-    QWidget* panel;
+    QWidget* menu; //Pannel des boutons
 
 public:
     StartScene();
     std::string getRequest();
     void disableButtons();
+
+    //Ajustement
     void adjustSize(int,int);
 
 public slots:
+    //Interactions
     void setSolo();
     void setMulti();
     void setSettings();

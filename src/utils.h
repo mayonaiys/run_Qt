@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <QtWidgets/QLabel>
 
 double charToDouble(char);
 
@@ -18,5 +19,9 @@ void sort(std::vector<std::vector<std::string> > & );
 std::vector<std::vector<std::string> > createTemp(std::string,int);
 
 std::vector<std::string> cutString(std::string,int);
+
+void reWrite(const char *, std::vector<std::vector<std::string> >);
+
+QLabel* createLabel(QString);
 
 #endif //JEU_UTILS_H

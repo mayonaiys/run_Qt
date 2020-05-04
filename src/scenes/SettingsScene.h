@@ -13,37 +13,37 @@ class SettingsScene : public Scene{
     Q_OBJECT
 
 private:
+    //Gestion touches
     std::vector<Qt::Key> keys;
     std::vector<std::string> temp;
 
-    //Joueur 1
-    QPushButton* upButton;
-    QPushButton* rightButton;
-    QPushButton* leftButton;
+    //Boutons joueur 1
+    QPushButton* upButton; //Bouton saut
+    QPushButton* rightButton; //Bouton aller à droite
+    QPushButton* leftButton; //Bouton aller à gauche
 
-    //Joueur 2
-    QPushButton* upButton2;
-    QPushButton* rightButton2;
-    QPushButton* leftButton2;
+    //Boutons joueur 2
+    QPushButton* upButton2; //Bouton saut
+    QPushButton* rightButton2; //Bouton aller à droite
+    QPushButton* leftButton2; //Bouton aller à gauche
 
-    QPushButton* returnButton;
+    QPushButton* returnButton; //Bouton retour
 
     QWidget* settingsWidget;
 
 public:
     SettingsScene(); //Constructeur
-    void keyPressEvent(QKeyEvent* event);
     void verification(std::string);
     bool isConfigComplete();
 
     //Getters & Setters
     std::vector<Qt::Key> getKeys();
-    std::string getStatus();
-    void setStatus(std::string);
 
     //Ajustement
     void adjustSize(int,int);
 
+    //Interactions
+    void keyPressEvent(QKeyEvent* event);
 public slots:
     void setRight();
     void setLeft();
