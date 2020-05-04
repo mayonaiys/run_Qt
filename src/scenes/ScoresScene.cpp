@@ -67,6 +67,7 @@ QVBoxLayout* ScoresScene::createList(const std::string& scoreFile) { //Création
     std::string color;
 
     std::vector<std::vector<std::string> > temp = createTemp(scoreFile,2); //Création d'un tableau contenant le nom et le temps des joueurs
+                                                                            //Chaque chaîne de caractère contient le nom + le temps qu'il a mit à finir le niveau ou s'il est mort
     sort(temp); //Tri du tableau dans l'ordre croissant en fonction du temps
     reWrite(scoreFile.c_str(),temp); //Réécriture du fichier de score en ordre croissant
     for(int i = 0; i < 10; i++){

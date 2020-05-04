@@ -5,24 +5,28 @@
 #ifndef JEU_PAUSEWIDGET_H
 #define JEU_PAUSEWIDGET_H
 
-
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QPushButton>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QApplication>
 
 class PauseWidget : public QWidget {
 
     Q_OBJECT
 
 private:
-    QPushButton* resumeButton;
-    QPushButton* quitButton;
-    QPushButton* menuButton;
+    QPushButton* resumeButton; //Bouton de retour en jeu
+    QPushButton* quitButton; //Bouton de fermeture du programme
+    QPushButton* menuButton; //Bouton de retour au menu
     std::string request;
 public:
+    //Constructeur
     PauseWidget();
+
+    //Getters
     std::string getRequest();
 
 public slots:
+    //Interactions
     void setEnd();
     void setResume();
 };

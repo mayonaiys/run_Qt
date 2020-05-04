@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <QtWidgets/QLabel>
+#include <QLabel>
 
 double charToDouble(char); //Fonction de conversion d'un caractère à un double
 double stringToNumber(std::string); //Fonction de conversion d'une chaîne de caractère à un nombre

@@ -2,11 +2,9 @@
 // Created by Remi on 20/04/2020.
 //
 
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QApplication>
-#include <iostream>
 #include "PauseWidget.h"
 
+//Constructeur
 PauseWidget::PauseWidget() {
     //StyleSheet
     QString style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
@@ -14,17 +12,17 @@ PauseWidget::PauseWidget() {
                     "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";
 
     //Boutons
-    resumeButton = new QPushButton("Resume");
-    this->resumeButton->setStyleSheet(style);
-    this->resumeButton->setFixedSize(400,100);
-    menuButton = new QPushButton("Menu");
-    this->menuButton->setStyleSheet(style);
-    this->menuButton->setFixedSize(400,100);
-    quitButton = new QPushButton("Quit");
-    this->quitButton->setStyleSheet(style);
-    this->quitButton->setFixedSize(400,100);
+    resumeButton = new QPushButton("Resume"); //Création du bouton de retour en jeu
+    this->resumeButton->setStyleSheet(style); //Application du style
+    this->resumeButton->setFixedSize(400,100); //Modification de la taille
+    menuButton = new QPushButton("Menu"); //Création du bouton de retour au menu
+    this->menuButton->setStyleSheet(style); //Application du style
+    this->menuButton->setFixedSize(400,100); //Modification de la taille
+    quitButton = new QPushButton("Quit"); //Création du bouton pour quitter le jeu
+    this->quitButton->setStyleSheet(style); //Application du style
+    this->quitButton->setFixedSize(400,100); //Modification de la taille
 
-    //Connects
+    //Connexion des boutons à leurs slots
     connect(resumeButton,SIGNAL(clicked()),this,SLOT(setResume()));
     connect(menuButton,SIGNAL(clicked()),this,SLOT(setEnd()));
     connect(quitButton,SIGNAL(clicked()),qApp,SLOT(quit()));
@@ -34,10 +32,11 @@ PauseWidget::PauseWidget() {
     vBox->addWidget(resumeButton);
     vBox->addWidget(menuButton);
     vBox->addWidget(quitButton);
-    this->setLayout(vBox);
-    this->setAttribute(Qt::WA_NoSystemBackground);
+    this->setLayout(vBox); //Ajout des boutons au widget
+    this->setAttribute(Qt::WA_NoSystemBackground); //Suppression du background du widget
 }
 
+//Interactions
 void PauseWidget::setEnd() {
     this->request="End";
 }
@@ -46,6 +45,7 @@ void PauseWidget::setResume() {
     this->request="Resume";
 }
 
+//Getters
 std::string PauseWidget::getRequest() {
     return this->request;
 }
