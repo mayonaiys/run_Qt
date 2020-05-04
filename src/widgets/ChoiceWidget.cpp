@@ -115,16 +115,7 @@ ChoiceWidget::ChoiceWidget(int nbPlayers){
     this->setStyleSheet("background-color:rgba(0, 0, 0, 50);");
 }
 
-void ChoiceWidget::setPlayerOneValid() {
-    this->namePlayer1 = this->inputPlayer1->text();
-    this->isPlayer1Valid = true;
-}
-
-void ChoiceWidget::setPlayerTwoValid() {
-    this->namePlayer2 = this->inputPlayer2->text();
-    this->isPlayer2Valid = true;
-}
-
+//Getters
 bool ChoiceWidget::getIsPlayersValid() {
     if(this->nbPlayers==1){
         return this->isPlayer1Valid;
@@ -145,6 +136,12 @@ std::string ChoiceWidget::getRequest() {
     return this->request;
 }
 
+bool ChoiceWidget::getIsLevelSet() {
+    return this->isLevelSet;
+}
+
+
+//Interactions
 void ChoiceWidget::setFirstLevel() {
     this->isLevelSet = true;
     this->firstLevel->setStyleSheet("QPushButton { border-image:url(../img/buttons/iconLevel1Validate.png); }");
@@ -184,7 +181,13 @@ void ChoiceWidget::setThirdLevel() {
     this->request = "ThirdLevel";
 }
 
-bool ChoiceWidget::getIsLevelSet() {
-    return this->isLevelSet;
+void ChoiceWidget::setPlayerOneValid() {
+    this->namePlayer1 = this->inputPlayer1->text();
+    this->isPlayer1Valid = true;
+}
+
+void ChoiceWidget::setPlayerTwoValid() {
+    this->namePlayer2 = this->inputPlayer2->text();
+    this->isPlayer2Valid = true;
 }
 

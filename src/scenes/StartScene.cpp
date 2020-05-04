@@ -28,9 +28,8 @@ StartScene::StartScene() {
     this->scoresButton->setFixedSize(200,100);
 
     //Ajout label de crédits
-    QLabel* credit = new QLabel("Rémi ADDE - 2020");
+    QLabel* credit = createLabel("Rémi ADDE - 2020");
     credit->setFont(QFont("Joystick",18));
-    credit->setAlignment(Qt::AlignCenter);
 
     //Connexion des boutons à leurs slots
     connect(this->soloButton,SIGNAL(clicked()),this,SLOT(setSolo()));

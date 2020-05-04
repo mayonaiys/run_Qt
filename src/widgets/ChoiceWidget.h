@@ -17,7 +17,6 @@ class ChoiceWidget : public QWidget {
 private:
     QString namePlayer1;
     QString namePlayer2;
-    int nbPlayers;
     QPushButton* validPlayer1;
     QPushButton* validPlayer2;
     QLineEdit* inputPlayer1;
@@ -25,7 +24,9 @@ private:
     bool isPlayer1Valid;
     bool isPlayer2Valid;
     bool isLevelSet;
+    int nbPlayers;
 
+    //Boutons
     QPushButton* firstLevel;
     QPushButton* secondLevel;
     QPushButton* thirdLevel;
@@ -41,6 +42,7 @@ public:
     std::string getRequest();
 
 public slots:
+    //Interactions
     void setPlayerOneValid();
     void setPlayerTwoValid();
     void setFirstLevel();
