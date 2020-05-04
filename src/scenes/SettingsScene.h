@@ -31,13 +31,17 @@ private:
     QWidget* settingsWidget;
 
 public:
-    SettingsScene();
+    SettingsScene(); //Constructeur
     void keyPressEvent(QKeyEvent* event);
+    void verification(std::string);
+    bool isConfigComplete();
+
+    //Getters & Setters
     std::vector<Qt::Key> getKeys();
     std::string getStatus();
     void setStatus(std::string);
-    void verification(std::string);
-    bool isConfigComplete();
+
+    //Ajustement
     void adjustSize(int,int);
 
 public slots:

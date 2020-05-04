@@ -286,6 +286,13 @@ void GameScene::addObstacles() {
         this->addItem(obstacle);
         obstacle->setPos(std::stoi(i[1]),std::stoi(i[2]));
     }
+    temp = createTemp("../src/scenes/levels/" + this->path + "movingObstacles.txt",4);
+    for(auto & i : temp){
+        MovingObstacle* movingObstacle = new MovingObstacle(("../img/" + this->path + i[0]).c_str(),std::stoi(i[3]),std::stoi(i[1]),std::stoi(i[2]));
+        obstacles.push_back(movingObstacle);
+        movingObstacles.push_back(movingObstacle);
+        this->addItem(movingObstacle);
+    }
 
 }
 
@@ -297,6 +304,13 @@ void GameScene::addFloors() {
         this->floors.push_back(floor);
         this->addItem(floor);
         floor->setPos(std::stoi(i[1]),std::stoi(i[2]));
+    }
+    temp = createTemp("../src/scenes/levels/" + this->path + "movingFloors.txt",4);
+    for(auto & i : temp){
+        MovingFloor* movingFloor = new MovingFloor(("../img/" + this->path + i[0]).c_str(),std::stoi(i[3]),std::stoi(i[1]),std::stoi(i[2]));
+        floors.push_back(movingFloor);
+        movingFloors.push_back(movingFloor);
+        this->addItem(movingFloor);
     }
 
 }

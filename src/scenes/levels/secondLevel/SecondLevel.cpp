@@ -18,7 +18,7 @@ SecondLevel::SecondLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePla
 
     //Ajout d'un personnage à la scène
     player = new Player(std::move(namePlayer1),"../img/skin1Right.png",obstacles,floors);
-    player->spawn(0,200);
+    player->spawn(0,300);
     labelNamePlayer = new QLabel(player->getName());
     labelNamePlayer->setAttribute(Qt::WA_NoSystemBackground);
     labelNamePlayer->setAlignment(Qt::AlignHCenter);
@@ -27,7 +27,7 @@ SecondLevel::SecondLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePla
     this->addItem(player);
     if(nbPlayers==2){
         player2 = new Player(std::move(namePlayer2),"../img/skin1Right.png",obstacles,floors);
-        player2->spawn(0,200);
+        player2->spawn(0,300);
         labelNamePlayer2 = new QLabel(player2->getName());
         labelNamePlayer2->setAttribute(Qt::WA_NoSystemBackground);
         labelNamePlayer2->setAlignment(Qt::AlignHCenter);
@@ -41,46 +41,7 @@ SecondLevel::SecondLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePla
 
 }
 
-/*void SecondLevel::addObstacles() {
-
-    Obstacle* obstacle1 = new Obstacle("../img/obstacle2.png");
-    obstacles.push_back(obstacle1);
-    this->addItem(obstacle1);
-    obstacle1->setPos(1600,590);
-
-    Obstacle* obstacle2 = new Obstacle("../img/obstacle2.png");
-    obstacles.push_back(obstacle2);
-    this->addItem(obstacle2);
-    obstacle2->setPos(3700,590);
-
-    Obstacle* obstacle3 = new Obstacle("../img/obstacle2.png");
-    obstacles.push_back(obstacle3);
-    this->addItem(obstacle3);
-    obstacle3->setPos(6350,270);
-
-    Obstacle* obstacle4 = new Obstacle("../img/obstacle2.png");
-    obstacles.push_back(obstacle4);
-    this->addItem(obstacle4);
-    obstacle4->setPos(9100,460);
-
-    Obstacle* obstacle5 = new Obstacle("../img/obstacle2.png");
-    obstacles.push_back(obstacle5);
-    this->addItem(obstacle5);
-    obstacle5->setPos(10150,460);
-
-    Obstacle* obstacle6 = new Obstacle("../img/obstacle2.png");
-    obstacles.push_back(obstacle6);
-    this->addItem(obstacle6);
-    obstacle6->setPos(11300,750);
-
-    Obstacle* obstacle7 = new Obstacle("../img/obstacle2.png");
-    obstacles.push_back(obstacle7);
-    this->addItem(obstacle7);
-    obstacle7->setPos(14200,550);
-
-}
-
-void SecondLevel::addFloor() {
+/*void SecondLevel::addFloor() {
 
     Floor* floor2 = new Floor("../img/TROU12_PNG.png");
     floors.push_back(floor2);

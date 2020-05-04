@@ -5,6 +5,7 @@
 #include "Player.h"
 #include <QTimeLine>
 #include <QtWidgets>
+#include <iostream>
 
 //Constructeur
 Player::Player(QString name, const QString& imgFileName,std::vector<Obstacle*> obstaclesAround,std::vector<Floor*> floorsAround){
@@ -155,6 +156,7 @@ bool Player::isOnObstacle(){
     for(auto & obstacle : obstaclesAround){
         QRectF otherRect(obstacle->pos().x(), obstacle->pos().y(), obstacle->boundingRect().width(), obstacle->boundingRect().height()); //Création de la hitbox de l'obstacle
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
+            std::cout << "on obstacles" << std::endl;
             return true; //Le joueur est sur l'obstacle
         }
     }
@@ -165,6 +167,7 @@ bool Player::isObstacleCollision() {
     for(auto & obstacle : obstaclesAround){
         QRectF otherRect(obstacle->pos().x(), obstacle->pos().y(), obstacle->boundingRect().width(), obstacle->boundingRect().height()); //Création de la hitbox de l'obstacle
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
+            std::cout << "collision obstacle" << std::endl;
             return true; //Le joueur se cogne dans l'obstacle
         }
     }
@@ -175,6 +178,7 @@ bool Player::isOnFloor(){
     for(auto & floor : floorsAround){
         QRectF otherRect(floor->pos().x(), floor->pos().y(), floor->boundingRect().width(), floor->boundingRect().height()); //Création de la hitbox du sol
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
+            std::cout << "on floor" << std::endl;
             return true; //Le joueur est sur le sol
         }
     }
@@ -185,6 +189,7 @@ bool Player::isHeadCollisionning(){
     for(auto & floor : floorsAround){
         QRectF otherRect(floor->pos().x(), floor->pos().y(), floor->boundingRect().width(), floor->boundingRect().height()); //Création de la hitbox du sol
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
+            std::cout << "head collision" << std::endl;
             return true; //Le joueur se cogne la tête
         }
     }
@@ -195,6 +200,7 @@ bool Player::isWallCollisionning(){
     for(auto & floor : floorsAround){
         QRectF otherRect(floor->pos().x(), floor->pos().y(), floor->boundingRect().width(), floor->boundingRect().height()); //Création de la hitbox du sol
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
+            std::cout << "collision wall" << std::endl;
             return true; //Le joueur se cogne dans le sol
         }
     }
