@@ -20,8 +20,8 @@ int main(int argc, char **argv) {
     //Création fenêtre principale
     Window window;
 
-    QTimer::singleShot(10,splash,SLOT(close())); //Au bout de 2 secondes le splash se ferme
-    QTimer::singleShot(10,&window,SLOT(show())); //Au bout de 2 secondes le programme s'ouvre
+    QTimer::singleShot(2000,splash,SLOT(close())); //Au bout de 2 secondes le splash se ferme
+    QTimer::singleShot(2000,&window,SLOT(show())); //Au bout de 2 secondes le programme s'ouvre
 
     return QApplication::exec();
 }
