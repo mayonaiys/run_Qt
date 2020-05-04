@@ -7,7 +7,6 @@
 FirstLevel::FirstLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePlayer1, QString namePlayer2) : GameScene(std::move(keys), nbPlayers,"../img/firstLevel/background.png") {
 
     this->id = "zK7k9_vYmN"; //Id du niveau
-    this->scoreFile = "../src/scenes/levels/firstLevel/scores.txt"; //Fichier des scores du niveau
     this->path = "firstLevel/"; //Chemin des images des sols/obtacles
 
     //Ajout des obstacles

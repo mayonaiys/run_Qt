@@ -5,7 +5,7 @@
 #include "ThirdLevel.h"
 
 ThirdLevel::ThirdLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePlayer1, QString namePlayer2) : GameScene(keys, nbPlayers,"../img/thirdLevel/background.png") {
-    this->scoreFile = "../src/scenes/levels/thirdLevel/scores.txt";
+
     this->id = "b74r8_aLAnZ";
     this->path = "thirdLevel/"; //Chemin des images des sols/obtacles
 

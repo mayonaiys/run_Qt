@@ -9,6 +9,7 @@
 
 using namespace std;
 
+//Constructeur
 SettingsScene::SettingsScene() {
 
     //StyleSheet
@@ -151,8 +152,8 @@ SettingsScene::SettingsScene() {
 
 }
 
+//
 void SettingsScene::keyPressEvent(QKeyEvent *event) {
-    qDebug() << event->key();
     if(this->status=="IsSettingUp"){
         if(event->key() != Qt::Key_Escape) {
             verification(to_string(event->key()));
@@ -214,6 +215,37 @@ void SettingsScene::keyPressEvent(QKeyEvent *event) {
     }
 }
 
+void SettingsScene::verification(std::string key){
+    if(key == temp[0]){
+        temp[0]="";
+        upButton->setText("");
+    } else if(key == temp[1]){
+        temp[1]="";
+        leftButton->setText("");
+    } else if(key == temp[2]){
+        temp[2]="";
+        rightButton->setText("");
+    } else if(key == temp[3]){
+        temp[3]="";
+        upButton2->setText("");
+    } else if(key == temp[4]){
+        temp[4]="";
+        leftButton2->setText("");
+    } else if(key == temp[5]){
+        temp[5]="";
+        rightButton2->setText("");
+    }
+}
+
+bool SettingsScene::isConfigComplete() {
+    for(int i = 0; i < this->temp.size(); i++){
+        if(this->temp[i]==""){
+            return false;
+        }
+    }
+    return true;
+}
+
 //Getters&Setters
 void SettingsScene::setUp() {
     this->status = "IsSettingUp";
@@ -247,43 +279,6 @@ std::string SettingsScene::getStatus() {
     return this->status;
 }
 
-void SettingsScene::verification(std::string key){
-    if(key == temp[0]){
-        temp[0]="";
-        upButton->setText("");
-        return;
-    } else if(key == temp[1]){
-        temp[1]="";
-        leftButton->setText("");
-        return;
-    } else if(key == temp[2]){
-        temp[2]="";
-        rightButton->setText("");
-        return;
-    } else if(key == temp[3]){
-        temp[3]="";
-        upButton2->setText("");
-        return;
-    } else if(key == temp[4]){
-        temp[4]="";
-        leftButton2->setText("");
-        return;
-    } else if(key == temp[5]){
-        temp[5]="";
-        rightButton2->setText("");
-        return;
-    }
-}
-
-bool SettingsScene::isConfigComplete() {
-    for(int i = 0; i < this->temp.size(); i++){
-        if(this->temp[i]==""){
-            return false;
-        }
-    }
-    return true;
-}
-
 void SettingsScene::setStatus(std::string status) {
     this->status = status;
 }
@@ -300,6 +295,8 @@ void SettingsScene::setReturn() {
     }
 }
 
+
+//Ajustement
 void SettingsScene::adjustSize(int width, int height) {
     this->w = width-5;
     this->h = height-5;

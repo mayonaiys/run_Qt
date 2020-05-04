@@ -5,278 +5,37 @@
 #include "GameScene.h"
 #include <iostream>
 #include <QTimer>
-#include <fstream>
 
-
+//Constructeur
 GameScene::GameScene(std::vector<Qt::Key> keys,int nbPlayers,QString imgFileName){
-    this->nbPlayers=nbPlayers;
+    this->nbPlayers=nbPlayers; //Initialisation du nombre de joueurs sur la partie
     this->w=QPixmap(imgFileName).width();
     this->h=QPixmap(imgFileName).height();
     this->setBackground(imgFileName);
 
     //GameLoop
     this->timer = new QTimer(this);
-    this->timer->start(30);
+    this->timer->start(30); //Initialisation du la durée du timer pour la boucle
 
-    this->isTimerLaunched = false;
+    this->keys=keys; //Initialisation des touches à utiliser pour contrôler le(s) joueur(s)
 
-    //Début de calcul du temps mit
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    this->status = "InGame";
+    //Widgets
+    this->isWidgetLoaded = false; //Aucun widget n'est chargé
 
-    this->keys=keys;
-
-    isTime1Set = false;
-
+    //Timer de la partie
+    this->gameTimer = QTime(0,0,0); //
+    this->isTimerLaunched = false; //Le timer de la partie n'est pas lancé
+    this->isTime1Set = false; //Le temps du joueur 1 n'a pas été enregistré
     if(this->nbPlayers == 2){
-        isTime2Set = false;
+        this->isTime2Set = false; //Le temps du joueur 2 n'a pas été enregistré
     }
 
-    this->isWidgetLoaded = false;
-    this->gameTimer = QTime(0,0,0);
+    //Début boucle du jeu
+    connect(timer, SIGNAL(timeout()), this, SLOT(update())); //La fonction update va être répétée toute les 30 ms
+    this->status = "InGame"; //Le status est défini comme en jeu
 }
 
-//Actions clavier :
-void GameScene::keyPressEvent(QKeyEvent *event) {
-
-    if(!isTimerLaunched){
-        isTimerLaunched = true;
-    }
-
-    //1ER JOUEUR
-    if (player->getStatus() == "Standing" || player->getStatus() == "Running") {
-        if (event->key() == this->keys[0]) {
-            if (event->isAutoRepeat()) {
-                return;
-            }
-            std::string previousStatus = player->getStatus();
-            player->setStatus("Jumping", previousStatus);
-        } else if (event->key() == this->keys[1]) {
-            player->setStatus("Running");
-            player->setDirection("Left");
-        } else if (event->key() == this->keys[2]) {
-            player->setStatus("Running");
-            player->setDirection("Right");
-        }
-    }
-
-    //SI 2 JOUEURS
-    if(this->nbPlayers==2){
-        if (player2->getStatus() == "Standing" || player2->getStatus() == "Running") {
-            if (event->key() == this->keys[3]) {
-                if (event->isAutoRepeat()) {
-                    return;
-                }
-                std::string previousStatus = player2->getStatus();
-                player2->setStatus("Jumping", previousStatus);
-            } else if (event->key() == this->keys[4]) {
-                player2->setStatus("Running");
-                player2->setDirection("Left");
-            } else if (event->key() == this->keys[5]) {
-                player2->setStatus("Running");
-                player2->setDirection("Right");
-            }
-        }
-    }
-
-    //PAUSE
-    if (event->key() == Qt::Key_Escape && this->status != "EndScene") {
-        if (this->status == "InGame") {
-            this->status = "Paused";
-        } else {
-            this->request = "Resume";
-        }
-    }
-}
-
-void GameScene::keyReleaseEvent(QKeyEvent *event) {
-    //1 JOUEUR
-    if(player->getStatus() != "Jumping" && player->getStatus() != "Falling" && player->getStatus()!="Dead") {
-        if (event->isAutoRepeat()) {
-            return;
-        }
-        player->setStatus("Standing");
-    }
-
-    //SI 2 JOUEURS
-    if(this->nbPlayers==2){
-        if(player2->getStatus() != "Jumping" && player2->getStatus() != "Falling" && player2->getStatus()!="Dead") {
-            if (event->isAutoRepeat()) {
-                return;
-            }
-            player2->setStatus("Standing");
-        }
-    }
-}
-
-//GameLoop
-void GameScene::update() {
-    if(this->status == "Paused") { //Si le jeu est en pause
-        if(this->request=="Resume"){
-            this->status = "InGame";
-            this->request = "";
-        }
-    } else { //Si le jeu est en cours
-        for(auto & movingFloor : this->movingFloors){
-            movingFloor->moveFloor();
-        }
-
-        for(auto & movingObstacle : this->movingObstacles){
-            movingObstacle->moveObstacle();
-        }
-
-        //JOUEUR 1
-        if (player->getStatus() != "Jumping") {
-            player->setPreviousStatus(player->getStatus());
-        }
-
-        player->move();
-        player->setSkin();
-        labelNamePlayer->move(player->pos().x()+20,player->pos().y()-15);
-
-        if (player->pos().x() > xEnd) {
-            player->setStatus("Winner");
-        }
-
-        if(nbPlayers==1) {
-            QGraphicsView *view = this->views().at(0);
-            view->centerOn(player);
-            if (player->getStatus() == "Dead" || player->getStatus() == "Winner") { //Si le joueur est mort ou qu'il a gagné
-                this->durationP1 = this->gameTimer;
-                this->timer->stop();
-                this->status = "EndScene";
-                this->result(); //On appelle la fin du jeu
-            }
-        }
-
-        //SI 2 JOUEURS
-        if(this->nbPlayers==2){
-            if (player2->getStatus() != "Jumping") {
-                player2->setPreviousStatus(player2->getStatus());
-            }
-
-            player2->move();
-            player2->setSkin();
-            labelNamePlayer2->move(player2->pos().x()+20,player2->pos().y()-15);
-
-            if (player2->pos().x() > xEnd) {
-                player2->setStatus("Winner");
-            }
-            QGraphicsView *view = this->views().at(0);
-            view->centerOn(player);
-            view->centerOn(player);
-
-            QGraphicsView *view2 = this->views().at(1);
-            view2->setScene(this);
-            view2->centerOn(player2);
-
-            if(player->getStatus() == "Winner" && !isTime1Set){
-                isTime1Set = true;
-                this->durationP1 = this->gameTimer;
-            }
-            if(player2->getStatus() == "Winner" && !isTime2Set){
-                isTime2Set = true;
-                this->durationP2 = this->gameTimer;
-            }
-
-            if ((player2->getStatus() == "Dead" || player2->getStatus() == "Winner") && (player->getStatus() == "Dead" || player->getStatus() == "Winner")) { //Si le joueur est mort ou qu'il a gagné
-                this->status = "EndScene";
-                this->timer->stop();
-                this->result(); //On appelle la fin du jeu
-            }
-        }
-
-        if(this->isTimerLaunched){
-            this->gameTimer = this->gameTimer.addMSecs(30);
-        }
-
-    }
-}
-
-void GameScene::result() { //Fin du jeu
-    std::ofstream scoresFile(this->scoreFile, std::ios::app);
-    std::ofstream tempFile("../config/temp.txt");
-    if(nbPlayers==2){
-        if(player->getStatus()=="Winner"){
-            scoresFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
-            tempFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
-        } else {
-            tempFile << player->getName().toStdString() + ",Dead" << std::endl;
-        }
-        if(player2->getStatus()=="Winner"){
-            scoresFile << player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl;
-            tempFile << player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl;
-        } else {
-            tempFile << player2->getName().toStdString() + ",Dead" << std::endl;
-        }
-    } else {
-        if (player->getStatus() == "Winner") {
-            scoresFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
-            tempFile << player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl;
-
-            std::ifstream scoresFile("../src/scenes/levels/levels.txt");
-            if(scoresFile){
-                std::string line;
-                while(getline(scoresFile,line)){
-                    if(line=="zK7k9_vYmN" && this->id=="zK7k9_vYmN"){
-                        std::ofstream file("../src/scenes/levels/levels.txt");
-                        file << "kj3c7_DahY";
-                    } else if(line == "kj3c7_DahY" && this->id=="kj3c7_DahY"){
-                        std::ofstream file("../src/scenes/levels/levels.txt");
-                        file << "b74r8_aLAnZ";
-                    }
-                }
-            }
-        } else {
-            tempFile << player->getName().toStdString() + ",Dead" << std::endl;
-        }
-    }
-}
-
-//Getters&Setters
-std::string GameScene::getStatus() {
-    return this->status;
-}
-
-bool GameScene::getIsWidgetLoaded() {
-    return this->isWidgetLoaded;
-}
-
-void GameScene::setIsWidgetLoaded(bool loaded) {
-    this->isWidgetLoaded = loaded;
-}
-
-void GameScene::setRequest(std::string request) {
-    this->request = request;
-}
-
-std::string GameScene::getRequest(){
-    return this->request;
-}
-
-bool GameScene::getIsTimerLaunched() {
-    return this->isTimerLaunched;
-}
-
-QString GameScene::getTime() {
-    return this->gameTimer.toString("mm:ss:z");
-}
-
-QTime GameScene::getDurationP1() {
-    return this->durationP1;
-}
-
-QTime GameScene::getDurationP2() {
-    return this->durationP2;
-}
-
-int GameScene::getNbPlayer() {
-    return this->nbPlayers;
-}
-
-void GameScene::addPlayer(QString namePlayer, int x, int y) {
-}
-
+//Création niveau
 void GameScene::addObstacles() {
 
     std::vector<std::vector<std::string> > temp = createTemp("../src/scenes/levels/" + this->path + "obstacles.txt",3);
@@ -313,4 +72,206 @@ void GameScene::addFloors() {
         this->addItem(movingFloor);
     }
 
+}
+
+//Actions clavier :
+void GameScene::keyPressEvent(QKeyEvent *event) { //Actions quand on appuie sur les touches
+
+    if(!this->isTimerLaunched){
+        this->isTimerLaunched = true; //A partir du moment ou on appuie sur une touche le timer de la partie se lance
+    }
+
+    //Contrôle premier joueur
+    if (this->player->getStatus() == "Standing" || this->player->getStatus() == "Running") { //Si le joueur attend ou s'il cours
+        if (event->key() == this->keys[0]) {
+            if (!event->isAutoRepeat()) { //Evite les sauts répétés
+                std::string previousStatus = player->getStatus(); //On récupère son status précédent pour définir le type de saut
+                this->player->setStatus("Jumping", previousStatus); //Attribution du status
+            }
+        } else if (event->key() == this->keys[1]) {
+            this->player->setStatus("Running"); //Attribution du status
+            this->player->setDirection("Left"); //Attribution de la direction
+        } else if (event->key() == this->keys[2]) {
+            this->player->setStatus("Running"); //Attribution du status
+            this->player->setDirection("Right"); //Attribution de la direction
+        }
+    }
+
+    //Contrôle du second joueur (si présent)
+    if(this->nbPlayers==2){
+        if (this->player2->getStatus() == "Standing" || this->player2->getStatus() == "Running") { //Si le joueur attend ou s'il cours
+            if (event->key() == this->keys[3]) {
+                if (!event->isAutoRepeat()) { //Evite les sauts répétés
+                    std::string previousStatus = player2->getStatus(); //On récupère son status précédent pour définir le type de saut
+                    this->player2->setStatus("Jumping", previousStatus); //Attribution du status
+                }
+            } else if (event->key() == this->keys[4]) {
+                this->player2->setStatus("Running"); //Attribution du status
+                this->player2->setDirection("Left"); //Attribution de la direction
+            } else if (event->key() == this->keys[5]) {
+                this->player2->setStatus("Running"); //Attribution du status
+                this->player2->setDirection("Right"); //Attribution de la direction
+            }
+        }
+    }
+
+    //PAUSE
+    if (event->key() == Qt::Key_Escape && this->status != "EndScene") { //Si la touche entrée est échap et que le jeu n'est pas terminé
+        if (this->status == "InGame") { //Si la partie est en cours
+            this->status = "Paused"; //Attribution du status de pause
+        } else {
+            this->request = "Resume"; //Attribution de la requête de reprise du jeu
+        }
+    }
+}
+
+void GameScene::keyReleaseEvent(QKeyEvent *event) { //Actions quand les touches sont relachées
+    //1 JOUEUR
+    if(this->player->getStatus()=="Running") { //Si le joueur cours
+        this->player->setStatus("Standing");
+    }
+
+    //SI 2 JOUEURS
+    if(this->nbPlayers==2){
+        if(this->player2->getStatus()=="Running") { //Si le joueur cours
+            this->player2->setStatus("Standing");
+        }
+    }
+}
+
+//GameLoop
+void GameScene::update() {
+    if(this->status=="InGame") {
+        for(auto & movingFloor : this->movingFloors){
+            movingFloor->moveFloor(); //Les sols mouvants se déplacent
+        }
+
+        for(auto & movingObstacle : this->movingObstacles){
+            movingObstacle->moveObstacle(); //Les obstacles mouvants bougent
+        }
+
+        //JOUEUR 1
+        this->player->move(); //Déplacement du joueur
+        this->player->setSkin(); //Changement d'apparence du joueur
+        this->labelNamePlayer->move(this->player->pos().x()+20,this->player->pos().y()-15); //Déplacement du nom du joueur en fonction de la position de celui-ci
+        if (this->player->pos().x() > this->xEnd) { //Si je loueur passe la ligne d'arrivée
+            this->player->setStatus("Winner"); //Son status passe à gagnant
+        }
+        QGraphicsView *view = this->views().at(0);
+        view->centerOn(this->player); //Centrage  de la  vue sur le joueur
+
+        if(this->nbPlayers==1) {
+            if (this->player->getStatus() == "Dead" || this->player->getStatus() == "Winner") { //Si le joueur est mort ou qu'il a gagné
+                this->durationP1 = this->gameTimer; //On récupère le temps qu'il a mit à finir
+                this->status = "EndScene"; //Le jeu passe sur la scène de fin
+            }
+        } else if(this->nbPlayers==2){
+
+            this->player2->move(); //Déplacement du joueur
+            this->player2->setSkin(); //Changement d'apparence du joueur
+            this->labelNamePlayer2->move(this->player2->pos().x()+20,this->player2->pos().y()-15); //Déplacement du nom du joueur en fonction de la position de celui-ci
+
+            if (this->player2->pos().x() > this->xEnd) { //Si je loueur passe la ligne d'arrivée
+                this->player2->setStatus("Winner"); //Son status passe à gagnant
+            }
+
+            QGraphicsView *view2 = this->views().at(1);
+            view2->centerOn(player2); //Centrage  de la  vue sur le joueur
+
+            if(this->player->getStatus() == "Winner" && !this->isTime1Set){ //Si le joueur  a  terminé la partie mais que son score n'est pas enregistré
+                this->durationP1 = this->gameTimer; //On enregistre son temps
+                this->isTime1Set = true; //Son temps est enrigstré
+            }
+            if(this->player2->getStatus() == "Winner" && !this->isTime2Set){ //Si le joueur  a  terminé la partie mais que son score n'est pas enregistré
+                this->durationP2 = this->gameTimer; //On enregistre son temps
+                this->isTime2Set = true; //Son temps est enregistré
+            }
+
+            if ((this->player2->getStatus() == "Dead" || this->player2->getStatus() == "Winner") && (this->player->getStatus() == "Dead" || this->player->getStatus() == "Winner")) { //Si la partie est  terminée pour les deux joueurs
+                this->status = "EndScene"; //La partie est terminée
+            }
+        }
+
+        if(this->isTimerLaunched){ //Si le timer de la partie est lancé
+            this->gameTimer = this->gameTimer.addMSecs(30); //On ajoute 30ms à ce timer à chaque tour de la boucle
+        }
+
+    }else if(this->status == "Paused"){
+        if(this->request=="Resume"){ //Si la requête demande la  remise en route du jeu
+            this->status = "InGame"; //Attribution du status "en jeu"
+            this->request = "Nothing"; //Le programme ne fait aucune requête
+        }
+    } else if(this->status == "EndScene"){ //Si la partie est finie
+        this->timer->stop(); //On arrête le timer de la boucle
+        this->result(); //On appelle la fin du jeu
+    }
+}
+
+void GameScene::result() { //Fin du jeu
+    std::ofstream scoresFile("../src/scenes/levels/" + this->path + "scores.txt", std::ios::app); //Ouverture en écriture du fichier de scores de la partie
+    std::ofstream tempFile("../src/scenes/levels/"); //Ouverture en écriture d'un fichier temporaire pour l'affichage des scores dans le widget de fin
+    if(this->nbPlayers==2){ //Si deux  joueurs
+        if(this->player->getStatus()=="Winner"){ //Si le joueur  1 a terminé le niveau
+            scoresFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl; //On ajoute son score dans le fichier de scores
+            tempFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl; //On ajoute son score dans le fichier temporaire
+        } else { //Si le joueur 1 est mort
+            tempFile << this->player->getName().toStdString() + ",Dead" << std::endl;  //On le notifie dans le fichier temporaire
+        }
+        if(this->player2->getStatus()=="Winner"){ //Si le joueur 2 a terminé le niveau
+            scoresFile << this->player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl; //On ajoute son score dans le fichier de scores
+            tempFile << this->player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl; //On ajoute son score dans le fichier temporaire
+        } else {
+            tempFile << this->player2->getName().toStdString() + ",Dead" << std::endl; //On le notifie dans le fichier temporaire
+        }
+    } else { //Si un seul joueur
+        if (player->getStatus() == "Winner") { //S'il a fini la partie
+            scoresFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl; //On enregistre son score dans le fichier de scores
+            tempFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl; //On enregistre son score dans le fichier  temporaire
+
+            std::ifstream scoresFile("../src/scenes/levels/levels.txt"); //Ouverture en écriture du fichier permettant de savoir quels niveaux sont débloqués
+            if(scoresFile){ //Si le fichier existe
+                std::string line;
+                while(getline(scoresFile,line)){ //On récupère la ligne
+                    if(line=="zK7k9_vYmN" && this->id=="zK7k9_vYmN"){ //Si la ligne correspond à l'id du premier niveau et que le niveau actuel est le premier
+                        std::ofstream file("../src/scenes/levels/levels.txt"); //On ouvre le fichier en écriture
+                        file << "kj3c7_DahY"; //On remplace l'ancien id par celui du second niveau, le niveau 2 sera alors débloqué
+                    } else if(line == "kj3c7_DahY" && this->id=="kj3c7_DahY"){ //Si la ligne correspond à l'id du second niveau et que le niveau actuel est le second
+                        std::ofstream file("../src/scenes/levels/levels.txt"); //On ouvre le fichier en écriture
+                        file << "b74r8_aLAnZ"; //On remplace l'ancien id par celui du troisième niveau, celui-ci sera désormais débloqué
+                    }
+                }
+            }
+        } else { //S'il est mort
+            tempFile << player->getName().toStdString() + ",Dead" << std::endl; //On le notifie dans le fichier temporaire
+        }
+    }
+}
+
+//Getters&Setters
+std::string GameScene::getStatus() {
+    return this->status;
+}
+
+bool GameScene::getIsWidgetLoaded() {
+    return this->isWidgetLoaded;
+}
+
+void GameScene::setIsWidgetLoaded(bool loaded) {
+    this->isWidgetLoaded = loaded;
+}
+
+void GameScene::setRequest(std::string request) {
+    this->request = request;
+}
+
+std::string GameScene::getRequest(){
+    return this->request;
+}
+
+bool GameScene::getIsTimerLaunched() {
+    return this->isTimerLaunched;
+}
+
+QString GameScene::getTime() {
+    return this->gameTimer.toString("mm:ss:z"); //On récupère le temps dans le format minutes:secondes:millisecondes
 }
