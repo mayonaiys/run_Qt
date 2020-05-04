@@ -18,20 +18,20 @@ EndWidget::EndWidget() {
                     "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";
 
     //Création des boutons
-    restartButton = new QPushButton("Restart"); //Création du bouton de redémarrage de la partie
+    this->restartButton = new QPushButton("Restart"); //Création du bouton de redémarrage de la partie
     this->restartButton->setFixedSize(800,100); //Redimensionnement du bouton
     this->restartButton->setStyleSheet(style); //Application du style
-    quitButton = new QPushButton("Quit"); //Création du bouton pour quitter le jeu
+    this->quitButton = new QPushButton("Quit"); //Création du bouton pour quitter le jeu
     this->quitButton->setFixedSize(400,100); //Redimensionnement du bouton
     this->quitButton->setStyleSheet(style); //Application du style
-    menuButton = new QPushButton("Menu"); //Création du bouton pour revenir au menu
+    this->menuButton = new QPushButton("Menu"); //Création du bouton pour revenir au menu
     this->menuButton->setFixedSize(400,100); //Redimensionnement du bouton
     this->menuButton->setStyleSheet(style); //Application du style
 
     //Connexion des boutons à leur slot
-    connect(quitButton,SIGNAL(clicked()),qApp,SLOT(quit()));
-    connect(menuButton,SIGNAL(clicked()),this,SLOT(setEnd()));
-    connect(restartButton,SIGNAL(clicked()),this,SLOT(setRestart()));
+    connect(this->quitButton,SIGNAL(clicked()),qApp,SLOT(quit()));
+    connect(this->menuButton,SIGNAL(clicked()),this,SLOT(setEnd()));
+    connect(this->restartButton,SIGNAL(clicked()),this,SLOT(setRestart()));
 
     //Gestion scores
     std::vector<std::vector<std::string> > temp = createTemp("../src/scenes/levels/temp.txt",2); //Création d'un tableau de tableaux de chaînes de caractères temporaire
@@ -48,8 +48,8 @@ EndWidget::EndWidget() {
 
     //Ajout des boutons
     QHBoxLayout* hBox = new QHBoxLayout();
-    hBox->addWidget(menuButton);
-    hBox->addWidget(quitButton);
+    hBox->addWidget(this->menuButton);
+    hBox->addWidget(this->quitButton);
     QWidget* hWidget = new QWidget();
     hWidget->setLayout(hBox);
 

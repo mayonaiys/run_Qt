@@ -6,7 +6,7 @@
 #include "Window.h"
 
 Window::Window(){
-    //Loop
+    //Boucle du programme
     this->timer = new QTimer(this);
     this->timer->start(30);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -19,16 +19,17 @@ Window::Window(){
     this->isWidgetLoaded = false;
     this->isChoiceDo = false;
 
-    //Vues
+    //Création & application de la vue
     this->mainView = new QGraphicsView();
     this->setCentralWidget(mainView); //La vue devient le widget central de la fenête
+
+    //Dimensionnement
     this->setMinimumSize(1280,720);
     this->resize(1280,720);
 
 }
 
 void Window::update() {
-    //std::cout << this->width() << " " << this->height() << std::endl;
     if(this->status =="inStart") {
         if(!isSceneLoaded){
             this->loadStart();
@@ -211,12 +212,10 @@ void Window::loadMulti() {
 }
 
 void Window::loadSettings() {
-    //std::cout << "Load Settings" << std::endl;
     mainView->setScene(settingsScene);
 }
 
 void Window::loadScores() {
-    //std::cout << "Scores" << std::endl;
     scoresScene = new ScoresScene();
     mainView->setScene(scoresScene);
 }

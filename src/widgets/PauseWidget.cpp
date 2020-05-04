@@ -12,26 +12,26 @@ PauseWidget::PauseWidget() {
                     "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";
 
     //Boutons
-    resumeButton = new QPushButton("Resume"); //Création du bouton de retour en jeu
+    this->resumeButton = new QPushButton("Resume"); //Création du bouton de retour en jeu
     this->resumeButton->setStyleSheet(style); //Application du style
     this->resumeButton->setFixedSize(400,100); //Modification de la taille
-    menuButton = new QPushButton("Menu"); //Création du bouton de retour au menu
+    this->menuButton = new QPushButton("Menu"); //Création du bouton de retour au menu
     this->menuButton->setStyleSheet(style); //Application du style
     this->menuButton->setFixedSize(400,100); //Modification de la taille
-    quitButton = new QPushButton("Quit"); //Création du bouton pour quitter le jeu
+    this->quitButton = new QPushButton("Quit"); //Création du bouton pour quitter le jeu
     this->quitButton->setStyleSheet(style); //Application du style
     this->quitButton->setFixedSize(400,100); //Modification de la taille
 
     //Connexion des boutons à leurs slots
-    connect(resumeButton,SIGNAL(clicked()),this,SLOT(setResume()));
-    connect(menuButton,SIGNAL(clicked()),this,SLOT(setEnd()));
-    connect(quitButton,SIGNAL(clicked()),qApp,SLOT(quit()));
+    connect(this->resumeButton,SIGNAL(clicked()),this,SLOT(setResume()));
+    connect(this->menuButton,SIGNAL(clicked()),this,SLOT(setEnd()));
+    connect(this->quitButton,SIGNAL(clicked()),qApp,SLOT(quit()));
 
     //Ajout
     QVBoxLayout* vBox = new QVBoxLayout();
-    vBox->addWidget(resumeButton);
-    vBox->addWidget(menuButton);
-    vBox->addWidget(quitButton);
+    vBox->addWidget(this->resumeButton);
+    vBox->addWidget(this->menuButton);
+    vBox->addWidget(this->quitButton);
     this->setLayout(vBox); //Ajout des boutons au widget
     this->setAttribute(Qt::WA_NoSystemBackground); //Suppression du background du widget
 }

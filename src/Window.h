@@ -38,28 +38,32 @@ private:
 
     //Views
     QGraphicsView* mainView;
-    //
-    std::string status;
 
     //Widgets
+    QWidget* parent;
     PauseWidget* pauseWidget;
     EndWidget* endWidget;
     ChoiceWidget* choiceWidget;
 
+    //Divers
+    std::string status;
     bool isSceneLoaded;
     bool isWidgetLoaded;
     bool isChoiceDo;
 
-    QWidget* parent;
 
 public:
     Window();
 
+    //Chargement scènes
     void loadSolo();
     void loadMulti();
     void loadSettings();
     void loadScores();
     void loadStart();
+
+
+    //Interactions
     void keyPressEvent(QKeyEvent* event);
 
 public slots:
