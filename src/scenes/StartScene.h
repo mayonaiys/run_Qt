@@ -25,22 +25,24 @@ private:
     QWidget* menu; //Pannel des boutons
 
 public:
-    StartScene();
-    std::string getRequest();
+    StartScene(); //Constructeur
+    ~StartScene(); //Desctructeur
+
     void disableButtons();
+    void enableButtons();
 
     //Ajustement
     void adjustSize(int,int);
 
+    //Getters & setters
     void setRequest(std::string);
+    std::string getRequest();
 public slots:
     //Interactions
     void setSolo();
     void setMulti();
     void setSettings();
     void setScores();
-
-    void enableButtons();
 };
 
 

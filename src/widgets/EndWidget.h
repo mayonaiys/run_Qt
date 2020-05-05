@@ -21,6 +21,7 @@ private:
 public:
     //Constructeur
     EndWidget();
+    ~EndWidget();
 
     //Getters
     std::string getRequest();

@@ -7,17 +7,19 @@
 #include <QtWidgets>
 #include <iostream>
 
+using namespace std;
+
 //Constructeur
-Player::Player(QString name, const QString& imgFileName,std::vector<Obstacle*> obstaclesAround,std::vector<Floor*> floorsAround){
-    this->name = std::move(name); //Nom du joueur
+Player::Player(QString name, const QString& imgFileName,vector<Obstacle*> obstaclesAround,vector<Floor*> floorsAround){
+    this->name = ::move(name); //Nom du joueur
     this->skinStatus = 1; //Status du skin courant
     this->setPixmap(QPixmap(imgFileName)); //Ajout de l'apparence du joueur
     this->status = "Standing"; //Status courant du joueur
     this->direction = "Right"; //Direction courante du joueur
     this->setVelocity(); //Initialisation de la vitesse du joueur
     this->gravity=-2; //Initialisation de la gravité appliquée au joueur
-    this->obstaclesAround = std::move(obstaclesAround); //Obstacles aux alentours du joueur
-    this->floorsAround = std::move(floorsAround); //Sols sur lequel est le joueur
+    this->obstaclesAround = ::move(obstaclesAround); //Obstacles aux alentours du joueur
+    this->floorsAround = ::move(floorsAround); //Sols sur lequel est le joueur
 }
 
 //Getters&Setters:
@@ -25,19 +27,19 @@ void Player::setSkin() { //Modifie l'apparence du joueur
     if(this->skinStatus==4 || this->status=="Standing" || this->status=="Jumping" || this->status=="Falling"){
         this->skinStatus=1; //On revient au status de départ
     }
-    std::string str = "../img/player/skin" + std::to_string(this->skinStatus) + this->direction + ".png"; //On prend le chemin du skin correspondant au status actuel
+    string str = "../img/player/skin" + to_string(this->skinStatus) + this->direction + ".png"; //On prend le chemin du skin correspondant au status actuel
     QString qStr = QString::fromStdString(str);
     this->setPixmap(QPixmap(qStr)); //On applique le skin au joueur
     this->skinStatus++;
 }
 
-void Player::setStatus(std::string status, std::string previousStatus) {
-    this->status = std::move(status); //Intialisation du status
-    this->previousStatus = std::move(previousStatus); //Intialisation du status prédédent
+void Player::setStatus(string status, string previousStatus) {
+    this->status = ::move(status); //Intialisation du status
+    this->previousStatus = ::move(previousStatus); //Intialisation du status prédédent
 }
 
-void Player::setDirection(std::string direction) {
-    this->direction = std::move(direction); //Changement de la direction du joueur
+void Player::setDirection(string direction) {
+    this->direction = ::move(direction); //Changement de la direction du joueur
 }
 
 void Player::setVelocity(){
@@ -45,15 +47,15 @@ void Player::setVelocity(){
     this->velY=3; //Changement de la rapidité sur l'axe Y
 }
 
-void Player::setPreviousStatus(std::string previousStatus) {
-    this->previousStatus = std::move(previousStatus); //Changement du status précédent
+void Player::setPreviousStatus(string previousStatus) {
+    this->previousStatus = ::move(previousStatus); //Changement du status précédent
 }
 
 QString Player::getName() {
     return this->name; //Récupération du nom du joueur
 }
 
-std::string Player::getStatus() {
+string Player::getStatus() {
     return this->status; //Récupération du status du joueur
 }
 
@@ -156,7 +158,6 @@ bool Player::isOnObstacle(){
     for(auto & obstacle : obstaclesAround){
         QRectF otherRect(obstacle->pos().x(), obstacle->pos().y(), obstacle->boundingRect().width(), obstacle->boundingRect().height()); //Création de la hitbox de l'obstacle
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
-            std::cout << "on obstacles" << std::endl;
             return true; //Le joueur est sur l'obstacle
         }
     }
@@ -167,7 +168,6 @@ bool Player::isObstacleCollision() {
     for(auto & obstacle : obstaclesAround){
         QRectF otherRect(obstacle->pos().x(), obstacle->pos().y(), obstacle->boundingRect().width(), obstacle->boundingRect().height()); //Création de la hitbox de l'obstacle
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
-            std::cout << "collision obstacle" << std::endl;
             return true; //Le joueur se cogne dans l'obstacle
         }
     }
@@ -178,7 +178,6 @@ bool Player::isOnFloor(){
     for(auto & floor : floorsAround){
         QRectF otherRect(floor->pos().x(), floor->pos().y(), floor->boundingRect().width(), floor->boundingRect().height()); //Création de la hitbox du sol
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
-            std::cout << "on floor" << std::endl;
             return true; //Le joueur est sur le sol
         }
     }
@@ -189,7 +188,6 @@ bool Player::isHeadCollisionning(){
     for(auto & floor : floorsAround){
         QRectF otherRect(floor->pos().x(), floor->pos().y(), floor->boundingRect().width(), floor->boundingRect().height()); //Création de la hitbox du sol
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
-            std::cout << "head collision" << std::endl;
             return true; //Le joueur se cogne la tête
         }
     }
@@ -200,7 +198,6 @@ bool Player::isWallCollisionning(){
     for(auto & floor : floorsAround){
         QRectF otherRect(floor->pos().x(), floor->pos().y(), floor->boundingRect().width(), floor->boundingRect().height()); //Création de la hitbox du sol
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
-            std::cout << "collision wall" << std::endl;
             return true; //Le joueur se cogne dans le sol
         }
     }

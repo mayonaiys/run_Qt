@@ -52,7 +52,8 @@ private:
     std::string choice;
 
 public:
-    Window();
+    Window(); //Constructeur
+    ~Window(); //Destructeur
 
     //Chargement scènes
     void loadSolo();

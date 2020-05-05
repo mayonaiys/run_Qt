@@ -132,22 +132,22 @@ SettingsScene::SettingsScene() {
     ifstream File("../config/config.txt"); //Ouverture du fichier de configuration des touches
     string line;
     while(getline(File,line) && i<6){ //On le parcoure
-        this->keys.push_back(Qt::Key(std::stoi(line))); //On ajoute au tableau de touches les touches enregistrées dans le fichier
+        this->keys.push_back(Qt::Key(stoi(line))); //On ajoute au tableau de touches les touches enregistrées dans le fichier
         this->temp.push_back(line); //On ajoute au tableau temporaire les ids des touches enregistrées dans le fichier
         i++;
     }
 
-    this->upButton->setText(QKeySequence(std::stoi(this->temp[0])).toString());
-    this->leftButton->setText(QKeySequence(std::stoi(this->temp[1])).toString());
-    this->rightButton->setText(QKeySequence(std::stoi(this->temp[2])).toString());
+    this->upButton->setText(QKeySequence(stoi(this->temp[0])).toString());
+    this->leftButton->setText(QKeySequence(stoi(this->temp[1])).toString());
+    this->rightButton->setText(QKeySequence(stoi(this->temp[2])).toString());
 
-    this->upButton2->setText(QKeySequence(std::stoi(this->temp[3])).toString());
-    this->leftButton2->setText(QKeySequence(std::stoi(this->temp[4])).toString());
-    this->rightButton2->setText(QKeySequence(std::stoi(this->temp[5])).toString());
+    this->upButton2->setText(QKeySequence(stoi(this->temp[3])).toString());
+    this->leftButton2->setText(QKeySequence(stoi(this->temp[4])).toString());
+    this->rightButton2->setText(QKeySequence(stoi(this->temp[5])).toString());
 
 }
 
-void SettingsScene::verification(std::string key){ //Vérifie si la touche est déjà enregistrée sur une autre touche, si oui, la remplace par une touche vide
+void SettingsScene::verification(string key){ //Vérifie si la touche est déjà enregistrée sur une autre touche, si oui, la remplace par une touche vide
     if(key == this->temp[0]){
         this->temp[0]="";
         this->upButton->setText("");
@@ -263,13 +263,13 @@ void SettingsScene::setReturn() {
         remove("../config/config.txt"); //On supprime le fichier de configuration
         ofstream file("../config/config.txt"); //On le recrée
         for(int i = 0; i < 6; i++){
-            file << temp[i] << std::endl; //Ajout des ids des touches au fichier
+            file << temp[i] << endl; //Ajout des ids des touches au fichier
         }
         this->status="Ended"; //Modification du status pour revenir au menu
     }
 }
 
-std::vector<Qt::Key> SettingsScene::getKeys() {
+vector<Qt::Key> SettingsScene::getKeys() {
     return this->keys;
 }
 
@@ -281,4 +281,15 @@ void SettingsScene::adjustSize(int width, int height) {
     this->h = height-5;
     this->setBackground("../img/backgrounds/settingsBackground.png"); //Application du fond d'écran en fonction de la nouvelle taille de fenêtre
     this->settingsWidget->move(width/2 - this->settingsWidget->width()/2,height/2 - this->settingsWidget->height()/2); //Modification de la position du widget des paramètres en fonction de la taille de la fenêtre
+}
+
+SettingsScene::~SettingsScene() {
+    delete this->upButton; //Bouton saut
+    delete this->rightButton; //Bouton aller à droite
+    delete this->leftButton; //Bouton aller à gauche
+    delete this->upButton2; //Bouton saut
+    delete this->rightButton2; //Bouton aller à droite
+    delete this->leftButton2; //Bouton aller à gauche
+    delete this->returnButton; //Bouton retour
+    delete this->settingsWidget;
 }

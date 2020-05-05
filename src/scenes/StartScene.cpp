@@ -4,7 +4,7 @@
 
 #include "StartScene.h"
 
-#include <utility>
+using namespace std;
 
 StartScene::StartScene() {
     //StyleSheet
@@ -56,6 +56,7 @@ StartScene::StartScene() {
     this->addWidget(this->menu); //Ajout du pannel de boutons
 }
 
+
 void StartScene::disableButtons() {
     this->soloButton->setEnabled(false); //Désactivation du bouton
     this->multiButton->setEnabled(false); //Désactivation du bouton
@@ -88,7 +89,7 @@ void StartScene::setScores() {
     this->request = "Scores";
 }
 
-std::string StartScene::getRequest() {
+string StartScene::getRequest() {
     return this->request;
 }
 
@@ -102,6 +103,14 @@ void StartScene::adjustSize(int width, int height) {
 }
 
 //Setters
-void StartScene::setRequest(std::string request) {
-    this->request = std::move(request);
+void StartScene::setRequest(string request) {
+    this->request = move(request);
+}
+
+StartScene::~StartScene() {
+    delete this->soloButton; //Bouton pour acceder au jeu en solo
+    delete this->multiButton; //Bonton pour accéder au jeu en multijoueur
+    delete this->settingsButton; //Bouton pour accéder aux paramètres
+    delete this->scoresButton; //Bouton pour accéder aux scores
+    delete this->menu; //Pannel des boutons
 }

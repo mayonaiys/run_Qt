@@ -76,3 +76,10 @@ void EndWidget::setEnd(){
 std::string EndWidget::getRequest() {
     return this->request;
 }
+
+EndWidget::~EndWidget() {
+    std::cout << "Destroying endwidget" << std::endl;
+    delete this->restartButton;
+    delete this->quitButton;
+    delete this->menuButton;
+}

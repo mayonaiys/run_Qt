@@ -4,6 +4,8 @@
 
 #include "ScoresScene.h"
 
+using namespace std;
+
 ScoresScene::ScoresScene(){
     //Style pour les boutons
     this->style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
@@ -46,7 +48,7 @@ ScoresScene::ScoresScene(){
 }
 
 //Gestion liste
-QVBoxLayout* ScoresScene::createList(const std::string& scoreFile) { //Création de la liste
+QVBoxLayout* ScoresScene::createList(const string& scoreFile) { //Création de la liste
 
     //Affichage
     QVBoxLayout* vBoxRanking = new QVBoxLayout();
@@ -64,14 +66,14 @@ QVBoxLayout* ScoresScene::createList(const std::string& scoreFile) { //Création
     vBoxName->addWidget(name); //Ajout d'une colonne nom du joueur
     vBoxTime->addWidget(time); //Ajout d'une colonne temps mit par le joueur
 
-    std::string color;
+    string color;
 
-    std::vector<std::vector<std::string> > temp = createTemp(scoreFile,2); //Création d'un tableau contenant le nom et le temps des joueurs
+    vector<vector<string> > temp = createTemp(scoreFile,2); //Création d'un tableau contenant le nom et le temps des joueurs
                                                                             //Chaque chaîne de caractère contient le nom + le temps qu'il a mit à finir le niveau ou s'il est mort
     sort(temp); //Tri du tableau dans l'ordre croissant en fonction du temps
     reWrite(scoreFile.c_str(),temp); //Réécriture du fichier de score en ordre croissant
     for(int i = 0; i < 10; i++){
-        QLabel* part1 = createLabel((std::to_string(i+1) + "-").c_str());
+        QLabel* part1 = createLabel((to_string(i+1) + "-").c_str());
         QLabel* part2;
         QLabel* part3;
         if(i < temp.size()){
@@ -110,7 +112,7 @@ QVBoxLayout* ScoresScene::createList(const std::string& scoreFile) { //Création
     parentTime->setLayout(vBoxTime);
     parentTime->setAttribute(Qt::WA_NoSystemBackground);
 
-    QLabel* level = createLabel(("Level " + std::to_string(this->currentScoreList)).c_str()); //Création d'un label du nom du niveau
+    QLabel* level = createLabel(("Level " + to_string(this->currentScoreList)).c_str()); //Création d'un label du nom du niveau
     level->setStyleSheet("color:#CECECE;");
 
     QVBoxLayout* globalVBox = new QVBoxLayout();
@@ -194,4 +196,11 @@ void ScoresScene::adjustSize(int width, int height) {
             this->currentList->setFixedHeight(this->height()-120);
         }
     }
+}
+
+ScoresScene::~ScoresScene() {
+    delete this->returnButton; //Boutons de retour au menu start
+    delete this->nextButton; //Boutons pour passer à la liste d'après
+    delete this->previousButton; //Boutons pour passer à la liste d'avant
+    delete this->buttonPanel; //Pannel de boutons
 }

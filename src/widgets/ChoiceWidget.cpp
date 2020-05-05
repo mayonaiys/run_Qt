@@ -212,3 +212,15 @@ void ChoiceWidget::setPlayerTwoValid() {
     this->namePlayer2 = this->inputPlayer2->text(); //Initialise le pseudo du joueur
     this->isPlayer2Valid = true; //Indique que le joueur a validé son choix
 }
+
+ChoiceWidget::~ChoiceWidget() {
+    delete this->validPlayer1;
+    delete this->inputPlayer1;
+    delete this->firstLevel;
+    delete this->secondLevel;
+    delete this->thirdLevel;
+    if(this->nbPlayers==2){
+        delete this->validPlayer2;
+        delete this->inputPlayer2;
+    }
+}

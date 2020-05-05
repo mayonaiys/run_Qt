@@ -21,6 +21,7 @@ private:
 public:
     //Constructeur
     PauseWidget();
+    ~PauseWidget();
 
     //Getters
     std::string getRequest();

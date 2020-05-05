@@ -33,6 +33,7 @@ private:
 
 public:
     SettingsScene(); //Constructeur
+    ~SettingsScene();
     void verification(std::string);
     bool isConfigComplete();
 

@@ -41,6 +41,7 @@ private:
 public:
     //Constructeur
     ChoiceWidget(int);
+    ~ChoiceWidget();
 
     //Getters & setters
     bool getIsChoiceDo();

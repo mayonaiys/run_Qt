@@ -46,6 +46,7 @@ protected:
 public:
     //Constructeur
     GameScene(std::vector<Qt::Key>,int,QString);
+    ~GameScene();
 
     //Actions clavier :
     void keyPressEvent(QKeyEvent* event);

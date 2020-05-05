@@ -18,10 +18,10 @@ void Scene::setBackground(QString background) {
     this->setSceneRect(0, 0, this->w, this->h);
 }
 
-std::string Scene::getStatus() {
+string Scene::getStatus() {
     return this->status;
 }
 
-void Scene::setStatus(std::string status){
+void Scene::setStatus(string status){
     this->status = status;
 }

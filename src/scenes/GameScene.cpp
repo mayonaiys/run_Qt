@@ -6,8 +6,10 @@
 #include <iostream>
 #include <QTimer>
 
+using namespace std;
+
 //Constructeur
-GameScene::GameScene(std::vector<Qt::Key> keys,int nbPlayers,QString imgFileName){
+GameScene::GameScene(vector<Qt::Key> keys,int nbPlayers,QString imgFileName){
     this->nbPlayers=nbPlayers; //Initialisation du nombre de joueurs sur la partie
     this->w=QPixmap(imgFileName).width();
     this->h=QPixmap(imgFileName).height();
@@ -38,16 +40,16 @@ GameScene::GameScene(std::vector<Qt::Key> keys,int nbPlayers,QString imgFileName
 //Création niveau
 void GameScene::addObstacles() {
 
-    std::vector<std::vector<std::string> > temp = createTemp("../src/scenes/levels/" + this->path + "obstacles.txt",3);
+    vector<vector<string> > temp = createTemp("../src/scenes/levels/" + this->path + "obstacles.txt",3);
     for(auto & i : temp){
         Obstacle* obstacle = new Obstacle(("../img/" + this->path + i[0]).c_str());
         this->obstacles.push_back(obstacle);
         this->addItem(obstacle);
-        obstacle->setPos(std::stoi(i[1]),std::stoi(i[2]));
+        obstacle->setPos(stoi(i[1]),stoi(i[2]));
     }
     temp = createTemp("../src/scenes/levels/" + this->path + "movingObstacles.txt",4);
     for(auto & i : temp){
-        MovingObstacle* movingObstacle = new MovingObstacle(("../img/" + this->path + i[0]).c_str(),std::stoi(i[3]),std::stoi(i[1]),std::stoi(i[2]));
+        MovingObstacle* movingObstacle = new MovingObstacle(("../img/" + this->path + i[0]).c_str(),stoi(i[3]),stoi(i[1]),stoi(i[2]));
         obstacles.push_back(movingObstacle);
         movingObstacles.push_back(movingObstacle);
         this->addItem(movingObstacle);
@@ -57,16 +59,16 @@ void GameScene::addObstacles() {
 
 void GameScene::addFloors() {
 
-    std::vector<std::vector<std::string> > temp = createTemp("../src/scenes/levels/" + this->path + "floors.txt",3);
+    vector<vector<string> > temp = createTemp("../src/scenes/levels/" + this->path + "floors.txt",3);
     for(auto & i : temp){
         Floor* floor = new Floor(("../img/" + this->path + i[0]).c_str());
         this->floors.push_back(floor);
         this->addItem(floor);
-        floor->setPos(std::stoi(i[1]),std::stoi(i[2]));
+        floor->setPos(stoi(i[1]),stoi(i[2]));
     }
     temp = createTemp("../src/scenes/levels/" + this->path + "movingFloors.txt",4);
     for(auto & i : temp){
-        MovingFloor* movingFloor = new MovingFloor(("../img/" + this->path + i[0]).c_str(),std::stoi(i[3]),std::stoi(i[1]),std::stoi(i[2]));
+        MovingFloor* movingFloor = new MovingFloor(("../img/" + this->path + i[0]).c_str(),stoi(i[3]),stoi(i[1]),stoi(i[2]));
         floors.push_back(movingFloor);
         movingFloors.push_back(movingFloor);
         this->addItem(movingFloor);
@@ -82,10 +84,19 @@ void GameScene::keyPressEvent(QKeyEvent *event) { //Actions quand on appuie sur 
     }
 
     //Contrôle premier joueur
+    //Si joueur coincé
+    if(this->player->isObstacleCollision() && this->player->isOnObstacle()){
+        this->player->moveBy(0,-25);
+    }
+
+    if(this->player->isOnFloor() && this->player->isWallCollisionning()){
+        this->player->moveBy(0,-25);
+    }
+
     if (this->player->getStatus() == "Standing" || this->player->getStatus() == "Running") { //Si le joueur attend ou s'il cours
         if (event->key() == this->keys[0]) {
             if (!event->isAutoRepeat()) { //Evite les sauts répétés
-                std::string previousStatus = player->getStatus(); //On récupère son status précédent pour définir le type de saut
+                string previousStatus = player->getStatus(); //On récupère son status précédent pour définir le type de saut
                 this->player->setStatus("Jumping", previousStatus); //Attribution du status
             }
         } else if (event->key() == this->keys[1]) {
@@ -99,10 +110,19 @@ void GameScene::keyPressEvent(QKeyEvent *event) { //Actions quand on appuie sur 
 
     //Contrôle du second joueur (si présent)
     if(this->nbPlayers==2){
+        //Si le joueur est coincé
+        if(this->player2->isObstacleCollision() && this->player2->isOnObstacle()){
+            this->player2->moveBy(0,-25);
+        }
+
+        if(this->player2->isOnFloor() && this->player2->isWallCollisionning()){
+            this->player2->moveBy(0,-25);
+        }
+
         if (this->player2->getStatus() == "Standing" || this->player2->getStatus() == "Running") { //Si le joueur attend ou s'il cours
             if (event->key() == this->keys[3]) {
                 if (!event->isAutoRepeat()) { //Evite les sauts répétés
-                    std::string previousStatus = player2->getStatus(); //On récupère son status précédent pour définir le type de saut
+                    string previousStatus = player2->getStatus(); //On récupère son status précédent pour définir le type de saut
                     this->player2->setStatus("Jumping", previousStatus); //Attribution du status
                 }
             } else if (event->key() == this->keys[4]) {
@@ -213,41 +233,41 @@ void GameScene::update() {
 }
 
 void GameScene::result() { //Fin du jeu
-    std::ofstream scoresFile("../src/scenes/levels/" + this->path + "scores.txt", std::ios::app); //Ouverture en écriture du fichier de scores de la partie
-    std::ofstream tempFile("../src/scenes/levels/temp.txt"); //Ouverture en écriture d'un fichier temporaire pour l'affichage des scores dans le widget de fin
+    ofstream scoresFile("../src/scenes/levels/" + this->path + "scores.txt", ios::app); //Ouverture en écriture du fichier de scores de la partie
+    ofstream tempFile("../src/scenes/levels/temp.txt"); //Ouverture en écriture d'un fichier temporaire pour l'affichage des scores dans le widget de fin
     if(this->nbPlayers==2){ //Si deux  joueurs
         if(this->player->getStatus()=="Winner"){ //Si le joueur  1 a terminé le niveau
-            scoresFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl; //On ajoute son score dans le fichier de scores
-            tempFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl; //On ajoute son score dans le fichier temporaire
+            scoresFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << endl; //On ajoute son score dans le fichier de scores
+            tempFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << endl; //On ajoute son score dans le fichier temporaire
         } else { //Si le joueur 1 est mort
-            tempFile << this->player->getName().toStdString() + ",Dead" << std::endl;  //On le notifie dans le fichier temporaire
+            tempFile << this->player->getName().toStdString() + ",Dead" << endl;  //On le notifie dans le fichier temporaire
         }
         if(this->player2->getStatus()=="Winner"){ //Si le joueur 2 a terminé le niveau
-            scoresFile << this->player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl; //On ajoute son score dans le fichier de scores
-            tempFile << this->player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << std::endl; //On ajoute son score dans le fichier temporaire
+            scoresFile << this->player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << endl; //On ajoute son score dans le fichier de scores
+            tempFile << this->player2->getName().toStdString() + "," + this->durationP2.toString("mm:ss:z").toStdString() << endl; //On ajoute son score dans le fichier temporaire
         } else {
-            tempFile << this->player2->getName().toStdString() + ",Dead" << std::endl; //On le notifie dans le fichier temporaire
+            tempFile << this->player2->getName().toStdString() + ",Dead" << endl; //On le notifie dans le fichier temporaire
         }
     } else { //Si un seul joueur
         if (player->getStatus() == "Winner") { //S'il a fini la partie
-            scoresFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl; //On enregistre son score dans le fichier de scores
-            tempFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << std::endl; //On enregistre son score dans le fichier  temporaire
+            scoresFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << endl; //On enregistre son score dans le fichier de scores
+            tempFile << this->player->getName().toStdString() + "," + this->durationP1.toString("mm:ss:z").toStdString() << endl; //On enregistre son score dans le fichier  temporaire
 
-            std::ifstream scoresFile("../src/scenes/levels/levels.txt"); //Ouverture en écriture du fichier permettant de savoir quels niveaux sont débloqués
+            ifstream scoresFile("../src/scenes/levels/levels.txt"); //Ouverture en écriture du fichier permettant de savoir quels niveaux sont débloqués
             if(scoresFile){ //Si le fichier existe
-                std::string line;
+                string line;
                 while(getline(scoresFile,line)){ //On récupère la ligne
                     if(line=="zK7k9_vYmN" && this->id=="zK7k9_vYmN"){ //Si la ligne correspond à l'id du premier niveau et que le niveau actuel est le premier
-                        std::ofstream file("../src/scenes/levels/levels.txt"); //On ouvre le fichier en écriture
+                        ofstream file("../src/scenes/levels/levels.txt"); //On ouvre le fichier en écriture
                         file << "kj3c7_DahY"; //On remplace l'ancien id par celui du second niveau, le niveau 2 sera alors débloqué
                     } else if(line == "kj3c7_DahY" && this->id=="kj3c7_DahY"){ //Si la ligne correspond à l'id du second niveau et que le niveau actuel est le second
-                        std::ofstream file("../src/scenes/levels/levels.txt"); //On ouvre le fichier en écriture
+                        ofstream file("../src/scenes/levels/levels.txt"); //On ouvre le fichier en écriture
                         file << "b74r8_aLAnZ"; //On remplace l'ancien id par celui du troisième niveau, celui-ci sera désormais débloqué
                     }
                 }
             }
         } else { //S'il est mort
-            tempFile << player->getName().toStdString() + ",Dead" << std::endl; //On le notifie dans le fichier temporaire
+            tempFile << player->getName().toStdString() + ",Dead" << endl; //On le notifie dans le fichier temporaire
         }
     }
 }
@@ -263,11 +283,11 @@ void GameScene::setIsWidgetLoaded(bool loaded) {
     this->isWidgetLoaded = loaded;
 }
 
-void GameScene::setRequest(std::string request) {
+void GameScene::setRequest(string request) {
     this->request = request;
 }
 
-std::string GameScene::getRequest(){
+string GameScene::getRequest(){
     return this->request;
 }
 
@@ -277,4 +297,26 @@ bool GameScene::getIsTimerLaunched() {
 
 QString GameScene::getTime() {
     return this->gameTimer.toString("mm:ss:z"); //On récupère le temps dans le format minutes:secondes:millisecondes
+}
+
+GameScene::~GameScene() {
+    delete this->timer; //Timer pour la boucle update
+    delete this->player; //Premier joueur
+    delete this->labelNamePlayer; //Label contenant le nom du premier joueur
+    for(auto & obstacle : this->obstacles){
+        delete obstacle;
+    }
+    for(auto & floor : this->floors){
+        delete floor;
+    }
+    for(auto & movingObstacle : this->movingObstacles){
+        delete movingObstacle;
+    }
+    for(auto & movingFloor : this->movingFloors){
+        delete movingFloor;
+    }
+    if(this->nbPlayers==2){
+        delete this->player2; //Second joueur
+        delete this->labelNamePlayer2; //Label contenant le nom du second joueur
+    }
 }

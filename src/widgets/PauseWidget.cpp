@@ -2,6 +2,7 @@
 // Created by Remi on 20/04/2020.
 //
 
+#include <iostream>
 #include "PauseWidget.h"
 
 //Constructeur
@@ -48,5 +49,11 @@ void PauseWidget::setResume() {
 //Getters
 std::string PauseWidget::getRequest() {
     return this->request;
+}
+
+PauseWidget::~PauseWidget() {
+    delete this->resumeButton;
+    delete this->quitButton;
+    delete this->menuButton;
 }
 
