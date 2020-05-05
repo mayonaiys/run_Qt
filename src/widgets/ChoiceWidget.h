@@ -6,9 +6,12 @@
 #define JEU_CHOICEWIDGET_H
 
 
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QLineEdit>
+#include <QWidget>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QVBoxLayout>
+#include <fstream>
+
 
 class ChoiceWidget : public QWidget {
 
@@ -34,7 +37,10 @@ private:
     std::string request;
 
 public:
+    //Constructeur
     ChoiceWidget(int);
+
+    //Getters
     bool getIsPlayersValid();
     bool getIsLevelSet();
     QString getNamePlayer1();
