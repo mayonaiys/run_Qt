@@ -15,6 +15,9 @@ Un classement est disponible pour chaque niveau afin de voir qui l'a fini le plu
 Pour jouer au jeu il suffit d'ouvrir le projet sur [Clion](https://www.jetbrains.com/fr-fr/clion/) et de lancer [Xming](https://sourceforge.net/projects/xming/).
 Dans Clion il faudra aller dans Run>EditConfigurations et écrire : DISPLAY=:0.0 dans Environnement variables.
 Suite à cela, plus qu'a lancer le jeu!
+Il est possible de devoir modifier la première ligne de CMakeList.txt si votre version de CMake est différente de la mienne :
+
+``cmake_minimum_required(VERSION 3.7)``
 
 Les touches de bases pour le premier joueur sont : flèche du haut (saut), flèche de gauche (courir à gauche), flèche de droite (courir à droite)
 
