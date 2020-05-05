@@ -152,8 +152,10 @@ void GameScene::update() {
 
         //JOUEUR 1
         this->player->move(); //Déplacement du joueur
-        this->player->setSkin(); //Changement d'apparence du joueur
         this->labelNamePlayer->move(this->player->pos().x()+20,this->player->pos().y()-15); //Déplacement du nom du joueur en fonction de la position de celui-ci
+        if(this->player->getStatus()!="Dead"){
+            this->player->setSkin(); //Changement d'apparence du joueur
+        }
         if (this->player->pos().x() > this->xEnd) { //Si je loueur passe la ligne d'arrivée
             this->player->setStatus("Winner"); //Son status passe à gagnant
         }
@@ -170,8 +172,10 @@ void GameScene::update() {
         } else if(this->nbPlayers==2){
 
             this->player2->move(); //Déplacement du joueur
-            this->player2->setSkin(); //Changement d'apparence du joueur
             this->labelNamePlayer2->move(this->player2->pos().x()+20,this->player2->pos().y()-15); //Déplacement du nom du joueur en fonction de la position de celui-ci
+            if(this->player2->getStatus()!="Dead"){
+                this->player2->setSkin(); //Changement d'apparence du joueur
+            }
 
             if (this->player2->pos().x() > this->xEnd) { //Si je loueur passe la ligne d'arrivée
                 this->player2->setStatus("Winner"); //Son status passe à gagnant

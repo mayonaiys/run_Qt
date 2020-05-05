@@ -36,11 +36,15 @@ private:
 
     std::string request;
 
+    bool isChoiceDo;
+
 public:
     //Constructeur
     ChoiceWidget(int);
 
-    //Getters
+    //Getters & setters
+    bool getIsChoiceDo();
+    void setIsChoiceDo();
     bool getIsPlayersValid();
     bool getIsLevelSet();
     QString getNamePlayer1();

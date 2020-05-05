@@ -12,7 +12,7 @@
 
 EndWidget::EndWidget() {
 
-    //StyleSheet
+    //Style des boutons
     QString style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
                     "QPushButton:hover { border-image:url(../img/buttons/buttonHover.png); color : #543D2B }"
                     "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";

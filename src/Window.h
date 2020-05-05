@@ -49,8 +49,7 @@ private:
     std::string status;
     bool isSceneLoaded;
     bool isWidgetLoaded;
-    bool isChoiceDo;
-
+    std::string choice;
 
 public:
     Window();

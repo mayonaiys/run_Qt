@@ -32,12 +32,15 @@ public:
     //Ajustement
     void adjustSize(int,int);
 
+    void setRequest(std::string);
 public slots:
     //Interactions
     void setSolo();
     void setMulti();
     void setSettings();
     void setScores();
+
+    void enableButtons();
 };
 
 

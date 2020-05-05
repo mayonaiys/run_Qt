@@ -112,6 +112,7 @@ ChoiceWidget::ChoiceWidget(int nbPlayers){
     connect(this->validPlayer1,SIGNAL(clicked()),this,SLOT(setPlayerOneValid()));
 
     this->isLevelSet = false; //Le niveau n'est pas encore choisi
+    this->isChoiceDo = false; //Aucun choix n'est fait
 }
 
 //Getters
@@ -137,6 +138,14 @@ std::string ChoiceWidget::getRequest() {
 
 bool ChoiceWidget::getIsLevelSet() {
     return this->isLevelSet;
+}
+
+bool ChoiceWidget::getIsChoiceDo() {
+    return this->isChoiceDo;
+}
+
+void ChoiceWidget::setIsChoiceDo() {
+    this->isChoiceDo = true;
 }
 
 
@@ -203,4 +212,3 @@ void ChoiceWidget::setPlayerTwoValid() {
     this->namePlayer2 = this->inputPlayer2->text(); //Initialise le pseudo du joueur
     this->isPlayer2Valid = true; //Indique que le joueur a validé son choix
 }
-

@@ -4,6 +4,8 @@
 
 #include "StartScene.h"
 
+#include <utility>
+
 StartScene::StartScene() {
     //StyleSheet
     QString style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
@@ -61,6 +63,13 @@ void StartScene::disableButtons() {
     this->scoresButton->setEnabled(false); //Désactivation du bouton
 }
 
+void StartScene::enableButtons(){
+    this->soloButton->setEnabled(true); //Désactivation du bouton
+    this->multiButton->setEnabled(true); //Désactivation du bouton
+    this->settingsButton->setEnabled(true); //Désactivation du bouton
+    this->scoresButton->setEnabled(true); //Désactivation du bouton
+}
+
 
 //Interactions
 void StartScene::setSolo() {
@@ -90,4 +99,9 @@ void StartScene::adjustSize(int width, int height) {
     this->h = height-5;
     this->setBackground("../img/backgrounds/startBackground.png"); //Application du fond d'écran en fonction de la nouvelle taille de fenêtre
     this->menu->move(width/2 - this->menu->width()/2,height/2 - this->menu->height()/2); //Déplacement du pannel en fonction de la taille de la fenêtre
+}
+
+//Setters
+void StartScene::setRequest(std::string request) {
+    this->request = std::move(request);
 }
