@@ -122,6 +122,7 @@ void Window::update() {
                         this->gameScene->~GameScene(); //On supprime la scène du jeu
                         this->choiceWidget->~ChoiceWidget(); //On supprime le widget
                         this->status = "inStart"; //Définiton du status de la fenêtre sur "inStart"
+                        this->isWidgetLoaded = false; //Le widget n'est plus chargé
                         this->isSceneLoaded = false; //La scène de jeu n'est plus chargé
                         delete this->globalScene; //Suppression scène globale
                     }

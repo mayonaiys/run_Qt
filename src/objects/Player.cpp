@@ -75,12 +75,12 @@ void Player::run() {
         if (this->direction == "Right") { //S'il regarde vers la droite
             this->moveBy(20, 0); //Avance de 20 sur l'axe x
             if (isObstacleCollision() || isWallCollisionning()) { //S'il se cogne à un sol ou un obstacle
-                this->moveBy(-20, 0); //Recule de 20 sur l'axe x
+                this->moveBy(-25, 0); //Recule de 20 sur l'axe x
             }
         } else if (this->direction == "Left") { //Si le regarde vers la gauche
             this->moveBy(-20, 0); //Avance de -20 sur l'axe x
             if (isObstacleCollision() || isWallCollisionning() || this->pos().x()-20 < 0) { //S'il se cogne à un obstacle, un sol ou s'il essaie de sortir du jeu
-                this->moveBy(20, 0); //Recule de 20 sur l'axe x
+                this->moveBy(25, 0); //Recule de 20 sur l'axe x
             }
         }
     } else {
@@ -169,7 +169,7 @@ bool Player::isObstacleCollision() {
 }
 
 bool Player::isOnFloor(){
-    QRectF rect((pos().x()+boundingRect().width()/2)-5, (pos().y() + boundingRect().height()) -5, 10, 5); //Création de la hitBox du joueur (au niveau des pieds)
+    QRectF rect((pos().x()+boundingRect().width()/2)-15, (pos().y() + boundingRect().height()) -5, 30, 7); //Création de la hitBox du joueur (au niveau des pieds)
     for(auto & floor : floorsAround){
         QRectF otherRect(floor->pos().x(), floor->pos().y(), floor->boundingRect().width(), floor->boundingRect().height()); //Création de la hitbox du sol
         if(rect.intersects(otherRect)){ //Si les deux hitbox se croisent
