@@ -1,0 +1,4 @@
+obstacle.png,1000,480,480
+obstacle.png,1400,560,480
+obstacle.png,9300,620,620
+obstacle.png,11800,600,600

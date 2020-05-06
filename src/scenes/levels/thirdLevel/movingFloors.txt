@@ -1,0 +1,2 @@
+platform.png,5600,600,5300
+platform.png,9850,600,9850

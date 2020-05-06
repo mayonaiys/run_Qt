@@ -16,7 +16,8 @@ Player::Player(QString name, const QString& imgFileName,vector<Obstacle*> obstac
     this->setPixmap(QPixmap(imgFileName)); //Ajout de l'apparence du joueur
     this->status = "Standing"; //Status courant du joueur
     this->direction = "Right"; //Direction courante du joueur
-    this->setVelocity(); //Initialisation de la vitesse du joueur
+    this->velX=2; //Changement de la rapidité sur l'axe X
+    this->velY=3; //Changement de la rapidité sur l'axe Y
     this->gravity=-2; //Initialisation de la gravité appliquée au joueur
     this->obstaclesAround = ::move(obstaclesAround); //Obstacles aux alentours du joueur
     this->floorsAround = ::move(floorsAround); //Sols sur lequel est le joueur
@@ -91,7 +92,6 @@ void Player::run() {
 }
 
 void Player::jump() { //Source : https://www.youtube.com/watch?v=c4b9lCfSDQM
-
     if(this->velY > 0  && !this->isHeadCollisionning() && !this->isWallCollisionning() && !this->isObstacleCollision()){ //Si sa rapidité verticale est suppérieure à 0, qu'il ne touche pas un mur,un obstacle ou un sol avec sa tête
         if(this->previousStatus=="Standing") { //Si le joueur ne bouge pas
             this->velX=0; //Rapidité à 0 pour un saut droit
@@ -107,11 +107,9 @@ void Player::jump() { //Source : https://www.youtube.com/watch?v=c4b9lCfSDQM
         this->status = "Falling"; //Il tombe
     }
     this->velY = this->velY + this->gravity*0.15; //Applique une nouvelle rapidité verticale au joueur
-
 }
 
 void Player::fall() {
-
     if(!this->isOnFloor() && !this->isOnObstacle()){ //Si le joueur n'est ni sur
         if (this->isWallCollisionning() || this->isObstacleCollision()) { //Si le joueur se cogne dans un mur ou un obstacle
             if (this->pos().y() > 600) { //Si sa position sur l'axe Y est supérieure à 600
@@ -136,7 +134,7 @@ void Player::fall() {
             return;
         }
 
-        velY = velY - gravity * 0.15; //Modification de la rapidité sur l'axe Y
+        this->velY = this->velY - this->gravity * 0.15; //Modification de la rapidité sur l'axe Y
     } else {
         this->status = "Standing"; //Le joueur attend
         this->setVelocity(); //Sa rapidité est réinitialisée

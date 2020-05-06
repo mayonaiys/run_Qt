@@ -84,15 +84,6 @@ void GameScene::keyPressEvent(QKeyEvent *event) { //Actions quand on appuie sur 
     }
 
     //Contrôle premier joueur
-    //Si joueur coincé
-    if(this->player->isObstacleCollision() && this->player->isOnObstacle()){
-        this->player->moveBy(0,-25);
-    }
-
-    if(this->player->isOnFloor() && this->player->isWallCollisionning()){
-        this->player->moveBy(0,-25);
-    }
-
     if (this->player->getStatus() == "Standing" || this->player->getStatus() == "Running") { //Si le joueur attend ou s'il cours
         if (event->key() == this->keys[0]) {
             if (!event->isAutoRepeat()) { //Evite les sauts répétés
@@ -110,15 +101,6 @@ void GameScene::keyPressEvent(QKeyEvent *event) { //Actions quand on appuie sur 
 
     //Contrôle du second joueur (si présent)
     if(this->nbPlayers==2){
-        //Si le joueur est coincé
-        if(this->player2->isObstacleCollision() && this->player2->isOnObstacle()){
-            this->player2->moveBy(0,-25);
-        }
-
-        if(this->player2->isOnFloor() && this->player2->isWallCollisionning()){
-            this->player2->moveBy(0,-25);
-        }
-
         if (this->player2->getStatus() == "Standing" || this->player2->getStatus() == "Running") { //Si le joueur attend ou s'il cours
             if (event->key() == this->keys[3]) {
                 if (!event->isAutoRepeat()) { //Evite les sauts répétés
@@ -308,12 +290,6 @@ GameScene::~GameScene() {
     }
     for(auto & floor : this->floors){
         delete floor;
-    }
-    for(auto & movingObstacle : this->movingObstacles){
-        delete movingObstacle;
-    }
-    for(auto & movingFloor : this->movingFloors){
-        delete movingFloor;
     }
     if(this->nbPlayers==2){
         delete this->player2; //Second joueur
