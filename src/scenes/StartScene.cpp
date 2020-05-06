@@ -6,8 +6,9 @@
 
 using namespace std;
 
+//Constructeur
 StartScene::StartScene() {
-    //StyleSheet
+    //Style
     QString style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
                     "QPushButton:hover { border-image:url(../img/buttons/buttonHover.png); color : #543D2B }"
                     "QPushButton:pressed { border-image:url(../img/buttons/buttonOnClick.png); color : #2D2117}";
@@ -56,7 +57,16 @@ StartScene::StartScene() {
     this->addWidget(this->menu); //Ajout du pannel de boutons
 }
 
+//Destructeurs
+StartScene::~StartScene() {
+    delete this->soloButton; //Suppression bouton pour acceder au jeu en solo
+    delete this->multiButton; //Suppression bouton pour accéder au jeu en multijoueur
+    delete this->settingsButton; //Suppression bouton pour accéder aux paramètres
+    delete this->scoresButton; //Suppression bouton pour accéder aux scores
+    delete this->menu; //Suppression pannel des boutons
+}
 
+//Effets boutons
 void StartScene::disableButtons() {
     this->soloButton->setEnabled(false); //Désactivation du bouton
     this->multiButton->setEnabled(false); //Désactivation du bouton
@@ -65,10 +75,10 @@ void StartScene::disableButtons() {
 }
 
 void StartScene::enableButtons(){
-    this->soloButton->setEnabled(true); //Désactivation du bouton
-    this->multiButton->setEnabled(true); //Désactivation du bouton
-    this->settingsButton->setEnabled(true); //Désactivation du bouton
-    this->scoresButton->setEnabled(true); //Désactivation du bouton
+    this->soloButton->setEnabled(true); //Activation du bouton
+    this->multiButton->setEnabled(true); //Activation du bouton
+    this->settingsButton->setEnabled(true); //Activation du bouton
+    this->scoresButton->setEnabled(true); //Activation du bouton
 }
 
 
@@ -105,12 +115,4 @@ void StartScene::adjustSize(int width, int height) {
 //Setters
 void StartScene::setRequest(string request) {
     this->request = move(request);
-}
-
-StartScene::~StartScene() {
-    delete this->soloButton; //Bouton pour acceder au jeu en solo
-    delete this->multiButton; //Bonton pour accéder au jeu en multijoueur
-    delete this->settingsButton; //Bouton pour accéder aux paramètres
-    delete this->scoresButton; //Bouton pour accéder aux scores
-    delete this->menu; //Pannel des boutons
 }

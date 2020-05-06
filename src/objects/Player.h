@@ -6,7 +6,8 @@
 #define JEU_PLAYER_H
 
 #include <QGraphicsPixmapItem>
-#include <QtWidgets/QGraphicsItemAnimation>
+#include <QGraphicsItemAnimation>
+#include <QTimeLine>
 #include "Obstacle.h"
 #include "Floor.h"
 
@@ -28,8 +29,7 @@ private: //Attributs privés
 
 public: //Fonctions publiques
 
-    //Constructeur :
-    Player(QString,const QString&,std::vector<Obstacle*>,std::vector<Floor*>);
+    Player(QString,const QString&,std::vector<Obstacle*>,std::vector<Floor*>); //Constructeur :
 
     //Getters&Setters :
     void setSkin(); //Modification de l'apparence du joueur

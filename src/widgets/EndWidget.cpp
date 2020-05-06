@@ -2,14 +2,9 @@
 // Created by Remi on 20/04/2020.
 //
 
-#include <QtWidgets/QPushButton>
-#include <QtCore/QtCore>
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QLabel>
-#include <iostream>
 #include "EndWidget.h"
-#include "../utils.h"
 
+//Constructeur
 EndWidget::EndWidget() {
 
     //Style des boutons
@@ -63,6 +58,16 @@ EndWidget::EndWidget() {
     remove("../src/scenes/levels/temp.txt"); //Suppression du fichier temporaire
 }
 
+//Destructeur
+EndWidget::~EndWidget() {
+    if(this->request=="Restart"){
+        delete this->menuButton;
+    } else if(this->request=="End"){
+        delete this->restartButton;
+    }
+    delete this->quitButton;
+}
+
 //Interactions
 void EndWidget::setRestart(){
     this->request="Restart";
@@ -75,11 +80,4 @@ void EndWidget::setEnd(){
 //Getters
 std::string EndWidget::getRequest() {
     return this->request;
-}
-
-EndWidget::~EndWidget() {
-    std::cout << "Destroying endwidget" << std::endl;
-    delete this->restartButton;
-    delete this->quitButton;
-    delete this->menuButton;
 }

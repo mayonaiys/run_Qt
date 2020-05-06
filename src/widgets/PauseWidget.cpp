@@ -37,6 +37,13 @@ PauseWidget::PauseWidget() {
     this->setAttribute(Qt::WA_NoSystemBackground); //Suppression du background du widget
 }
 
+//Destructeur
+PauseWidget::~PauseWidget() {
+    delete this->resumeButton; //Suppression bouton de retour en jeu
+    delete this->quitButton; //Suppression bouton pour quitter le programme
+    delete this->menuButton; //Suppression bouton de retour au  menu
+}
+
 //Interactions
 void PauseWidget::setEnd() {
     this->request="End";
@@ -51,9 +58,4 @@ std::string PauseWidget::getRequest() {
     return this->request;
 }
 
-PauseWidget::~PauseWidget() {
-    delete this->resumeButton;
-    delete this->quitButton;
-    delete this->menuButton;
-}
 

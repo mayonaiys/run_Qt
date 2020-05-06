@@ -25,7 +25,6 @@ private:
     std::vector<Qt::Key> keys; //Touches parametrées pour contrôler le(s) joueur(s)
     QTime durationP1; //Temps mit par le premier joueur
     QTime durationP2; //Temp mit par le second joueur
-    bool isWidgetLoaded; //
     bool isTimerLaunched; //
     bool isTime1Set; //
     bool isTime2Set; //
@@ -44,9 +43,8 @@ protected:
     std::string id; //Id du niveau
 
 public:
-    //Constructeur
-    GameScene(std::vector<Qt::Key>,int,QString);
-    ~GameScene();
+    GameScene(std::vector<Qt::Key>,int,QString); //Constructeur
+    ~GameScene(); //Destructeur
 
     //Actions clavier :
     void keyPressEvent(QKeyEvent* event);
@@ -58,8 +56,6 @@ public:
 
     //Getters&Setters
     void setRequest(std::string request);
-    bool getIsWidgetLoaded();
-    void setIsWidgetLoaded(bool);
     bool getIsTimerLaunched();
     std::string getRequest();
     QString getTime();

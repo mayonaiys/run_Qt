@@ -147,6 +147,18 @@ SettingsScene::SettingsScene() {
 
 }
 
+//Destructeur
+SettingsScene::~SettingsScene() {
+    delete this->upButton; //Bouton saut
+    delete this->rightButton; //Bouton aller à droite
+    delete this->leftButton; //Bouton aller à gauche
+    delete this->upButton2; //Bouton saut
+    delete this->rightButton2; //Bouton aller à droite
+    delete this->leftButton2; //Bouton aller à gauche
+    delete this->returnButton; //Bouton retour
+    delete this->settingsWidget;
+}
+
 void SettingsScene::verification(string key){ //Vérifie si la touche est déjà enregistrée sur une autre touche, si oui, la remplace par une touche vide
     if(key == this->temp[0]){
         this->temp[0]="";
@@ -281,15 +293,4 @@ void SettingsScene::adjustSize(int width, int height) {
     this->h = height-5;
     this->setBackground("../img/backgrounds/settingsBackground.png"); //Application du fond d'écran en fonction de la nouvelle taille de fenêtre
     this->settingsWidget->move(width/2 - this->settingsWidget->width()/2,height/2 - this->settingsWidget->height()/2); //Modification de la position du widget des paramètres en fonction de la taille de la fenêtre
-}
-
-SettingsScene::~SettingsScene() {
-    delete this->upButton; //Bouton saut
-    delete this->rightButton; //Bouton aller à droite
-    delete this->leftButton; //Bouton aller à gauche
-    delete this->upButton2; //Bouton saut
-    delete this->rightButton2; //Bouton aller à droite
-    delete this->leftButton2; //Bouton aller à gauche
-    delete this->returnButton; //Bouton retour
-    delete this->settingsWidget;
 }

@@ -19,9 +19,8 @@ private:
     QPushButton* menuButton; //Bouton de retour au menu
     std::string request;
 public:
-    //Constructeur
-    PauseWidget();
-    ~PauseWidget();
+    PauseWidget(); //Constructeur
+    ~PauseWidget(); //Destructeur
 
     //Getters
     std::string getRequest();

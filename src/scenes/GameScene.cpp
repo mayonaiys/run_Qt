@@ -3,8 +3,6 @@
 //
 
 #include "GameScene.h"
-#include <iostream>
-#include <QTimer>
 
 using namespace std;
 
@@ -20,9 +18,6 @@ GameScene::GameScene(vector<Qt::Key> keys,int nbPlayers,QString imgFileName){
     this->timer->start(30); //Initialisation du la durée du timer pour la boucle
 
     this->keys=keys; //Initialisation des touches à utiliser pour contrôler le(s) joueur(s)
-
-    //Widgets
-    this->isWidgetLoaded = false; //Aucun widget n'est chargé
 
     //Timer de la partie
     this->gameTimer = QTime(0,0,0); //
@@ -255,16 +250,6 @@ void GameScene::result() { //Fin du jeu
 }
 
 //Getters&Setters
-
-
-bool GameScene::getIsWidgetLoaded() {
-    return this->isWidgetLoaded;
-}
-
-void GameScene::setIsWidgetLoaded(bool loaded) {
-    this->isWidgetLoaded = loaded;
-}
-
 void GameScene::setRequest(string request) {
     this->request = request;
 }

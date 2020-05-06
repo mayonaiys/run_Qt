@@ -4,6 +4,7 @@
 
 #include "ThirdLevel.h"
 
+//Constructeur
 ThirdLevel::ThirdLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePlayer1, QString namePlayer2) : GameScene(keys, nbPlayers,"../img/thirdLevel/background.png") {
 
     this->id = "b74r8_aLAnZ";

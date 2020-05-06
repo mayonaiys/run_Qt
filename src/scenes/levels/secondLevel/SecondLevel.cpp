@@ -4,6 +4,7 @@
 
 #include "SecondLevel.h"
 
+//Constructeur
 SecondLevel::SecondLevel(std::vector<Qt::Key> keys,int nbPlayers,QString namePlayer1, QString namePlayer2) : GameScene(keys, nbPlayers,"../img/secondLevel/background.png") {
 
     this->id = "kj3c7_DahY";

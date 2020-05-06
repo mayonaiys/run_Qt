@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//Constructeur
 ScoresScene::ScoresScene(){
     //Style pour les boutons
     this->style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
@@ -46,6 +47,15 @@ ScoresScene::ScoresScene(){
     this->displayScore(); //Affichage de la liste du score du niveau 1
 
 }
+
+//Destructeur
+ScoresScene::~ScoresScene() {
+    delete this->returnButton; //Boutons de retour au menu start
+    delete this->nextButton; //Boutons pour passer à la liste d'après
+    delete this->previousButton; //Boutons pour passer à la liste d'avant
+    delete this->buttonPanel; //Pannel de boutons
+}
+
 
 //Gestion liste
 QVBoxLayout* ScoresScene::createList(const string& scoreFile) { //Création de la liste
@@ -196,11 +206,4 @@ void ScoresScene::adjustSize(int width, int height) {
             this->currentList->setFixedHeight(this->height()-120);
         }
     }
-}
-
-ScoresScene::~ScoresScene() {
-    delete this->returnButton; //Boutons de retour au menu start
-    delete this->nextButton; //Boutons pour passer à la liste d'après
-    delete this->previousButton; //Boutons pour passer à la liste d'avant
-    delete this->buttonPanel; //Pannel de boutons
 }

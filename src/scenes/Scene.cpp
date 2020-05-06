@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//Ajout image de fond
 void Scene::drawBackground(QPainter *painter, const QRectF &rect) {
     Q_UNUSED(rect);
     if(!this->background.isNull()){ //Si le fond n'est pas nul
@@ -18,6 +19,7 @@ void Scene::setBackground(QString background) {
     this->setSceneRect(0, 0, this->w, this->h);
 }
 
+//Getters & setters
 string Scene::getStatus() {
     return this->status;
 }

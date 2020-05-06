@@ -12,7 +12,7 @@ class SecondLevel : public GameScene {
     Q_OBJECT
 
 public:
-    SecondLevel(std::vector<Qt::Key>,int,QString,QString = "");
+    SecondLevel(std::vector<Qt::Key>,int,QString,QString = ""); //Constructeur
 };
 
 

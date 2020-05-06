@@ -4,6 +4,7 @@
 
 #include "Floor.h"
 
+//Constructeur
 Floor::Floor(const QString& imgFileName) {
     this->setPixmap(QPixmap(imgFileName)); //Ajout de l'apparence du sol
 }

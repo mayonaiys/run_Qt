@@ -11,8 +11,8 @@
 class Obstacle : public QGraphicsPixmapItem {
 
 public:
-    //Constructeur
-    Obstacle(QString);
+    Obstacle(QString);    //Constructeur
+
 };
 
 

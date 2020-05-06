@@ -35,13 +35,11 @@ private:
     QPushButton* thirdLevel;
 
     std::string request;
-
     bool isChoiceDo;
 
 public:
-    //Constructeur
-    ChoiceWidget(int);
-    ~ChoiceWidget();
+    ChoiceWidget(int); //Constructeur
+    ~ChoiceWidget(); //Destructeur
 
     //Getters & setters
     bool getIsChoiceDo();

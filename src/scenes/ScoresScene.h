@@ -28,7 +28,7 @@ private:
 
 public:
     ScoresScene(); //Constructeur
-    ~ScoresScene();
+    ~ScoresScene(); //Destructeur
 
     //Gestion Liste de score
     QVBoxLayout* createList(const std::string&);

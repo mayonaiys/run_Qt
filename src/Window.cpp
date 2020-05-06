@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Window.h"
 
+//Constructeur
 Window::Window(){
     //Apparence fenêtre
     this->setWindowTitle("Run");
@@ -30,6 +31,7 @@ Window::Window(){
     this->resize(1280,720);
 }
 
+//Destructeur
 Window::~Window() {
     this->settingsScene->~SettingsScene();
     this->startScene->~StartScene();
@@ -93,6 +95,7 @@ void Window::update() {
             this->timeLabel->move(this->width()-230, 10); //Ajustement de la position du chronomètre en fonction de la taille de la fenêtre
             this->parent->resize(this->width(),this->height()); //Ajustement de la taille du widget qui contient la scène de jeu en fonction de la taille de la fenêtre
             this->globalScene->setSceneRect(0, 0, this->width()-5, this->height()-5); //Ajustement de la taille de la scène qui contient le widget qui contient la scène du jeu
+
             if(this->gameScene->getStatus() == "InGame"){ //Si le jeu est en cours
                 if(!this->gameScene->getIsTimerLaunched()){ //Si le chronomètre n'est pas lancé
                     QString str = "0:00:000"; //On affiche qu'il n'est pas commencé
@@ -102,21 +105,22 @@ void Window::update() {
                     this->timeLabel->setText(str); //On l'affiche
                 }
             }else if(this->gameScene->getStatus() == "Paused"){ //Si le jeu est en pause
-                if(!this->gameScene->getIsWidgetLoaded()) { //Et que le widget de pause n'est pas chargé
+                if(!this->isWidgetLoaded) { //Et que le widget de pause n'est pas chargé
                     this->pauseWidget = new PauseWidget(); //On le crée
                     this->globalScene ->addWidget(this->pauseWidget); //On l'affiche
                     this->pauseWidget->move((this->width())/2 - (this->pauseWidget->width())/2,(this->height())/2 - (this->pauseWidget->height())/2); //On le place
-                    this->gameScene->setIsWidgetLoaded(true); //On indique qu'il est chargé
+                    this->isWidgetLoaded = true;
                 } else { //Si le widget de pause est chargé
                     this->pauseWidget->move((this->width())/2 - (this->pauseWidget->width())/2,(this->height())/2 - (this->pauseWidget->height())/2); //Ajustement de la position du widget en fonction de la taille de la fenêtre
                     if(gameScene->getRequest() == "Resume"){ //Si le jeu demande a reprendre
                         this->pauseWidget->~PauseWidget(); //Le widget est supprimé
-                        this->gameScene->setIsWidgetLoaded(false); //Il n'est plus chargé
+                        this->isWidgetLoaded = false;
                     } else if(this->pauseWidget->getRequest() == "Resume") { //Si le widget demande à reprendre la partie
                         this->gameScene->setRequest("Resume"); //On indique que le jeu doit reprendre
                         this->pauseWidget->~PauseWidget(); //Le widget est supprimé
-                        this->gameScene->setIsWidgetLoaded(false); //Il n'est plus chargé
+                        this->isWidgetLoaded = false;
                     } else if (this->pauseWidget->getRequest() == "End") { //Si le widget demande la fin de la partie
+                        this->pauseWidget->~PauseWidget(); //Le widget est supprimé
                         this->gameScene->~GameScene(); //On supprime la scène du jeu
                         this->choiceWidget->~ChoiceWidget(); //On supprime le widget
                         this->status = "inStart"; //
@@ -124,23 +128,25 @@ void Window::update() {
                     }
                 }
             } else if(this->gameScene->getStatus() == "EndScene") { //Si le jeu est sur la scène de fin
-                if(!this->gameScene->getIsWidgetLoaded()){ //Si le widget de fin n'est pas chargé
+                if(!this->isWidgetLoaded){ //Si le widget de fin n'est pas chargé
                     this->endWidget = new EndWidget(); //Il est créé
                     this->globalScene ->addWidget(this->endWidget); //Il est ajouté à la scène globale
                     this->endWidget->move((this->width())/2 - (this->endWidget->width())/2,(this->height())/2 - (this->endWidget->height())/2); //Il est placé
-                    this->gameScene->setIsWidgetLoaded(true); //Le widget est indiqué comme chargé
+                    this->isWidgetLoaded = true;
                 } else {
                     this->endWidget->move((this->width())/2 - (this->endWidget->width())/2,(this->height())/2 - (this->endWidget->height())/2); //Ajustement de la position du widget en fonction de la taille de la fenêtre
                     if(this->endWidget->getRequest()=="End"){ //Si le widget demande la fin du jeu
-                        //this->endWidget->~EndWidget();
+                        this->endWidget->~EndWidget(); //On supprime le widget
                         this->gameScene->~GameScene(); //On supprime la scene du jeu
                         this->choiceWidget->~ChoiceWidget(); //On supprime le widget
                         this->status = "inStart"; //Le jeu revient sur le menu de démarrage
                         this->isSceneLoaded = false; //La scène n'est plus chargée
+                        this->isWidgetLoaded = false;
                     } else if(this->endWidget->getRequest()=="Restart"){ //Si le widget demande à ce que la partie recommence
-                        //this->endWidget->~EndWidget();
+                        this->endWidget->~EndWidget(); //On supprime le widget
                         this->gameScene->~GameScene(); //On supprime la scène
                         this->isSceneLoaded = false; //La scène n'est plus chargée
+                        this->isWidgetLoaded = false;
                     }
                 }
             }
@@ -225,7 +231,7 @@ void Window::loadSettings() {
 }
 
 void Window::loadScores() {
-    this->scoresScene = new ScoresScene(); //Création de la scène
+    this->scoresScene = new ScoresScene(); //Création de la scène à chaque fois pour afficher les nouveaux scores
     this->mainView->setScene(this->scoresScene); //Ajout de la scène à la vue
 }
 
@@ -239,10 +245,6 @@ void Window::keyPressEvent(QKeyEvent *event) {
                 this->startScene->enableButtons(); //Les boutons de la scène de départ sont réactivés
             } else { //Sinon
                 qApp->quit(); //On quitte le programme
-            }
-        } else if (this->status == "inGame") { //Si on est dans le jeu
-            if (this->isWidgetLoaded) { //Si un widget est chargé (forcément celui de pause)
-                this->isWidgetLoaded = false; //Il ne l'est plus
             }
         }
     }

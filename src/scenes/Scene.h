@@ -13,13 +13,13 @@ class Scene : public QGraphicsScene{
 
     Q_OBJECT
 
-protected: //Attributs privés
+protected:
     QPixmap background; //Image de fond du jeu
     std::string status; //Status de la scène
     int h; //Hauteur de la scène
     int w; //Largeur de la scène
 
-public: //Méthodes publiques
+public:
     void drawBackground(QPainter* painter, const QRectF& rect); //Dessin de l'image de fond
 
     //Getters & Setters

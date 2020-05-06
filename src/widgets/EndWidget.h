@@ -6,7 +6,12 @@
 #define JEU_ENDWIDGET_H
 
 
-#include <QtWidgets/QWidget>
+#include <QWidget>
+#include <QPushButton>
+#include <QtCore>
+#include <QVBoxLayout>
+#include <QLabel>
+#include "../utils.h"
 
 class EndWidget : public QWidget{
 
@@ -19,9 +24,8 @@ private:
     std::string request;
 
 public:
-    //Constructeur
-    EndWidget();
-    ~EndWidget();
+    EndWidget(); //Constructeur
+    ~EndWidget(); //Destructeur
 
     //Getters
     std::string getRequest();

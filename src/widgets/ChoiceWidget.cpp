@@ -4,6 +4,7 @@
 
 #include "ChoiceWidget.h"
 
+//Constructeur
 ChoiceWidget::ChoiceWidget(int nbPlayers){
     //Style des boutons de validation
     QString style = "QPushButton { border-image:url(../img/buttons/button.png); color : #442A12; }"
@@ -115,6 +116,19 @@ ChoiceWidget::ChoiceWidget(int nbPlayers){
     this->isChoiceDo = false; //Aucun choix n'est fait
 }
 
+//Destructeur
+ChoiceWidget::~ChoiceWidget() {
+    delete this->validPlayer1;
+    delete this->inputPlayer1;
+    delete this->firstLevel;
+    delete this->secondLevel;
+    delete this->thirdLevel;
+    if(this->nbPlayers==2){
+        delete this->validPlayer2;
+        delete this->inputPlayer2;
+    }
+}
+
 //Getters
 bool ChoiceWidget::getIsPlayersValid() {
     if(this->nbPlayers==1){ //Si un seul joueur
@@ -211,16 +225,4 @@ void ChoiceWidget::setPlayerOneValid() {
 void ChoiceWidget::setPlayerTwoValid() {
     this->namePlayer2 = this->inputPlayer2->text(); //Initialise le pseudo du joueur
     this->isPlayer2Valid = true; //Indique que le joueur a validé son choix
-}
-
-ChoiceWidget::~ChoiceWidget() {
-    delete this->validPlayer1;
-    delete this->inputPlayer1;
-    delete this->firstLevel;
-    delete this->secondLevel;
-    delete this->thirdLevel;
-    if(this->nbPlayers==2){
-        delete this->validPlayer2;
-        delete this->inputPlayer2;
-    }
 }

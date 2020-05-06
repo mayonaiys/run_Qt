@@ -15,7 +15,7 @@ class StartScene : public Scene{
 private:
     //Boutons
     QPushButton* soloButton; //Bouton pour acceder au jeu en solo
-    QPushButton* multiButton; //Bonton pour accéder au jeu en multijoueur
+    QPushButton* multiButton; //Bouton pour accéder au jeu en multijoueur
     QPushButton* settingsButton; //Bouton pour accéder aux paramètres
     QPushButton* scoresButton; //Bouton pour accéder aux scores
 
@@ -28,6 +28,7 @@ public:
     StartScene(); //Constructeur
     ~StartScene(); //Desctructeur
 
+    //Effets boutons
     void disableButtons();
     void enableButtons();
 

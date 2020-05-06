@@ -3,9 +3,6 @@
 //
 
 #include "Player.h"
-#include <QTimeLine>
-#include <QtWidgets>
-#include <iostream>
 
 using namespace std;
 

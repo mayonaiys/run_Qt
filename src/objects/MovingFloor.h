@@ -16,7 +16,7 @@ private:
 
 public:
     MovingFloor(const QString&, int, int, int); //Constructeur
-    void moveFloor(); //Mouvement du sole
+    void moveFloor(); //Mouvement du sol
 };
 
 
